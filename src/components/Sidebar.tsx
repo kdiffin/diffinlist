@@ -8,8 +8,11 @@ import {
 } from "react-icons/md";
 import React, { PropsWithChildren, ReactNode } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 function Sidebar() {
+  const router = useRouter();
+
   return (
     <nav
       className="bg-neutral  hidden w-[12%] min-w-[230px] flex-col items-center bg-neutral-900 py-5 
@@ -25,20 +28,20 @@ function Sidebar() {
       <div className="mt-5 w-full border-t border-t-neutral-700 "> </div>
 
       <div className="subtle-scrollbar max-h-[78vh]  w-full overflow-y-scroll px-5 [&>a]:mt-4 ">
-        <SidebarItem href="/">
+        <SidebarItem currentRoute={router.asPath} href="/">
           <MdHome /> <p>Home</p>
         </SidebarItem>
 
-        <SidebarItem href="/search">
+        <SidebarItem currentRoute={router.asPath} href="/search">
           <MdSearch /> <p>Search</p>
         </SidebarItem>
 
         {/* add avatar component here and fix href */}
-        <SidebarItem href="/me">
+        <SidebarItem currentRoute={router.asPath} href="/me">
           <MdSearch /> <p>Profile</p>
         </SidebarItem>
 
-        <SidebarItem href="/settings">
+        <SidebarItem currentRoute={router.asPath} href="/settings">
           <MdSettings /> <p>Settings</p>
         </SidebarItem>
 
@@ -70,17 +73,22 @@ function SidebarItem({
   href,
   className,
   children,
+  currentRoute,
 }: {
   href: string;
   className?: string;
   children: ReactNode;
+  currentRoute: string;
 }) {
+  const isActive = currentRoute === href;
+
   return (
     <Link
       href={href}
-      className={` flex w-full ${
-        className ? className : ""
-      } font- items-center gap-2  text-xl  text-neutral-400 `}
+      className={` 
+      flex w-full
+      ${isActive ? "text-neutral-300" : ""} ${className ? className : ""}  
+      items-center gap-2  text-xl text-neutral-400   hover:text-neutral-200 `}
     >
       {children}
     </Link>
@@ -88,13 +96,17 @@ function SidebarItem({
 }
 
 //first step into radix here
-//good stuff
+//good headless components
 function PlaylistsCollapsible() {
   const [open, setOpen] = React.useState(false);
 
   return (
     <Collapsible.Root open={open} className="w-full" onOpenChange={setOpen}>
-      <div className="flex w-full items-center justify-between text-xl    text-neutral-400">
+      <div
+        className={` ${
+          open ? "text-neutral-300" : "text-neutral-400"
+        } flex w-full items-center justify-between text-xl `}
+      >
         <p>Playlists</p>
         <Collapsible.Trigger asChild>
           <button className=" ">
@@ -105,50 +117,7 @@ function PlaylistsCollapsible() {
       </div>
 
       <Collapsible.Content className="mt-4 px-2">
-        <PlaylistItem
-          name="Playlist one"
-          pictureSrc="https://avatars.githubusercontent.com/u/110340508?v=4"
-        />
-        <PlaylistItem
-          name="Playlist one"
-          pictureSrc="https://avatars.githubusercontent.com/u/110340508?v=4"
-        />
-        <PlaylistItem
-          name="Playlist one"
-          pictureSrc="https://avatars.githubusercontent.com/u/110340508?v=4"
-        />
-        <PlaylistItem
-          name="Playlist one"
-          pictureSrc="https://avatars.githubusercontent.com/u/110340508?v=4"
-        />
-        <PlaylistItem name="Playlist one" />
-        <PlaylistItem
-          name="Playlist one"
-          pictureSrc="https://avatars.githubusercontent.com/u/110340508?v=4"
-        />
-
-        <PlaylistItem
-          name="Playlist one"
-          pictureSrc="https://avatars.githubusercontent.com/u/110340508?v=4"
-        />
-        <PlaylistItem
-          name="Playlist one"
-          pictureSrc="https://avatars.githubusercontent.com/u/110340508?v=4"
-        />
-        <PlaylistItem name="Playlist one" />
-        <PlaylistItem
-          name="Playlist one"
-          pictureSrc="https://avatars.githubusercontent.com/u/110340508?v=4"
-        />
-        <PlaylistItem
-          name="Playlist one"
-          pictureSrc="https://avatars.githubusercontent.com/u/110340508?v=4"
-        />
-        <PlaylistItem
-          name="Playlist one"
-          pictureSrc="https://avatars.githubusercontent.com/u/110340508?v=4"
-        />
-        <PlaylistItem name="Playlist one" />
+        {/* <PlaylistItem /> */}
       </Collapsible.Content>
     </Collapsible.Root>
   );
@@ -180,7 +149,7 @@ function PlaylistItem({
 
 export default Sidebar;
 
-const Logo = (
+export const Logo = (
   <svg
     className="h-7 w-7 fill-gray-300 "
     focusable="false"
