@@ -13,6 +13,8 @@ const Home: NextPage = () => {
   // each user finna be like this /userid
   // each playlist will be defined like this /userid/playlists/playlistid
 
+  //first thing to do - add clerk
+
   return (
     <>
       <Head>

@@ -78,7 +78,9 @@ function SidebarItem({
   return (
     <Link
       href={href}
-      className={` flex w-full ${className} font- items-center gap-2  text-xl  text-neutral-400 `}
+      className={` flex w-full ${
+        className ? className : ""
+      } font- items-center gap-2  text-xl  text-neutral-400 `}
     >
       {children}
     </Link>
@@ -162,6 +164,7 @@ function PlaylistItem({
   return (
     <div className=" text-md mt-3 flex items-center gap-2 break-all  text-neutral-400">
       {pictureSrc ? (
+        //convert this to Image
         <img
           src={pictureSrc}
           className="h-6 w-6 rounded-full"
