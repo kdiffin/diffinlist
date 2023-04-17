@@ -6,7 +6,7 @@ Diffinlist is a web application built using the T3 stack,NextJS, Prisma, tRPC, P
 
 The tech stack used in the development of the project includes:
 
-- [NextJS](https://nextjs.org/) - A React framework for building server-side rendered applications
+- [NextJS 12](https://nextjs.org/) - A React framework for building server-side rendered applications
 - [Prisma](https://www.prisma.io/) - A database toolkit that provides a type-safe and auto-generated query builder for Node.js and TypeScript
 - [Planetscale](https://react.dev/) - Planetscale is a database platform that allows developers to scale their mySQL databases with ease
 - [Clerk](https://clerk.dev/) - Clerk.dev is a complete authentication and user management solution for developers, I don't want to handle auth myself 😊
@@ -25,3 +25,5 @@ The application is going to feature:
 - Sharing your playlist with others
 - A dark mode only design
 - Accessible user interface with the help of Radix UI
+
+made by chatgpt lmao
