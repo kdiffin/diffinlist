@@ -6,7 +6,7 @@ Diffinlist is a web application built using the T3 stack,NextJS, Prisma, tRPC, T
 
 The tech stack used in the development of the project includes:
 
-- [NextJS](https://nextjs.org/) - A React framework for building server-side rendered applications.
+- [NextJS 12](https://nextjs.org/) - A React framework for building server-side rendered applications.
 - [Clerk](https://clerk.dev/) - Clerk.dev is a complete authentication and user management solution for developers, I don't want to handle auth myself 😊.
 - [Prisma](https://www.prisma.io/) - A database toolkit that provides a type-safe and auto-generated query builder for Node.js and TypeScript.
 - [tRPC](https://trpc.io/) - A TypeScript-first RPC (Remote Procedure Call) framework.
