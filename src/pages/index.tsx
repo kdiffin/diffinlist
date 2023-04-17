@@ -6,7 +6,9 @@ import Sidebar from "~/components/Sidebar";
 import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  const hello = api.profile.getProfileByProfileId.useQuery({
+    profileId: "user_2OYTYwZKYuMi1jdx9T1UsgiBwU9",
+  });
 
   // ok so the index has some fun stuff (recent posts, playlists displayed, etc.)
   // search is for searching users and playlists

@@ -4,11 +4,14 @@ import { api } from "~/utils/api";
 
 import "~/styles/globals.css";
 import Sidebar from "~/components/Sidebar";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <div className="flex min-h-screen">
-      <Sidebar /> <Component {...pageProps} />
+      <ClerkProvider {...pageProps}>
+        <Sidebar /> <Component {...pageProps} />
+      </ClerkProvider>
     </div>
   );
 };

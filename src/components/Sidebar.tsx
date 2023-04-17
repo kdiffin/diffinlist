@@ -1,6 +1,7 @@
 import * as Collapsible from "@radix-ui/react-collapsible";
 import {
   MdHome,
+  MdLogin,
   MdOutlineExpandLess,
   MdOutlineExpandMore,
   MdSearch,
@@ -9,9 +10,13 @@ import {
 import React, { PropsWithChildren, ReactNode } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { SignInButton, useUser } from "@clerk/nextjs";
+import Image from "next/image";
+import Avatar from "./Avatar";
 
 function Sidebar() {
   const router = useRouter();
+  const { user } = useUser();
 
   return (
     <nav
@@ -27,7 +32,7 @@ function Sidebar() {
 
       <div className="mt-5 w-full border-t border-t-neutral-700 "> </div>
 
-      <div className="subtle-scrollbar max-h-[78vh]  w-full overflow-y-scroll px-5 [&>a]:mt-4 ">
+      <div className="  subtle-scrollbar  max-h-[78vh]   w-full overflow-y-scroll px-5  [&>a]:mt-4 ">
         <SidebarItem currentRoute={router.asPath} href="/">
           <MdHome /> <p>Home</p>
         </SidebarItem>
@@ -36,10 +41,24 @@ function Sidebar() {
           <MdSearch /> <p>Search</p>
         </SidebarItem>
 
-        {/* add avatar component here and fix href */}
-        <SidebarItem currentRoute={router.asPath} href="/me">
-          <MdSearch /> <p>Profile</p>
-        </SidebarItem>
+        {user ? (
+          <SidebarItem
+            currentRoute={router.asPath}
+            href={`profiles/${user.id}`}
+          >
+            <Avatar width_height={22} src={user.profileImageUrl} />{" "}
+            <p>Profile</p>
+          </SidebarItem>
+        ) : (
+          <SidebarItem currentRoute="asdasdkasdkj" href="/">
+            <SignInButton>
+              <button className=" flex items-center gap-2">
+                {" "}
+                <MdLogin /> Sign in
+              </button>
+            </SignInButton>
+          </SidebarItem>
+        )}
 
         <SidebarItem currentRoute={router.asPath} href="/settings">
           <MdSettings /> <p>Settings</p>
@@ -47,7 +66,7 @@ function Sidebar() {
 
         <div className="my-6 w-full  border-t border-t-neutral-800 "> </div>
 
-        <div className=" mr-auto  flex  w-full flex-col items-start ">
+        <div className="flex w-full  flex-col items-start  ">
           <PlaylistsCollapsible />
         </div>
       </div>
@@ -87,7 +106,7 @@ function SidebarItem({
       href={href}
       className={` 
       flex w-full
-      ${isActive ? "text-neutral-300" : ""} ${className ? className : ""}  
+      ${isActive ? "text-neutral-200" : ""} ${className ? className : ""}  
       items-center gap-2  text-xl text-neutral-400   hover:text-neutral-200 `}
     >
       {children}
@@ -105,7 +124,7 @@ function PlaylistsCollapsible() {
       <div
         className={` ${
           open ? "text-neutral-300" : "text-neutral-400"
-        } flex w-full items-center justify-between text-xl `}
+        } sticky top-0 flex w-full items-center justify-between bg-neutral-900 py-2  text-xl `}
       >
         <p>Playlists</p>
         <Collapsible.Trigger asChild>
@@ -117,7 +136,26 @@ function PlaylistsCollapsible() {
       </div>
 
       <Collapsible.Content className="mt-4 px-2">
-        {/* <PlaylistItem /> */}
+        <PlaylistItem name="Playlist One" />
+        <PlaylistItem name="Playlist One" />
+        <PlaylistItem name="Playlist One" />
+        <PlaylistItem name="Playlist One" />
+        <PlaylistItem name="Playlist One" />
+        <PlaylistItem name="Playlist One" />
+        <PlaylistItem name="Playlist One" />
+        <PlaylistItem name="Playlist One" />
+        <PlaylistItem name="Playlist One" />
+        <PlaylistItem name="Playlist One" />
+        <PlaylistItem name="Playlist One" />
+        <PlaylistItem name="Playlist One" />
+        <PlaylistItem name="Playlist One" />
+        <PlaylistItem name="Playlist One" />
+        <PlaylistItem name="Playlist One" />
+        <PlaylistItem name="Playlist One" />
+        <PlaylistItem name="Playlist One" />
+        <PlaylistItem name="Playlist One" />
+        <PlaylistItem name="Playlist One" />
+        <PlaylistItem name="Playlist One" />
       </Collapsible.Content>
     </Collapsible.Root>
   );
