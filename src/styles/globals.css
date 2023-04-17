@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  @apply bg-neutral-800 text-white;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+a:active {
+  transform: scale(0.95);
+}
+
+@layer utilities {
+  .subtle-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 8px;
+  }
+
+  /* Add a thumb */
+  .subtle-scrollbar::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    @apply bg-neutral-700;
+  }
+}
