@@ -26,4 +26,4 @@ The application is going to feature:
 - A dark mode only design
 - Accessible user interface with the help of Radix UI
 
-made by chatgpt lmao
+readme.md made by chatgpt lmao
