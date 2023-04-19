@@ -18,9 +18,7 @@ export const profileRouter = createTRPCRouter({
 
       return filterProfileForClient(user)
     }),
-  getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.example.findMany();
-  }),
+
 });
 
 

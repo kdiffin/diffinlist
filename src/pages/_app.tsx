@@ -5,14 +5,21 @@ import { api } from "~/utils/api";
 import "~/styles/globals.css";
 import Sidebar from "~/components/Sidebar";
 import { ClerkProvider } from "@clerk/nextjs";
+import Head from "next/head";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
-    <div className="flex min-h-screen">
-      <ClerkProvider {...pageProps}>
-        <Sidebar /> <Component {...pageProps} />
-      </ClerkProvider>
-    </div>
+    <>
+      <Head>
+        <title>diffinlist</title>
+      </Head>
+
+      <div className=" [&>div]:dark-scrollbar flex h-screen [&>div]:w-full [&>div]:overflow-y-scroll ">
+        <ClerkProvider {...pageProps}>
+          <Sidebar /> <Component {...pageProps} />
+        </ClerkProvider>
+      </div>
+    </>
   );
 };
 

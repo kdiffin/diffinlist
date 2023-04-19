@@ -11,21 +11,12 @@ generator client {
     provider = "prisma-client-js"
 }
 
-// model User {
-//     id             String   @id @default(uuid())
-//     createdAt      DateTime @default(now())
-//     username       String
-//     userPictureURL String
-//     authorId       String
-
-//     @@index(authorId)
-// }
-
 model Playlist {
-    id         String   @id @default(uuid())
+    id         String   @id @unique @default(uuid())
     createdAt  DateTime @default(now())
     name       String   @unique
     pictureUrl String
+    authorId   String
 
-    @@index(name)
+    @@index([authorId])
 }

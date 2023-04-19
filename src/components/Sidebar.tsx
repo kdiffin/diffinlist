@@ -20,19 +20,19 @@ function Sidebar() {
 
   return (
     <nav
-      className="bg-neutral  hidden w-[12%] min-w-[230px] flex-col items-center bg-neutral-900 py-5 
+      className="bg-neutral  hidden h-screen w-[12%] min-w-[200px] flex-col items-center bg-neutral-900 py-5 
      sm:flex  "
     >
       <Link
         href="/"
-        className="flex items-center justify-center gap-1 text-2xl  font-semibold text-gray-300 "
+        className="flex items-center justify-center gap-1 text-xl  font-semibold text-gray-300 "
       >
         {Logo} <p className="mb-[3px] ">diffinlist</p>
       </Link>
 
       <div className="mt-5 w-full border-t border-t-neutral-700 "> </div>
 
-      <div className="  subtle-scrollbar  max-h-[78vh]   w-full overflow-y-scroll px-5  [&>a]:mt-4 ">
+      <div className="  subtle-scrollbar  max-h-[80vh]   w-full overflow-y-scroll px-5  [&>a]:mt-4 ">
         <SidebarItem currentRoute={router.asPath} href="/">
           <MdHome /> <p>Home</p>
         </SidebarItem>
@@ -44,7 +44,7 @@ function Sidebar() {
         {user ? (
           <SidebarItem
             currentRoute={router.asPath}
-            href={`profiles/${user.id}`}
+            href={`/profiles/${user.id}`}
           >
             <Avatar width_height={22} src={user.profileImageUrl} />{" "}
             <p>Profile</p>
@@ -106,8 +106,8 @@ function SidebarItem({
       href={href}
       className={` 
       flex w-full
-      ${isActive ? "text-neutral-200" : ""} ${className ? className : ""}  
-      items-center gap-2  text-xl text-neutral-400   hover:text-neutral-200 `}
+      ${isActive ? "text-neutral-100" : ""} ${className ? className : ""}  
+      items-center gap-2  text-lg text-neutral-400   hover:text-neutral-200 `}
     >
       {children}
     </Link>
@@ -124,7 +124,7 @@ function PlaylistsCollapsible() {
       <div
         className={` ${
           open ? "text-neutral-300" : "text-neutral-400"
-        } sticky top-0 flex w-full items-center justify-between bg-neutral-900 py-2  text-xl `}
+        } sticky top-0 flex w-full items-center justify-between bg-neutral-900 py-2  text-lg `}
       >
         <p>Playlists</p>
         <Collapsible.Trigger asChild>
