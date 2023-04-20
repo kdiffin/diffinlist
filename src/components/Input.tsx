@@ -15,9 +15,8 @@ function Input(props: {
   return (
     <div
       className={
-        props.className &&
         props.className +
-          " w-full rounded-sm bg-zinc-700 p-1 focus-within:bg-zinc-600  hover:bg-zinc-600  md:p-2 "
+        " w-full rounded-sm bg-zinc-700 p-1 focus-within:bg-zinc-600  hover:bg-zinc-600  md:p-2 "
       }
     >
       <input
