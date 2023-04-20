@@ -42,7 +42,7 @@ function Sidebar() {
         </SidebarItem>
 
         {user ? (
-          <SidebarItem currentRoute={router.asPath} href={`/${user.username}`}>
+          <SidebarItem currentRoute={router.asPath} href={`/${user!.username}`}>
             <Avatar
               loading={!isLoaded}
               width_height={22}
