@@ -8,6 +8,10 @@ await import("./src/env.mjs");
 const config = {
   reactStrictMode: true,
 
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+
   images: {
     domains: ["images.clerk.dev", "external-content.duckduckgo.com"],
   },

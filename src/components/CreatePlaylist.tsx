@@ -7,57 +7,105 @@ import { useClerk, useUser } from "@clerk/nextjs";
 import Button from "./Button";
 import Avatar, { AvatarSkeleton } from "./Avatar";
 import { MdDelete, MdRemove } from "react-icons/md";
+import Image from "next/image";
+import { spawn } from "child_process";
 
-function Settings() {
+//basically a copy paste of the settings feature
+
+function CreatePlaylist() {
   const router = useRouter();
-  //clerk has isLoaded instead of isLoading which is weird
-  const { user, isLoaded } = useUser();
-  const [profilePicURL, setProfilePicURL] = useState("");
-  const [username, setUsername] = useState("");
-  const { signOut } = useClerk();
+  const [playlistPicUrl, setPlaylistPicUrl] = useState("");
+  const [genre, setGenre] = useState("");
+  const [name, setName] = useState("");
 
   const isOpen = router.query?.showCreatePlaylist === "true";
 
-  function closeSettings() {
-    delete router.query.showSettings;
+  function closeCreatePlaylist() {
+    delete router.query?.showCreatePlaylist;
 
     router.push(router);
   }
 
-  function logout() {
-    signOut()
-      .then(() => closeSettings())
-      .catch((err) => console.error(err));
+  function removeChanges() {
+    setGenre("");
+    setName("");
+    setPlaylistPicUrl("");
   }
 
   return (
     // https://www.radix-ui.com/docs/primitives/components/dialog#dialog
-    <Dialog.Root open={isOpen} onOpenChange={closeSettings}>
+    <Dialog.Root open={isOpen} onOpenChange={closeCreatePlaylist}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-neutral-900/40 data-[state=open]:animate-overlayShow" />
         <Dialog.Content className="fixed left-[50%] top-[50%] max-h-[85vh] w-[85vw] translate-x-[-50%]  translate-y-[-50%] rounded-sm bg-zinc-900 p-10 shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none data-[state=open]:animate-contentShow lg:max-w-[70vw]">
           <Dialog.Title className="  text-2xl font-medium">
-            Settings
+            Create playlist
           </Dialog.Title>
 
           <Dialog.Description className="text-mauve11 mb-5 mt-3 text-[15px] leading-normal">
-            Make changes to your profile here. Click save when you're done.
+            Create a playlist here. Click add playlist when you're done.
           </Dialog.Description>
 
-          <div className="my-8 flex items-center justify-between ">
+          <div className="my-10 flex items-center justify-between ">
             <div className="flex items-center gap-5">
               <>
-                <Avatar
-                  loading={!isLoaded}
-                  width_height={110}
-                  src={user?.profileImageUrl}
-                />
-                <p className="text-4xl">{user?.username}</p>
+                {playlistPicUrl ? (
+                  <img
+                    alt="Playlist Image"
+                    src={playlistPicUrl}
+                    width={130}
+                    className="rounded-sm bg-cover "
+                    height={130}
+                  />
+                ) : (
+                  <div className="flex h-[130px] w-[130px] items-center justify-center rounded-sm border-2 border-dotted border-neutral-700 text-center italic text-neutral-500">
+                    No Image
+                  </div>
+                )}
+
+                <div className="flex flex-col gap-3">
+                  <label
+                    tabIndex={0}
+                    htmlFor="name"
+                    className=" cursor-text text-4xl"
+                  >
+                    {name ? (
+                      name
+                    ) : (
+                      <label
+                        htmlFor="name"
+                        className="cursor-text text-2xl italic text-neutral-500 "
+                      >
+                        enter in name
+                      </label>
+                    )}
+                  </label>
+
+                  <label
+                    tabIndex={0}
+                    htmlFor="name"
+                    className=" cursor-text   text-neutral-500"
+                  >
+                    {genre ? (
+                      <p className="">Aesthetic / genre: {genre}</p>
+                    ) : (
+                      <label
+                        htmlFor="name"
+                        className="cursor-text italic text-neutral-500 "
+                      >
+                        enter in name
+                      </label>
+                    )}
+                  </label>
+                </div>
               </>
             </div>
 
-            <Button className="  text-neutral-500">
-              <MdRemove />
+            <Button
+              onClick={removeChanges}
+              className=" px-4  text-sm   text-neutral-500"
+            >
+              Remove changes
             </Button>
           </div>
 
@@ -65,15 +113,17 @@ function Settings() {
             <fieldset className="mb-6 flex items-center gap-5">
               <label
                 className=" w-[90px]  text-right text-[15px]"
-                htmlFor="username"
+                htmlFor="name"
               >
-                Username
+                Name
               </label>
               <Input
                 type="text"
-                value={username}
-                placeholder="Enter new username"
-                onChange={setUsername}
+                name="name "
+                id="name"
+                value={name}
+                placeholder="Enter new name"
+                onChange={setName}
               />
             </fieldset>
 
@@ -86,40 +136,42 @@ function Settings() {
               </label>
               <Input
                 type="url"
-                value={profilePicURL}
-                placeholder="Enter profile picture URL"
-                onChange={setProfilePicURL}
-                id="profile"
+                value={playlistPicUrl}
+                placeholder="Enter playlist picture URL"
+                onChange={setPlaylistPicUrl}
+                id="profile picture"
               />
             </fieldset>
 
             <fieldset className="mb-6 flex items-center gap-5 ">
               <label
-                className=" w-[90px] text-right   text-[15px]"
-                htmlFor="profile picture"
+                className=" text-wrap w-[90px]  text-right   text-[15px]"
+                htmlFor="genre"
               >
-                Description
+                Aesthetic / Genre
               </label>
 
-              <textarea
-                placeholder="Enter new description"
-                id="username"
-                className="max-h-[22vh] w-full bg-zinc-700 p-3 placeholder:text-sm  placeholder:italic focus:bg-zinc-600"
+              <Input
+                type="text"
+                value={genre}
+                placeholder="Enter the genre of your playlist"
+                onChange={setGenre}
+                id="genre"
               />
             </fieldset>
           </div>
 
           <div className="mt-10  flex items-center justify-between">
-            <Button onClick={logout}>Sign out</Button>
-
             <Dialog.Close asChild>
-              <Button>Save changes</Button>
+              <Button>+ Add playlist</Button>
             </Dialog.Close>
           </div>
 
           <Dialog.Close asChild>
             <button
-              className=" hover:bg-violet4 focus:shadow-violet7 absolute right-[10px] top-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none"
+              className=" hover:bg-violet4 focus:shadow-violet7 absolute right-[10px] 
+              top-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center 
+              justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none"
               aria-label="Close"
             >
               X
@@ -131,4 +183,4 @@ function Settings() {
   );
 }
 
-export default Settings;
+export default CreatePlaylist;

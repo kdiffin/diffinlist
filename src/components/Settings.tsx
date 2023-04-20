@@ -21,7 +21,7 @@ function Settings() {
   function closeSettings() {
     delete router.query.showSettings;
 
-    router.push(router);
+    router.push(router, undefined, { shallow: true });
   }
 
   function logout() {
@@ -54,9 +54,7 @@ function Settings() {
               </>
             </div>
 
-            <Button className="  text-neutral-500">
-              <MdRemove />
-            </Button>
+            <Button className=" px-2 py-2  text-neutral-500">Discard</Button>
           </div>
 
           <div>

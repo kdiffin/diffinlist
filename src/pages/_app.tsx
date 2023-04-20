@@ -8,6 +8,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import Settings from "~/components/Settings";
+import CreatePlaylist from "~/components/CreatePlaylist";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   const router = useRouter();
@@ -23,6 +24,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
           <Sidebar />
           <Component {...pageProps} />
           <Settings />
+          <CreatePlaylist />
         </ClerkProvider>
       </div>
     </>

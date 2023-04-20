@@ -13,82 +13,98 @@ import { useRouter } from "next/router";
 import { SignInButton, useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import Avatar from "./Avatar";
+import CreatePlaylist from "./CreatePlaylist";
 
 function Sidebar() {
   const router = useRouter();
   const { user, isLoaded } = useUser();
 
+  function openCreatePlaylist() {
+    router.replace(router.asPath + "?showCreatePlaylist=true", undefined, {
+      shallow: true,
+    });
+  }
+
   return (
-    <nav
-      className="bg-neutral  hidden h-screen w-[12%] min-w-[200px] flex-col items-center bg-neutral-900 py-5 
+    <>
+      <nav
+        className="bg-neutral  hidden h-screen w-[12%] min-w-[200px] flex-col items-center bg-neutral-900 py-5 
      sm:flex  "
-    >
-      <Link
-        href="/"
-        className="flex items-center justify-center gap-1 text-xl  font-semibold text-gray-300 "
       >
-        {Logo} <p className="mb-[3px] ">diffinlist</p>
-      </Link>
-
-      <div className="mt-5 w-full border-t border-t-neutral-700 "> </div>
-
-      <div className="  subtle-scrollbar  max-h-[80vh]   w-full overflow-y-scroll px-5  [&>a]:mt-4 ">
-        <SidebarItem currentRoute={router.asPath} href="/">
-          <MdHome /> <p>Home</p>
-        </SidebarItem>
-
-        <SidebarItem currentRoute={router.asPath} href="/search">
-          <MdSearch /> <p>Search</p>
-        </SidebarItem>
-
-        {user ? (
-          <SidebarItem currentRoute={router.asPath} href={`/${user!.username}`}>
-            <Avatar
-              loading={!isLoaded}
-              width_height={22}
-              src={user.profileImageUrl}
-            />{" "}
-            <p>Profile</p>
-          </SidebarItem>
-        ) : (
-          <SidebarItem currentRoute="asdasdkasdkj" href="/">
-            <SignInButton>
-              <button className=" flex items-center gap-2">
-                {" "}
-                <MdLogin /> Sign in
-              </button>
-            </SignInButton>
-          </SidebarItem>
-        )}
-
-        <SidebarItem
-          currentRoute={router.asPath}
-          href={router.asPath + "?showSettings=true"}
+        <Link
+          href="/"
+          className="flex items-center justify-center gap-1 text-xl  font-semibold text-gray-300 "
         >
-          <MdSettings /> <p>Settings</p>
-        </SidebarItem>
+          {Logo} <p className="mb-[3px] ">diffinlist</p>
+        </Link>
 
-        <div className="my-6 w-full  border-t border-t-neutral-800 "> </div>
+        <div className="mt-5 w-full border-t border-t-neutral-700 "> </div>
 
-        <div className="flex w-full  flex-col items-start  ">
-          <PlaylistsCollapsible />
+        <div className="  subtle-scrollbar  max-h-[80vh]   w-full overflow-y-scroll px-5  [&>a]:mt-4 ">
+          <SidebarItem currentRoute={router.asPath} href="/">
+            <MdHome /> <p>Home</p>
+          </SidebarItem>
+
+          <SidebarItem currentRoute={router.asPath} href="/search">
+            <MdSearch /> <p>Search</p>
+          </SidebarItem>
+
+          {user ? (
+            <SidebarItem
+              currentRoute={router.asPath}
+              href={`/${user!.username}`}
+            >
+              <Avatar
+                loading={!isLoaded}
+                width_height={22}
+                src={user.profileImageUrl}
+              />{" "}
+              <p>Profile</p>
+            </SidebarItem>
+          ) : (
+            <SidebarItem currentRoute="asdasdkasdkj" href="/">
+              <SignInButton>
+                <button className=" flex items-center gap-2">
+                  {" "}
+                  <MdLogin /> Sign in
+                </button>
+              </SignInButton>
+            </SidebarItem>
+          )}
+
+          <SidebarItem
+            currentRoute={router.asPath}
+            href={router.asPath + "?showSettings=true"}
+          >
+            <MdSettings /> <p>Settings</p>
+          </SidebarItem>
+
+          <div className="my-6 w-full  border-t border-t-neutral-800 "> </div>
+
+          <div className="flex w-full  flex-col items-start  ">
+            <PlaylistsCollapsible />
+          </div>
         </div>
-      </div>
 
-      <div className=" mt-auto border-t-neutral-400  text-center ">
-        <div className="mb-3  w-full border-t border-t-neutral-700 "> </div>
-        <input
-          type="text"
-          placeholder="enter name"
-          className="mb-4 w-4/5 border-b border-b-neutral-400 bg-transparent placeholder:text-center placeholder:text-sm placeholder:italic
+        <div className=" mt-auto  border-t-neutral-400  text-center ">
+          <div className="mb-3  w-full border-t border-t-neutral-700 "> </div>
+          <input
+            type="text"
+            placeholder="enter name"
+            className="mb-4 w-4/5 border-b border-b-neutral-400 bg-transparent placeholder:text-center placeholder:text-sm placeholder:italic
            placeholder:text-neutral-600 focus:border-b-neutral-200 focus:outline-none"
-        />
+          />
 
-        <button className="rounded-sm bg-neutral-800 p-1  px-3 text-neutral-400">
-          + create playlist
-        </button>
-      </div>
-    </nav>
+          <button
+            onClick={openCreatePlaylist}
+            className="rounded-sm bg-neutral-800 p-1  px-3 text-neutral-400"
+          >
+            + create playlist
+          </button>
+        </div>
+      </nav>
+      <CreatePlaylist />
+    </>
   );
 }
 
