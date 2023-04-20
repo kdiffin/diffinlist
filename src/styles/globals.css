@@ -30,8 +30,7 @@ a:active {
     background-color: #232323;
   }
 
-  /* real */
-
+  /* dark scrollbar copy pasta real */
   .dark-scrollbar::-webkit-scrollbar {
     width: 15px;
     @apply neutral-lowkey-bg;

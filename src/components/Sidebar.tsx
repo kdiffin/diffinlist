@@ -16,7 +16,7 @@ import Avatar from "./Avatar";
 
 function Sidebar() {
   const router = useRouter();
-  const { user } = useUser();
+  const { user, isLoaded } = useUser();
 
   return (
     <nav
@@ -42,11 +42,12 @@ function Sidebar() {
         </SidebarItem>
 
         {user ? (
-          <SidebarItem
-            currentRoute={router.asPath}
-            href={`/profiles/${user.id}`}
-          >
-            <Avatar width_height={22} src={user.profileImageUrl} />{" "}
+          <SidebarItem currentRoute={router.asPath} href={`/${user.username}`}>
+            <Avatar
+              loading={!isLoaded}
+              width_height={22}
+              src={user.profileImageUrl}
+            />{" "}
             <p>Profile</p>
           </SidebarItem>
         ) : (
@@ -60,7 +61,10 @@ function Sidebar() {
           </SidebarItem>
         )}
 
-        <SidebarItem currentRoute={router.asPath} href="/settings">
+        <SidebarItem
+          currentRoute={router.asPath}
+          href={router.asPath + "?showSettings=true"}
+        >
           <MdSettings /> <p>Settings</p>
         </SidebarItem>
 

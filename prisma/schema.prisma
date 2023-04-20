@@ -14,9 +14,10 @@ generator client {
 model Playlist {
     id         String   @id @unique @default(uuid())
     createdAt  DateTime @default(now())
-    name       String   @unique
+    name       String
     pictureUrl String
-    authorId   String
+    authorName String
 
-    @@index([authorId])
+    @@unique([name, authorName])
+    @@index([authorName])
 }

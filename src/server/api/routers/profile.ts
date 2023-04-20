@@ -1,5 +1,6 @@
 import type { User } from "@clerk/nextjs/dist/api";
 import { clerkClient } from "@clerk/nextjs/server";
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 
@@ -11,12 +12,24 @@ function filterProfileForClient(user: User) {
 }
 
 export const profileRouter = createTRPCRouter({
-  getProfileByProfileId: publicProcedure
-    .input(z.object({ profileId: z.string() }))
+  getProfileByProfileName: publicProcedure
+    .input(z.object({ profileName: z.string() }))
     .query(async ({ input, ctx }) => {
-      const user = await clerkClient.users.getUser(input.profileId)
+      const user = await clerkClient.users.getUserList({
+        username: [input.profileName],
+        limit: 1,
+      })
 
-      return filterProfileForClient(user)
+      const firstUser = user[0]
+
+      if (!firstUser ) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "User not found"
+        })
+      }
+
+      return filterProfileForClient(firstUser)
     }),
 
 });

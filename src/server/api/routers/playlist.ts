@@ -9,13 +9,15 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 
 export const playlistRouter = createTRPCRouter({
-    getPlaylistsByProfileId: publicProcedure
-    .input(z.object({ profileId: z.string() }))
+    getPlaylistsByProfileName: publicProcedure
+    .input(z.object({ profileName: z.string() }))
     .query(async ({ input, ctx }) => {
       const playlists = await ctx.prisma.playlist.findMany({
         where: {
-            authorId: input.profileId
-        }
+            authorName: input.profileName
+            
+          },
+          take: 8
       })
 
       return playlists
