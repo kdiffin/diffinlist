@@ -4,6 +4,7 @@ import { MdAdd } from "react-icons/md";
 import Loading from "./Loading";
 import Image from "next/image";
 import { memo } from "react";
+import { ImageSkeleton } from "./Skeletons";
 
 export const Section = memo(function Section({
   name,
@@ -77,9 +78,7 @@ export function SectionCard({
     } else {
       return pictureUrl === "" ? (
         <>
-          <p className="flex h-[150px]  w-[150px] items-center justify-center italic text-neutral-500">
-            No image for playlist
-          </p>
+          <ImageSkeleton className="h-[150px] w-[150px]" />
           <p className="">{title}</p>
         </>
       ) : (
@@ -99,14 +98,12 @@ export function SectionCard({
 
   return (
     <Link
-      href={"/playlists/" + href}
+      href={href ? href : ""}
       className={`${
         skeleton ? "animate-pulse" : ""
       } neutral-lowkey-bg flex  flex-col items-center gap-2 p-4 hover:bg-neutral-700/30`}
     >
       <RenderBoolean />
-
-      {/* <p>{createdAt} • {</p> */}
     </Link>
   );
 }

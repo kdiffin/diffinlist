@@ -7,6 +7,7 @@ import Button from "./ui/Button";
 import { toast } from "react-hot-toast";
 import { error } from "console";
 import { LoadingSpinner } from "./ui/Loading";
+import { ImageSkeleton } from "./ui/Skeletons";
 
 //UI is basically a copy paste of the settings one
 function CreatePlaylist() {
@@ -35,6 +36,7 @@ function CreatePlaylist() {
 
       if (e.data?.stack?.includes("invocation:\n\n\nUnique constraint")) {
         toast.error("You can't have 2 playlists with the same name");
+        setName("");
       } else {
         if (errorMessageName && errorMessageName[0]) {
           toast.error(errorMessageName[0]);
@@ -100,12 +102,7 @@ function CreatePlaylist() {
                       height={130}
                     />
                   ) : (
-                    <label
-                      htmlFor="playlist picture"
-                      className="flex h-[130px] w-[130px] items-center justify-center rounded-sm border-2 border-dotted border-neutral-700 text-center italic text-neutral-500"
-                    >
-                      No Image
-                    </label>
+                    <ImageSkeleton className={"h-[130px] w-[130px]"} />
                   )}
 
                   <div className="flex flex-col gap-3">

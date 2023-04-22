@@ -24,33 +24,46 @@ export const playlistRouter = createTRPCRouter({
       return playlists;
     }),
 
+    getPlaylist: publicProcedure
+    .input(z.object({ profileName: z.string(), playlistName: z.string() }))
+    .query(async ({ input, ctx }) => {
+      const playlist = await ctx.prisma.playlist.findUnique({
+        where: {
+          name_authorName: {authorName: input.profileName, name: input.playlistName }
+        },
+      });
+
+      return playlist;
+    }),
+
+  //withAuthProcedure gives the context username info about the current user
   createPlaylist: withAuthProcedure
     .input(
       z.object({
         name: z
           .string()
           .min(1, { message: "Please enter in playlist name" })
-          .max(70),
-        picture: z.string().url("Please enter in valid picture URL!").min(1),
+          .max(70, { message: "Playlist name too long" }),
+
+        //it can either be an empty string or a url
+        picture: z.union([
+          z.string().url("Please enter in valid picture URL!").trim(),
+          z.string().max(0),
+        ]),
         genre: z.string().max(30),
       })
     )
     .mutation(async ({ ctx, input }) => {
       const authorName = ctx.username;
 
-      const playlist = await ctx.prisma.playlist
-        .create({
-          data: {
-            name: input.name,
-            authorName: authorName,
-            genre: input.genre,
-            pictureUrl: input.picture,
-          },
-        })
-        .then((err) => {
-          // https://www.prisma.io/docs/concepts/components/prisma-client/handling-exceptions-and-errors
-          console.log("y34234ui234u234i23i4iooo" ,err)
-        });
+      const playlist = await ctx.prisma.playlist.create({
+        data: {
+          name: input.name,
+          authorName: authorName,
+          genre: input.genre,
+          pictureUrl: input.picture,
+        },
+      });
 
       return playlist;
     }),

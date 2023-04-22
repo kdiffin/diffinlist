@@ -7,6 +7,7 @@ import Link from "next/link";
 import React, { ReactNode } from "react";
 import { MdAdd, MdArrowDownward } from "react-icons/md";
 import Avatar from "~/components/ui/Avatar";
+import Divider from "~/components/ui/Divider";
 import Loading, { LoadingSpinner } from "~/components/ui/Loading";
 import { Section, SectionCard } from "~/components/ui/Section";
 import { ssgHelper } from "~/server/helpers/generateSSGHelper";
@@ -55,12 +56,13 @@ function Profile({ profileName }: { profileName: string }) {
         {/* this is the body */}
         <div className="flex flex-col  gap-12 p-10 py-10">
           {/* playlists should get filtered when clicked on view more */}
+          {/* the reason i didnt reuse the .map function is because I lose typesafety. as different APIS return different objects */}
           <Section loading={playlistsLoading} name="Playlists">
             {playlists && playlists.length > 0 ? (
               playlists.map((playlist) => {
                 return (
                   <SectionCard
-                    href={playlist.id}
+                    href={`/${playlist.authorName}/${playlist.name}`}
                     pictureUrl={playlist.pictureUrl}
                     title={playlist.name}
                     key={playlist.id}
@@ -77,52 +79,19 @@ function Profile({ profileName }: { profileName: string }) {
           <Divider />
 
           <Section loading={playlistsLoading} name="Songs">
-            {playlists
-              ? playlists.map((playlist) => {
-                  return (
-                    <SectionCard
-                      href={playlist.id}
-                      pictureUrl={playlist.pictureUrl}
-                      title={playlist.name}
-                      key={playlist.id}
-                    />
-                  );
-                })
-              : "No playlists found"}
+            no playlists found
           </Section>
 
           <Divider />
 
           <Section loading={playlistsLoading} name="Favourited playlists">
-            {playlists
-              ? playlists.map((playlist) => {
-                  return (
-                    <SectionCard
-                      href={playlist.id}
-                      pictureUrl={playlist.pictureUrl}
-                      title={playlist.name}
-                      key={playlist.id}
-                    />
-                  );
-                })
-              : "No playlists found"}
+            no playlists found
           </Section>
 
           <Divider />
 
           <Section loading={playlistsLoading} name="Favourited songs">
-            {playlists
-              ? playlists.map((playlist) => {
-                  return (
-                    <SectionCard
-                      href={playlist.id}
-                      pictureUrl={playlist.pictureUrl}
-                      title={playlist.name}
-                      key={playlist.id}
-                    />
-                  );
-                })
-              : "No playlists found"}
+            no playlists found
           </Section>
 
           {/* <Section loading={playlistsLoading} name="Songs" />
@@ -133,16 +102,6 @@ function Profile({ profileName }: { profileName: string }) {
         </div>
       </div>
     </>
-  );
-}
-
-function Divider({ className }: { className?: string }) {
-  return (
-    <div className="w-full  ">
-      <div className=" flex items-center justify-center border-t border-t-neutral-700 ">
-        {" "}
-      </div>
-    </div>
   );
 }
 
