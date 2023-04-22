@@ -20,6 +20,13 @@ a:active {
     height: 8px;
   }
 
+  button:focus,
+  a:focus {
+    outline: none;
+
+    @apply rounded-sm shadow-[0_0_0_2px] shadow-neutral-400;
+  }
+
   /* Add a thumb */
   .subtle-scrollbar::-webkit-scrollbar-thumb {
     border-radius: 10px;

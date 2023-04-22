@@ -1,11 +1,11 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import Input from "./Input";
+import Input from "./ui/Input";
 import { api } from "~/utils/api";
 import { useClerk, useUser } from "@clerk/nextjs";
-import Button from "./Button";
-import Avatar, { AvatarSkeleton } from "./Avatar";
+import Button from "./ui/Button";
+import Avatar, { AvatarSkeleton } from "./ui/Avatar";
 import { MdDelete, MdRemove } from "react-icons/md";
 
 function Settings() {
@@ -21,7 +21,7 @@ function Settings() {
   function closeSettings() {
     delete router.query.showSettings;
 
-    router.push(router, undefined, { shallow: true });
+    router.replace(router, undefined, { shallow: true });
   }
 
   function logout() {
@@ -33,7 +33,7 @@ function Settings() {
     <Dialog.Root open={isOpen} onOpenChange={closeSettings}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-neutral-900/40 data-[state=open]:animate-overlayShow" />
-        <Dialog.Content className="fixed left-[50%] top-[50%] max-h-[85vh] w-[85vw] translate-x-[-50%]  translate-y-[-50%] rounded-sm bg-zinc-900 p-10 shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none data-[state=open]:animate-contentShow lg:max-w-[70vw]">
+        <Dialog.Content className="subtle-scrollbar fixed left-[50%] top-[50%] max-h-[85vh] w-[85vw] translate-x-[-50%] translate-y-[-50%]  overflow-y-scroll rounded-sm bg-zinc-900 p-10 shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none data-[state=open]:animate-contentShow lg:max-w-[70vw]">
           <Dialog.Title className="  text-2xl font-medium">
             Settings
           </Dialog.Title>

@@ -7,17 +7,27 @@ import {
   MdSearch,
   MdSettings,
 } from "react-icons/md";
-import React, { PropsWithChildren, ReactNode } from "react";
+import React, { PropsWithChildren, ReactNode, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { SignInButton, useUser } from "@clerk/nextjs";
 import Image from "next/image";
-import Avatar from "./Avatar";
+import Avatar from "./ui/Avatar";
 import CreatePlaylist from "./CreatePlaylist";
+import { api } from "~/utils/api";
+import { Playlist } from "@prisma/client";
+import Loading, { LoadingSpinner } from "./ui/Loading";
 
 function Sidebar() {
   const router = useRouter();
   const { user, isLoaded } = useUser();
+  const [name, setName] = useState("");
+
+  const { data: playlists, isLoading } =
+    api.playlist.getPlaylistsByProfileName.useQuery({
+      profileName: user && user.username ? user.username : "",
+      takeLimit: 20,
+    });
 
   function openCreatePlaylist() {
     router.replace(router.asPath + "?showCreatePlaylist=true", undefined, {
@@ -74,6 +84,7 @@ function Sidebar() {
 
           <SidebarItem
             currentRoute={router.asPath}
+            shallow={true}
             href={router.asPath + "?showSettings=true"}
           >
             <MdSettings /> <p>Settings</p>
@@ -82,28 +93,29 @@ function Sidebar() {
           <div className="my-6 w-full  border-t border-t-neutral-800 "> </div>
 
           <div className="flex w-full  flex-col items-start  ">
-            <PlaylistsCollapsible />
+            <PlaylistsCollapsible playlists={playlists} isLoading={isLoading} />
           </div>
         </div>
 
         <div className=" mt-auto  border-t-neutral-400  text-center ">
-          <div className="mb-3  w-full border-t border-t-neutral-700 "> </div>
+          <div className=" w-full border-t border-t-neutral-700 "> </div>
           <input
             type="text"
-            placeholder="enter name"
-            className="mb-4 w-4/5 border-b border-b-neutral-400 bg-transparent placeholder:text-center placeholder:text-sm placeholder:italic
-           placeholder:text-neutral-600 focus:border-b-neutral-200 focus:outline-none"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            autoComplete="off"
+            disabled={true}
+            className=" opacity-0"
           />
 
           <button
             onClick={openCreatePlaylist}
-            className="rounded-sm bg-neutral-800 p-1  px-3 text-neutral-400"
+            className="rounded-sm bg-neutral-800 p-2  px-3 text-neutral-400"
           >
             + create playlist
           </button>
         </div>
       </nav>
-      <CreatePlaylist />
     </>
   );
 }
@@ -112,11 +124,14 @@ function SidebarItem({
   href,
   className,
   children,
+  shallow,
   currentRoute,
 }: {
   href: string;
   className?: string;
   children: ReactNode;
+  shallow?: boolean;
+
   currentRoute: string;
 }) {
   const isActive = currentRoute === href;
@@ -124,6 +139,7 @@ function SidebarItem({
   return (
     <Link
       href={href}
+      shallow={shallow}
       className={` 
       flex w-full
       ${isActive ? "text-neutral-100" : ""} ${className ? className : ""}  
@@ -136,7 +152,13 @@ function SidebarItem({
 
 //first step into radix here
 //good headless components
-function PlaylistsCollapsible() {
+function PlaylistsCollapsible({
+  playlists,
+  isLoading,
+}: {
+  playlists: Playlist[] | undefined;
+  isLoading: boolean;
+}) {
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -156,26 +178,31 @@ function PlaylistsCollapsible() {
       </div>
 
       <Collapsible.Content className="mt-4 px-2">
-        <PlaylistItem name="Playlist One" />
-        <PlaylistItem name="Playlist One" />
-        <PlaylistItem name="Playlist One" />
-        <PlaylistItem name="Playlist One" />
-        <PlaylistItem name="Playlist One" />
-        <PlaylistItem name="Playlist One" />
-        <PlaylistItem name="Playlist One" />
-        <PlaylistItem name="Playlist One" />
-        <PlaylistItem name="Playlist One" />
-        <PlaylistItem name="Playlist One" />
-        <PlaylistItem name="Playlist One" />
-        <PlaylistItem name="Playlist One" />
-        <PlaylistItem name="Playlist One" />
-        <PlaylistItem name="Playlist One" />
-        <PlaylistItem name="Playlist One" />
-        <PlaylistItem name="Playlist One" />
-        <PlaylistItem name="Playlist One" />
-        <PlaylistItem name="Playlist One" />
-        <PlaylistItem name="Playlist One" />
-        <PlaylistItem name="Playlist One" />
+        {/* chaotic if else incoming */}
+        {/* if is loading is false, check if playlists and playlists.length is bigger than 0 */}
+        {/* if so, then render out the playlists, if playlists.length is small make say no playlists found */}
+        {/* otherwise, if loading then display loading spinner */}
+
+        {!isLoading ? (
+          playlists && playlists.length > 0 ? (
+            playlists.map((playlist) => {
+              return (
+                <PlaylistItem
+                  name={playlist.name}
+                  href={`/${playlist.authorName}/${playlist.name}`}
+                  pictureSrc={playlist.pictureUrl}
+                  key={playlist.id}
+                />
+              );
+            })
+          ) : (
+            <p className="text-neutral-500 ">No playlists found</p>
+          )
+        ) : (
+          <div className="flex h-[100px]  w-full items-center justify-center">
+            <LoadingSpinner />
+          </div>
+        )}
       </Collapsible.Content>
     </Collapsible.Root>
   );
@@ -184,16 +211,22 @@ function PlaylistsCollapsible() {
 function PlaylistItem({
   name,
   pictureSrc,
+  href,
 }: {
   name: string;
   pictureSrc?: string;
+  href: string;
 }) {
   return (
-    <div className=" text-md mt-3 flex items-center gap-2 break-all  text-neutral-400">
+    <Link
+      href={href}
+      className=" text-md mt-3 flex items-center gap-2 break-all  text-neutral-400"
+    >
       {pictureSrc ? (
         //convert this to Image
         <img
           src={pictureSrc}
+          loading="lazy"
           className="h-6 w-6 rounded-full"
           alt={`${name}'s pic`}
         />
@@ -201,7 +234,7 @@ function PlaylistItem({
         <div className="h-6 w-6 rounded-full bg-neutral-700"> </div>
       )}
       <p>{name}</p>{" "}
-    </div>
+    </Link>
   );
 }
 

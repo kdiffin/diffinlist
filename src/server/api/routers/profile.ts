@@ -20,16 +20,16 @@ export const profileRouter = createTRPCRouter({
         limit: 1,
       })
 
-      const firstUser = user[0]
+      const typesafeUser = user[0]
 
-      if (!firstUser ) {
+      if (!typesafeUser ) {
         throw new TRPCError({
           code: "NOT_FOUND",
           message: "User not found"
         })
       }
 
-      return filterProfileForClient(firstUser)
+      return filterProfileForClient(typesafeUser)
     }),
 
 });

@@ -6,9 +6,9 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { ReactNode } from "react";
 import { MdAdd, MdArrowDownward } from "react-icons/md";
-import Avatar from "~/components/Avatar";
-import Loading, { LoadingSpinner } from "~/components/Loading";
-import { Section, SectionCard } from "~/components/Section";
+import Avatar from "~/components/ui/Avatar";
+import Loading, { LoadingSpinner } from "~/components/ui/Loading";
+import { Section, SectionCard } from "~/components/ui/Section";
 import { ssgHelper } from "~/server/helpers/generateSSGHelper";
 import { api } from "~/utils/api";
 
@@ -21,16 +21,15 @@ function Profile({ profileName }: { profileName: string }) {
   const { data: playlists, isLoading: playlistsLoading } =
     api.playlist.getPlaylistsByProfileName.useQuery({
       profileName: profileName,
+      takeLimit: 8,
     });
-
-  console.log(playlists);
 
   if (!userData) throw new Error("Data not found");
 
   return (
     <>
       <Head>
-        <title>{userData.username}s profile</title>
+        <title>{`${profileName}'s profile`}</title>
       </Head>
 
       <div className=" flex-col">
@@ -47,7 +46,7 @@ function Profile({ profileName }: { profileName: string }) {
               <p className="text-4xl  ">{userData.username}</p>
               <p className=" text-neutral-400">
                 This user has {playlists ? playlists.length : "no"} playlist
-                {playlists && playlists.length > 1 ? "s" : ""}
+                {playlists && playlists.length !== 1 ? "s" : ""}
               </p>
             </div>
           </div>

@@ -61,6 +61,12 @@ export function SectionCard({
   href: string | null;
 }) {
   function RenderBoolean() {
+    // lots of crazy if statements in this project
+    // if skeleton prop is passed then render the skeleton of the card
+    // if not, then see if the picture has a valid URL, if not, then render out the no image for playlist,
+    // if it does tho render out the regular card with the lazy loaded and regular img
+    // if anybody knows how to use Image while not knowing the sources of ur images ahead of time let me know
+
     if (skeleton) {
       return (
         <>
@@ -78,9 +84,10 @@ export function SectionCard({
         </>
       ) : (
         <>
-          <Image
+          <img
             alt={title + "'s image"}
             width={150}
+            loading="lazy"
             height={150}
             src={pictureUrl!}
           />

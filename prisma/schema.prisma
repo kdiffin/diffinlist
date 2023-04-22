@@ -15,7 +15,8 @@ model Playlist {
     id         String   @id @unique @default(uuid())
     createdAt  DateTime @default(now())
     name       String
-    pictureUrl String
+    genre      String
+    pictureUrl String   @db.Text
     authorName String
 
     @@unique([name, authorName])
