@@ -12,7 +12,7 @@ The tech stack used in the development of the project includes:
 - [Clerk](https://clerk.dev/) - Clerk.dev is a complete authentication and user management solution for developers, I don't want to handle auth myself 😊
 - [tRPC](https://trpc.io/) - A TypeScript-first RPC (Remote Procedure Call) framework
 - [Tailwind](https://tailwindcss.com/) - A utility-first CSS framework for rapid UI development
-- [Radix UI](https://radix-ui.com/) - A collection of composable React components and design tokens for building high-quality, accessible user interfaces
+- [Radix UI](https://radix-ui.com/) - A collection of composable React components and design tokens for building high-quality, treeshakable and accessible user interfaces
 - [React](https://react.dev/) - A JavaScript library for building user interfaces
 
 ## Features

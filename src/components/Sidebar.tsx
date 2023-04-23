@@ -141,7 +141,7 @@ function SidebarItem({
       href={href}
       shallow={shallow}
       className={` 
-      flex w-full
+      flex w-full outline-none outline-neutral-900
       ${isActive ? "text-neutral-100" : ""} ${className ? className : ""}  
       items-center gap-2  text-lg text-neutral-400   hover:text-neutral-200 `}
     >

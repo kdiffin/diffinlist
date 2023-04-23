@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { ReactNode } from "react";
 import { MdAdd, MdArrowDownward } from "react-icons/md";
+import HeadComponent from "~/components/HeadComponent";
 import Avatar from "~/components/ui/Avatar";
 import Divider from "~/components/ui/Divider";
 import Loading, { LoadingSpinner } from "~/components/ui/Loading";
@@ -29,17 +30,21 @@ function Profile({ profileName }: { profileName: string }) {
 
   return (
     <>
-      <Head>
-        <title>{`${profileName}'s profile`}</title>
-      </Head>
+      <HeadComponent
+        currentUrl={`https://diffinlist.vercel.app/${profileName}`}
+        image={userData.profileImageUrl}
+        title={`${userData.username}`}
+      />
 
       <div className=" flex-col">
         {/* this is the header */}
-        <div className=" neutral-lowkey-bg flex  items-center p-8 ">
+
+        <div className=" neutral-lowkey-bg flex   items-center p-8 ">
           <div className="flex items-center gap-4">
             <Avatar
+              className="p-1"
               loading={false}
-              width_height={110}
+              width_height={130}
               src={userData.profileImageUrl}
             />
 
@@ -136,4 +141,5 @@ export const getStaticPaths: GetStaticPaths = () => {
     fallback: "blocking",
   };
 };
+
 export default Profile;

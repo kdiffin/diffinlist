@@ -218,7 +218,7 @@ function CreatePlaylist() {
 
             <Dialog.Close asChild>
               <button
-                className=" hover:bg-violet4 focus:shadow-violet7 absolute right-[10px] 
+                className="   absolute right-[10px] 
               top-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center 
               justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none"
                 aria-label="Close"

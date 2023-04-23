@@ -7,6 +7,8 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { ReactNode } from "react";
 import { MdAdd, MdArrowDownward } from "react-icons/md";
+import CustomError from "~/components/CustomError";
+import HeadComponent from "~/components/HeadComponent";
 import Avatar from "~/components/ui/Avatar";
 import Button from "~/components/ui/Button";
 import Loading, { LoadingSpinner } from "~/components/ui/Loading";
@@ -15,8 +17,8 @@ import { ImageSkeleton } from "~/components/ui/Skeletons";
 import { ssgHelper } from "~/server/helpers/generateSSGHelper";
 import { api } from "~/utils/api";
 
-// ui is very similar to profileName, so I may have used a component
-// but I dont like abstracting such large files.
+// ui is very similar to profileName, so I copy pasted that component.
+// I could have made the ui a component and the data fetching parts hooks, but I dont like abstracting such large files.
 
 function Profile({
   profileName,
@@ -27,34 +29,28 @@ function Profile({
 }) {
   //the usequery will never hit loading because of ssg
   //also trpc uses react query under the hood
-  console.log(playlistName);
   const { data: playlist } = api.playlist.getPlaylist.useQuery({
     playlistName: playlistName,
     profileName: profileName,
   });
 
-  console.log(playlist);
-
-  if (!playlist)
-    return (
-      <div className="flex flex-col items-center justify-center gap-10 text-4xl">
-        <p>Couldn't find playlist</p>
-        <Link href={`/${profileName}`}>
-          <Button className="text-2xl">Go back to profile</Button>
-        </Link>
-      </div>
-    );
+  if (!playlist) throw new Error("couldnt find playlist");
 
   return (
     <>
-      <Head>
-        <title>{`${playlistName} | ${profileName}`}</title>
-      </Head>
+      <HeadComponent
+        currentUrl={`https://diffinlist.vercel.app/${profileName}/${playlistName}`}
+        image={playlist.pictureUrl}
+        description={
+          "Come on over to diffinlist and share your own playlist! :3"
+        }
+        title={`${playlistName} | ${profileName}`}
+      />
 
       <div className=" flex-col">
         {/* this is the header */}
-        <div className=" neutral-lowkey-bg flex  items-center p-8 ">
-          <div className="flex items-center gap-4">
+        <div className=" neutral-lowkey-bg flex   items-center p-8 ">
+          <div className="flex items-center gap-6">
             {playlist.pictureUrl ? (
               <img
                 width={130}

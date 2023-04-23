@@ -13,8 +13,8 @@ export const config = {
        * Match all request paths except for the ones starting with:
        * - _next
        * - static (static files)
-       * - favicon.ico (favicon file)
+       * - img.ico (favicon file)
        */
-      "/(.*?trpc.*?|(?!static|.*\\..*|_next|favicon.ico).*)"
+      "/(.*?trpc.*?|(?!static|.*\\..*|_next|img.ico).*)"
     ]
 }

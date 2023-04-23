@@ -98,7 +98,7 @@ export function SectionCard({
 
   return (
     <Link
-      href={href ? href : ""}
+      href={href && !skeleton ? href : ""}
       className={`${
         skeleton ? "animate-pulse" : ""
       } neutral-lowkey-bg flex  flex-col items-center gap-2 p-4 hover:bg-neutral-700/30`}
