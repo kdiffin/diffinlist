@@ -1,3 +1,4 @@
+import { useUser } from "@clerk/nextjs";
 import { createServerSideHelpers } from "@trpc/react-query/server";
 import { TRPCError } from "@trpc/server";
 import { profile } from "console";
@@ -5,12 +6,14 @@ import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { ReactNode } from "react";
-import { MdAdd, MdArrowDownward } from "react-icons/md";
+import { MdAdd, MdArrowDownward, MdSearch } from "react-icons/md";
 import CustomError from "~/components/CustomError";
 import HeadComponent from "~/components/HeadComponent";
 import Avatar from "~/components/ui/Avatar";
 import Button from "~/components/ui/Button";
+import Input from "~/components/ui/Input";
 import Loading, { LoadingSpinner } from "~/components/ui/Loading";
 import { Section, SectionCard } from "~/components/ui/Section";
 import { ImageSkeleton } from "~/components/ui/Skeletons";
@@ -34,6 +37,16 @@ function Profile({
     profileName: profileName,
   });
 
+  const router = useRouter();
+
+  const { user } = useUser();
+
+  const { data: playlists, isLoading: playlistsLoading } =
+    api.playlist.getPlaylistsByProfileName.useQuery({
+      profileName: profileName,
+      takeLimit: 50,
+    });
+
   if (!playlist) throw new Error("couldnt find playlist");
 
   return (
@@ -49,8 +62,8 @@ function Profile({
 
       <div className=" flex-col">
         {/* this is the header */}
-        <div className=" neutral-lowkey-bg flex   items-center p-8 ">
-          <div className="flex items-center gap-6">
+        <div className=" neutral-lowkey-bg flex items-center   justify-between p-8 ">
+          <div className="flex items-center  gap-6">
             {playlist.pictureUrl ? (
               <img
                 width={130}
@@ -83,32 +96,52 @@ function Profile({
               </div>
             </div>
           </div>
+
+          {/* add ternary checking if ur author */}
         </div>
 
         {/* this is the body */}
         <div className="flex flex-col  gap-12 p-10 py-10">
-          {/* playlists should get filtered when clicked on view more */}
-          {/* the reason i didnt reuse the .map function is because I lose typesafety. as different APIS return different objects */}
-          {/* <Section loading={playlistsLoading} name="Playlists">
-            {playlists && playlists.length > 0 ? (
-              playlists.map((playlist) => {
-                return (
-                  <SectionCard
-                    href={`/${playlist.authorName}/${playlist.name}`}
-                    pictureUrl={playlist.pictureUrl}
-                    title={playlist.name}
-                    key={playlist.id}
-                  />
-                );
-              })
-            ) : (
-              <p className="flex w-full items-center justify-center p-5 font-medium italic text-neutral-500 ">
-                No playlists found
-              </p>
-            )}
+          <Section hideShowMore={true} loading={playlistsLoading} name="Songs">
+            <>
+              <div className="absolute -top-2 right-0 ">
+                <Input
+                  value=""
+                  icon={<MdSearch color=" #A3A3A3" />}
+                  placeholder="Search song"
+                  type="text"
+                  className=" !px-6 !py-2  !pr-16
+                   "
+                  onChange={() => null}
+                />
+              </div>
+              {playlists && playlists.length > 0 ? (
+                [...playlists, ...playlists, ,].map((playlist) => {
+                  return (
+                    <SectionCard
+                      href={`/${playlist.authorName}/${playlist.name}`}
+                      pictureUrl={playlist.pictureUrl}
+                      title={playlist.name}
+                      key={playlist.id}
+                    />
+                  );
+                })
+              ) : (
+                <> </>
+              )}
+            </>
+
+            {user?.username === playlist.authorName ? (
+              <SectionCard
+                title="Add song"
+                addSong={true}
+                pictureUrl=""
+                href={router.asPath}
+              />
+            ) : null}
           </Section>
 
-          <Divider />
+          {/* <Divider />
 
           <Section loading={playlistsLoading} name="Songs">
             no playlists found

@@ -1,15 +1,9 @@
-import { createServerSideHelpers } from "@trpc/react-query/server";
 import { TRPCError } from "@trpc/server";
-import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
-import Head from "next/head";
-import Image from "next/image";
-import Link from "next/link";
-import React, { ReactNode } from "react";
-import { MdAdd, MdArrowDownward } from "react-icons/md";
+import { GetStaticPaths, GetStaticProps } from "next";
+import React from "react";
 import HeadComponent from "~/components/HeadComponent";
 import Avatar from "~/components/ui/Avatar";
 import Divider from "~/components/ui/Divider";
-import Loading, { LoadingSpinner } from "~/components/ui/Loading";
 import { Section, SectionCard } from "~/components/ui/Section";
 import { ssgHelper } from "~/server/helpers/generateSSGHelper";
 import { api } from "~/utils/api";
@@ -84,19 +78,25 @@ function Profile({ profileName }: { profileName: string }) {
           <Divider />
 
           <Section loading={playlistsLoading} name="Songs">
-            no playlists found
+            <p className="flex w-full items-center justify-center p-5 font-medium italic text-neutral-500 ">
+              No songs found
+            </p>
           </Section>
 
           <Divider />
 
           <Section loading={playlistsLoading} name="Favourited playlists">
-            no playlists found
+            <p className="flex w-full items-center justify-center p-5 font-medium italic text-neutral-500 ">
+              No playlists found
+            </p>
           </Section>
 
           <Divider />
 
           <Section loading={playlistsLoading} name="Favourited songs">
-            no playlists found
+            <p className="flex w-full items-center justify-center p-5 font-medium italic text-neutral-500 ">
+              No playlists found
+            </p>
           </Section>
 
           {/* <Section loading={playlistsLoading} name="Songs" />

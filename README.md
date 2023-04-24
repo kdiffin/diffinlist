@@ -2,6 +2,18 @@
 
 Diffinlist is a web application built using the T3 stack,NextJS, Prisma, tRPC, Planetscale, Tailwind, Clerk for auth and Radix UI.
 
+## Features
+
+The application is going to feature:
+
+- Creating your own playlists
+- Seeing users latest playlists
+- Viewing other users profiles
+- Sharing your playlist with others
+- Liking other users playlists
+- A dark mode only design
+- Accessible user interface with the help of Radix UI
+
 ## Tech Stack
 
 The tech stack used in the development of the project includes:
@@ -14,17 +26,5 @@ The tech stack used in the development of the project includes:
 - [Tailwind](https://tailwindcss.com/) - A utility-first CSS framework for rapid UI development
 - [Radix UI](https://radix-ui.com/) - A collection of composable React components and design tokens for building high-quality, treeshakable and accessible user interfaces
 - [React](https://react.dev/) - A JavaScript library for building user interfaces
-
-## Features
-
-The application is going to feature:
-
-- Creating your own playlists
-- Seeing users latest playlists
-- Viewing other users profiles
-- Sharing your playlist with others
-- Liking other users playlists
-- A dark mode only design
-- Accessible user interface with the help of Radix UI
 
 readme.md made by chatgpt lmao

@@ -9,10 +9,12 @@ import { ImageSkeleton } from "./Skeletons";
 export const Section = memo(function Section({
   name,
   children,
+  hideShowMore,
   loading,
 }: {
   name: string;
   loading: boolean;
+  hideShowMore?: boolean;
   children: ReactNode;
 }) {
   const skeletonArray: string[] = new Array(8).fill("") as string[];
@@ -30,8 +32,8 @@ export const Section = memo(function Section({
 
   return (
     //id is for routing to it
-    <div id={name}>
-      <div className="mb-12 text-center text-xl  xl:mb-10 xl:text-left">
+    <div id={name} className="relative">
+      <div className=" mb-12 text-center text-2xl  xl:mb-10 xl:text-left">
         <Link href={name}>{name}</Link>
       </div>
 
@@ -39,13 +41,15 @@ export const Section = memo(function Section({
         {loading ? SectionCardSkeleton : children}
       </div>
 
-      <Link
-        href={`playlists`}
-        className="mt-12 flex w-full items-center justify-center
+      {!hideShowMore && (
+        <Link
+          href={`playlists`}
+          className="mt-12 flex w-full items-center justify-center
          gap-2 text-center  font-semibold  text-neutral-600 "
-      >
-        Show more <MdAdd className="mt-1 " />
-      </Link>
+        >
+          Show more <MdAdd className="mt-1 " />
+        </Link>
+      )}
     </div>
   );
 });
@@ -55,11 +59,13 @@ export function SectionCard({
   pictureUrl,
   href,
   skeleton,
+  addSong,
 }: {
   title: string | null;
   skeleton?: boolean;
   pictureUrl: string | null;
   href: string | null;
+  addSong?: boolean;
 }) {
   function RenderBoolean() {
     // lots of crazy if statements in this project
@@ -71,7 +77,10 @@ export function SectionCard({
     if (skeleton) {
       return (
         <>
-          <div className="flex h-[150px] w-[150px] animate-pulse items-center justify-center bg-neutral-700/60 italic"></div>
+          <div
+            className="flex h-[150px] w-[150px] animate-pulse items-center justify-center
+           bg-neutral-700/60 italic"
+          ></div>
           <div className="text-neutral-800"> placeholder text</div>
         </>
       );
@@ -99,11 +108,23 @@ export function SectionCard({
   return (
     <Link
       href={href && !skeleton ? href : ""}
-      className={`${
-        skeleton ? "animate-pulse" : ""
-      } neutral-lowkey-bg flex  flex-col items-center gap-2 p-4 hover:bg-neutral-700/30`}
+      className={`${skeleton && "animate-pulse"} 
+      neutral-lowkey-bg  flex flex-col items-center gap-2 p-4 hover:bg-neutral-700/50 focus-visible:bg-neutral-700/50`}
     >
-      <RenderBoolean />
+      {addSong ? (
+        <>
+          <div
+            className="
+          flex  h-[150px] w-[150px]  items-center justify-center  rounded-sm border-2 border-dotted border-neutral-700 text-center text-neutral-400
+          "
+          >
+            <MdAdd size={32} />
+          </div>
+          <p>{title}</p>
+        </>
+      ) : (
+        <RenderBoolean />
+      )}
     </Link>
   );
 }

@@ -36,7 +36,7 @@ export const playlistRouter = createTRPCRouter({
       return playlist;
     }),
 
-  //withAuthProcedure gives the context username info about the current user
+  //withAuthProcedure gives the context the username and user info of the logged in user
   createPlaylist: withAuthProcedure
     .input(
       z.object({

@@ -140,7 +140,7 @@ function CreatePlaylist() {
 
               <Button
                 onClick={removeChanges}
-                className=" px-4  text-sm   text-neutral-500"
+                className="   bg-red-400/30 text-sm"
               >
                 Remove changes
               </Button>
