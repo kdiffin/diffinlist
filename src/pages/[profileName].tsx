@@ -1,7 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { GetStaticPaths, GetStaticProps } from "next";
+import Head from "next/head";
 import React from "react";
-import HeadComponent from "~/components/HeadComponent";
 import Avatar from "~/components/ui/Avatar";
 import Divider from "~/components/ui/Divider";
 import { Section, SectionCard } from "~/components/ui/Section";
@@ -24,12 +24,6 @@ function Profile({ profileName }: { profileName: string }) {
 
   return (
     <>
-      <HeadComponent
-        currentUrl={`https://diffinlist.vercel.app/${profileName}`}
-        image={userData.profileImageUrl}
-        title={`${userData.username}`}
-      />
-
       <div className=" flex-col">
         {/* this is the header */}
 
@@ -69,7 +63,7 @@ function Profile({ profileName }: { profileName: string }) {
                 );
               })
             ) : (
-              <p className="flex w-full items-center justify-center p-5 font-medium italic text-neutral-500 ">
+              <p className="flex w-full items-center justify-center p-5 text-sm font-medium text-neutral-500 ">
                 No playlists found
               </p>
             )}
@@ -78,7 +72,7 @@ function Profile({ profileName }: { profileName: string }) {
           <Divider />
 
           <Section loading={playlistsLoading} name="Songs">
-            <p className="flex w-full items-center justify-center p-5 font-medium italic text-neutral-500 ">
+            <p className="flex w-full items-center justify-center p-5  text-sm text-neutral-500 ">
               No songs found
             </p>
           </Section>
@@ -86,7 +80,7 @@ function Profile({ profileName }: { profileName: string }) {
           <Divider />
 
           <Section loading={playlistsLoading} name="Favourited playlists">
-            <p className="flex w-full items-center justify-center p-5 font-medium italic text-neutral-500 ">
+            <p className="flex w-full items-center justify-center p-5  text-sm text-neutral-500 ">
               No playlists found
             </p>
           </Section>
@@ -94,7 +88,7 @@ function Profile({ profileName }: { profileName: string }) {
           <Divider />
 
           <Section loading={playlistsLoading} name="Favourited songs">
-            <p className="flex w-full items-center justify-center p-5 font-medium italic text-neutral-500 ">
+            <p className="flex w-full items-center justify-center p-5  text-sm text-neutral-500 ">
               No playlists found
             </p>
           </Section>
@@ -106,6 +100,41 @@ function Profile({ profileName }: { profileName: string }) {
           <Section loading={playlistsLoading} name="Favourited songs" /> */}
         </div>
       </div>
+
+      <Head>
+        {/* Primary Meta Tags  */}
+        <title>{`${userData.username} | ${userData.profileImageUrl}`}</title>
+        <meta name="title" content={`${userData.username} | ${profileName}`} />
+        <link rel="icon" href={userData.profileImageUrl} />
+
+        {/* <!-- Open Graph / Facebook --> */}
+        <meta
+          property="og:url"
+          content={`https://diffinlist.vercel.app/${userData.username}`}
+        />
+        <meta
+          property="og:title"
+          content={`${userData.username} | ${profileName}`}
+        />
+
+        <meta property="og:image" content={userData.profileImageUrl} />
+
+        {/* <!-- Twitter -- /> */}
+        <meta property="twitter:card" content={userData.profileImageUrl} />
+        <meta
+          property="twitter:url"
+          content={`https://diffinlist.vercel.app/${profileName}/${userData.username}`}
+        />
+        <meta
+          property="twitter:title"
+          content={`${userData.username} | ${profileName}`}
+        />
+
+        <meta
+          property="twitter:image"
+          content={userData.profileImageUrl}
+        ></meta>
+      </Head>
     </>
   );
 }

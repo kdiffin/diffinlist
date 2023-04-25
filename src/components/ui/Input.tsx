@@ -17,7 +17,7 @@ function Input(props: {
     <div
       className={
         props.className +
-        " flex w-full items-center gap-2 rounded-sm bg-zinc-700 p-1 focus-within:bg-zinc-600 focus-within:shadow-[0_0_0_2px] focus-within:shadow-neutral-500  hover:bg-zinc-600  md:p-2 "
+        " flex w-full items-center  gap-2 rounded-sm bg-zinc-700 p-1 focus-within:bg-zinc-600 focus-within:shadow-[0_0_0_2px] focus-within:shadow-neutral-500  hover:bg-zinc-600  md:p-2 "
       }
     >
       {props.icon ? props.icon : null}
@@ -31,7 +31,7 @@ function Input(props: {
         spellCheck="false"
         name={props.name}
         placeholder={props.placeholder}
-        className=" w-full border-none bg-transparent outline-none placeholder:text-sm placeholder:italic  "
+        className={`flex w-full items-center justify-center  border-none bg-transparent outline-none placeholder:text-sm placeholder:italic`}
       />
     </div>
   );

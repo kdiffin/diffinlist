@@ -11,19 +11,20 @@ import NextProgress from "@approximant/next-progress";
 import Settings from "~/components/Settings";
 import CreatePlaylist from "~/components/CreatePlaylist";
 import { Toaster } from "react-hot-toast";
-import HeadComponent from "~/components/HeadComponent";
+import Song from "~/components/Song";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   const router = useRouter();
 
+  //todo: add SearchInput to Input.tsx
+  //todo: createSong.tsx
+  //todo: give Song.tsx getSong
+  //todo: search.tsx
+  //todo: home feed, recent playlists, recent songs, recent users, popular songs
+  //todo: favouriting playlists
+
   return (
     <ClerkProvider {...pageProps}>
-      <HeadComponent
-        image="/images/favicon.ico"
-        currentUrl="https://diffinlist.vercel.app"
-        title="diffinlist"
-      />
-
       {/* Awesome fork to the Nextjs-progress lib, I was thinkig of adding the debounce feature myself */}
       <NextProgress
         //only triggers after a 1 second delay
@@ -44,9 +45,52 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         />
         <Sidebar />
         <Component {...pageProps} />
+
+        {/* all modals triggered by query params */}
         <Settings />
         <CreatePlaylist />
+        <Song />
       </div>
+
+      <Head>
+        {/* Primary Meta Tags  */}
+        <title>{"diffinlist"}</title>
+        <meta name="title" content="diffinlist" />
+        <link rel="icon" href={"/images/favicon.ico"} />
+        <meta
+          name="description"
+          content={
+            "diffinlist is an awesome playlist sharing app built with the t3 stack !!"
+          }
+        />
+
+        {/* <!-- Open Graph / Facebook --> */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={"https://diffinlist.vercel.app"} />
+        <meta property="og:title" content={"diffinlist"} />
+        <meta
+          property="og:description"
+          content={
+            "diffinlist is an awesome playlist sharing app built with the t3 stack !!"
+          }
+        />
+        <meta property="og:image" content={"/"} />
+
+        {/* <!-- Twitter -- /> */}
+        <meta property="twitter:card" content={"/"} />
+        <meta
+          property="twitter:url"
+          content={"https://diffinlist.vercel.app"}
+        />
+        <meta property="twitter:title" content={"diffinlist"} />
+        <meta
+          property="twitter:description"
+          content={
+            "diffinlist is an awesome playlist sharing app built with the t3 stack !!"
+          }
+        />
+        <meta property="twitter:image" content={"/"}></meta>
+      </Head>
     </ClerkProvider>
   );
 };

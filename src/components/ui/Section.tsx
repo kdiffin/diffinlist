@@ -1,20 +1,27 @@
 import Link from "next/link";
 import { ReactNode } from "react";
-import { MdAdd } from "react-icons/md";
+import { MdAdd, MdSearch } from "react-icons/md";
 import Loading from "./Loading";
 import Image from "next/image";
 import { memo } from "react";
 import { ImageSkeleton } from "./Skeletons";
+import Input from "./Input";
+
+// okay I think something like react composition couldve been very useful for this component
+// ill try that pattern out later maybe.
+// https://www.youtube.com/watch?v=vPRdY87_SH0
 
 export const Section = memo(function Section({
   name,
   children,
   hideShowMore,
+  showSearchSong,
   loading,
 }: {
   name: string;
   loading: boolean;
   hideShowMore?: boolean;
+  showSearchSong?: boolean;
   children: ReactNode;
 }) {
   const skeletonArray: string[] = new Array(8).fill("") as string[];
@@ -33,8 +40,21 @@ export const Section = memo(function Section({
   return (
     //id is for routing to it
     <div id={name} className="relative">
-      <div className=" mb-12 text-center text-2xl  xl:mb-10 xl:text-left">
-        <Link href={name}>{name}</Link>
+      <div className=" mb-12 flex flex-col items-center justify-between gap-10 text-center  xl:mb-10  xl:flex-row ">
+        <Link className="text-2xl" href={name}>
+          {name}
+        </Link>
+
+        {showSearchSong ? (
+          <Input
+            value=""
+            icon={<MdSearch color=" #A3A3A3" />}
+            placeholder="Search song"
+            type="text"
+            className=" w-full max-w-lg !px-6 !py-3   xl:max-w-md "
+            onChange={() => null}
+          />
+        ) : null}
       </div>
 
       <div className="flex flex-wrap justify-center  gap-5 overflow-hidden xl:justify-normal ">

@@ -23,6 +23,7 @@ The tech stack used in the development of the project includes:
 - [Planetscale](https://react.dev/) - Planetscale is a database platform that allows developers to scale their mySQL databases with ease
 - [Clerk](https://clerk.dev/) - Clerk.dev is a complete authentication and user management solution for developers, I don't want to handle auth myself 😊
 - [tRPC](https://trpc.io/) - A TypeScript-first RPC (Remote Procedure Call) framework
+- [Zod](https://zod.dev/) - Zod is a TypeScript-first schema validation library with a focus on developer experience.
 - [Tailwind](https://tailwindcss.com/) - A utility-first CSS framework for rapid UI development
 - [Radix UI](https://radix-ui.com/) - A collection of composable React components and design tokens for building high-quality, treeshakable and accessible user interfaces
 - [React](https://react.dev/) - A JavaScript library for building user interfaces

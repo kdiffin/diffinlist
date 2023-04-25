@@ -7,10 +7,9 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useState } from "react";
 import { MdAdd, MdArrowDownward, MdSearch } from "react-icons/md";
 import CustomError from "~/components/CustomError";
-import HeadComponent from "~/components/HeadComponent";
 import Avatar from "~/components/ui/Avatar";
 import Button from "~/components/ui/Button";
 import Input from "~/components/ui/Input";
@@ -36,9 +35,8 @@ function Profile({
     playlistName: playlistName,
     profileName: profileName,
   });
-
+  const [openCreateSong, setOpenCreateSong] = useState();
   const router = useRouter();
-
   const { user } = useUser();
 
   const { data: playlists, isLoading: playlistsLoading } =
@@ -51,15 +49,6 @@ function Profile({
 
   return (
     <>
-      <HeadComponent
-        currentUrl={`https://diffinlist.vercel.app/${profileName}/${playlistName}`}
-        image={playlist.pictureUrl}
-        description={
-          "Come on over to diffinlist and share your own playlist! :3"
-        }
-        title={`${playlistName} | ${profileName}`}
-      />
-
       <div className=" flex-col">
         {/* this is the header */}
         <div className=" neutral-lowkey-bg flex items-center   justify-between p-8 ">
@@ -102,27 +91,23 @@ function Profile({
 
         {/* this is the body */}
         <div className="flex flex-col  gap-12 p-10 py-10">
-          <Section hideShowMore={true} loading={playlistsLoading} name="Songs">
+          <Section
+            hideShowMore={true}
+            showSearchSong={true}
+            loading={playlistsLoading}
+            name="Songs"
+          >
             <>
-              <div className="absolute -top-2 right-0 ">
-                <Input
-                  value=""
-                  icon={<MdSearch color=" #A3A3A3" />}
-                  placeholder="Search song"
-                  type="text"
-                  className=" !px-6 !py-2  !pr-16
-                   "
-                  onChange={() => null}
-                />
-              </div>
+              <div className="absolute -top-2 right-0  "></div>
+
               {playlists && playlists.length > 0 ? (
-                [...playlists, ...playlists, ,].map((playlist) => {
+                [].map((playlist) => {
                   return (
                     <SectionCard
-                      href={`/${playlist.authorName}/${playlist.name}`}
-                      pictureUrl={playlist.pictureUrl}
-                      title={playlist.name}
-                      key={playlist.id}
+                      href={`/${playlist?.authorName!}/${playlist?.name!}`}
+                      pictureUrl={playlist?.pictureUrl!}
+                      title={playlist?.name!}
+                      key={playlist?.id!}
                     />
                   );
                 })
@@ -166,6 +151,41 @@ function Profile({
           <Section loading={playlistsLoading} name="Favourited songs" /> */}
         </div>
       </div>
+
+      <Head>
+        {/* Primary Meta Tags  */}
+        <title>{`${playlist.name} | ${playlist.authorName}`}</title>
+        <meta
+          name="title"
+          content={`${playlist.name} | ${playlist.authorName}`}
+        />
+        <link rel="icon" href={playlist.pictureUrl} />
+
+        {/* <!-- Open Graph / Facebook --> */}
+        <meta
+          property="og:url"
+          content={`https://diffinlist.vercel.app/${playlist.authorName}/${playlist.name}`}
+        />
+        <meta
+          property="og:title"
+          content={`${playlist.name} | ${playlist.authorName}`}
+        />
+
+        <meta property="og:image" content={playlist.pictureUrl} />
+
+        {/* <!-- Twitter -- /> */}
+        <meta property="twitter:card" content={playlist.pictureUrl} />
+        <meta
+          property="twitter:url"
+          content={`https://diffinlist.vercel.app/${playlist.authorName}/${playlist.name}`}
+        />
+        <meta
+          property="twitter:title"
+          content={`${playlist.name} | ${playlist.authorName}`}
+        />
+
+        <meta property="twitter:image" content={playlist.pictureUrl}></meta>
+      </Head>
     </>
   );
 }
