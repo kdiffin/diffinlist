@@ -103,7 +103,7 @@ function Profile({ profileName }: { profileName: string }) {
 
       <Head>
         {/* Primary Meta Tags  */}
-        <title>{`${userData.username} | ${userData.profileImageUrl}`}</title>
+        <title>{`${userData.username} `}</title>
         <meta name="title" content={`${userData.username} | ${profileName}`} />
         <link rel="icon" href={userData.profileImageUrl} />
 
