@@ -54,13 +54,15 @@ function Profile({
         <div className=" neutral-lowkey-bg flex items-center   justify-between p-8 ">
           <div className="flex items-center  gap-6">
             {playlist.pictureUrl ? (
-              <img
-                width={130}
-                height={130}
-                className="rounded-sm"
-                loading="eager"
-                src={playlist.pictureUrl}
-              />
+              <div className="h-[130px] w-[130px]">
+                <img
+                  width={130}
+                  height={130}
+                  className=" h-full  w-full rounded-sm object-cover"
+                  loading="eager"
+                  src={playlist.pictureUrl}
+                />
+              </div>
             ) : (
               <ImageSkeleton className="h-[130px] w-[130px]" />
             )}

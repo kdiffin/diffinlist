@@ -22,7 +22,7 @@ function Input(props: {
     >
       {props.icon ? props.icon : null}
       <input
-        value={props.value}
+        value={props.value || ""}
         type={props.type}
         // @ts-ignore
         onChange={(e) => props.onChange(e.target.value)}

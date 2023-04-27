@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { MdAdd, MdSearch } from "react-icons/md";
 import Loading from "./Loading";
 import Image from "next/image";
@@ -39,9 +39,8 @@ export const Section = memo(function Section({
     );
   });
 
-  function yea(value: string) {
+  function filterSongs(value: string) {
     //ngl in nextjs working with query params is all over the place
-
     // keeps old params but adds search
     const url = {
       pathname: router.pathname,
@@ -64,9 +63,9 @@ export const Section = memo(function Section({
             icon={<MdSearch color=" #A3A3A3" />}
             placeholder="Search song"
             type="text"
-            value={router.query.songFilter as string}
+            value={router.query?.search as string}
             className=" w-full max-w-lg !px-6 !py-3   xl:max-w-md "
-            onChange={(value: string) => yea(value)}
+            onChange={(value: string) => filterSongs(value)}
           />
         ) : null}
       </div>
@@ -126,13 +125,16 @@ export function SectionCard({
         </>
       ) : (
         <>
-          <img
-            alt={title + "'s image"}
-            width={150}
-            loading="lazy"
-            height={150}
-            src={pictureUrl!}
-          />
+          <div className="h-[150px] w-[150px]">
+            <img
+              width={130}
+              height={130}
+              alt={title + "'s image"}
+              loading="lazy"
+              className=" h-full  w-full object-cover"
+              src={pictureUrl!}
+            />
+          </div>
           <p className="">{title}</p>
         </>
       );
