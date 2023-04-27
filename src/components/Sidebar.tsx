@@ -17,6 +17,7 @@ import CreatePlaylist from "./CreatePlaylist";
 import { api } from "~/utils/api";
 import { Playlist } from "@prisma/client";
 import Loading, { LoadingSpinner } from "./ui/Loading";
+import { Url } from "next/dist/shared/lib/router/router";
 
 function Sidebar() {
   const router = useRouter();
@@ -85,7 +86,10 @@ function Sidebar() {
           <SidebarItem
             currentRoute={router.asPath}
             shallow={true}
-            href={router.asPath + "?showSettings=true"}
+            href={{
+              pathname: router.asPath,
+              query: { showSettings: "true" },
+            }}
           >
             <MdSettings /> <p>Settings</p>
           </SidebarItem>
@@ -127,7 +131,7 @@ function SidebarItem({
   shallow,
   currentRoute,
 }: {
-  href: string;
+  href: Url;
   className?: string;
   children: ReactNode;
   shallow?: boolean;

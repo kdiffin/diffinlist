@@ -103,12 +103,13 @@ function Profile({
               {playlists && playlists.length > 0 ? (
                 [].map((playlist) => {
                   return (
-                    <SectionCard
-                      href={`/${playlist?.authorName!}/${playlist?.name!}`}
-                      pictureUrl={playlist?.pictureUrl!}
-                      title={playlist?.name!}
-                      key={playlist?.id!}
-                    />
+                    // <SectionCard
+                    //   href={`/${playlist?.authorName!}/${playlist?.name!}`}
+                    //   pictureUrl={playlist?.pictureUrl!}
+                    //   title={playlist?.name!}
+                    //   key={playlist?.id!}
+                    // />
+                    <></>
                   );
                 })
               ) : (

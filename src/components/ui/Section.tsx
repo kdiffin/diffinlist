@@ -6,6 +6,7 @@ import Image from "next/image";
 import { memo } from "react";
 import { ImageSkeleton } from "./Skeletons";
 import Input from "./Input";
+import { useRouter } from "next/router";
 
 // okay I think something like react composition couldve been very useful for this component
 // ill try that pattern out later maybe.
@@ -24,6 +25,7 @@ export const Section = memo(function Section({
   showSearchSong?: boolean;
   children: ReactNode;
 }) {
+  const router = useRouter();
   const skeletonArray: string[] = new Array(8).fill("") as string[];
   const SectionCardSkeleton = skeletonArray.map((abc, index) => {
     return (
@@ -37,6 +39,18 @@ export const Section = memo(function Section({
     );
   });
 
+  function yea(value: string) {
+    //ngl in nextjs working with query params is all over the place
+
+    // keeps old params but adds search
+    const url = {
+      pathname: router.pathname,
+      query: { ...router.query, search: value },
+    };
+
+    router.replace(url, undefined, { shallow: true });
+  }
+
   return (
     //id is for routing to it
     <div id={name} className="relative">
@@ -47,12 +61,12 @@ export const Section = memo(function Section({
 
         {showSearchSong ? (
           <Input
-            value=""
             icon={<MdSearch color=" #A3A3A3" />}
             placeholder="Search song"
             type="text"
+            value={router.query.songFilter as string}
             className=" w-full max-w-lg !px-6 !py-3   xl:max-w-md "
-            onChange={() => null}
+            onChange={(value: string) => yea(value)}
           />
         ) : null}
       </div>

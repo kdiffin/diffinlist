@@ -16,9 +16,9 @@ import Song from "~/components/Song";
 const MyApp: AppType = ({ Component, pageProps }) => {
   const router = useRouter();
 
-  //todo: add SearchInput to Input.tsx
   //todo: createSong.tsx
   //todo: give Song.tsx getSong
+  //todo: add
   //todo: search.tsx
   //todo: home feed, recent playlists, recent songs, recent users, popular songs
   //todo: favouriting playlists
@@ -56,7 +56,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         {/* Primary Meta Tags  */}
         <title>{"diffinlist"}</title>
         <meta name="title" content="diffinlist" />
-        <link rel="icon" href={"/images/favicon.ico"} />
+        <link rel="icon" href={""} />
         <meta
           name="description"
           content={
@@ -74,10 +74,10 @@ const MyApp: AppType = ({ Component, pageProps }) => {
             "diffinlist is an awesome playlist sharing app built with the t3 stack !!"
           }
         />
-        <meta property="og:image" content={"/"} />
+        <meta property="og:image" content={""} />
 
         {/* <!-- Twitter -- /> */}
-        <meta property="twitter:card" content={"/"} />
+        <meta property="twitter:card" content={""} />
         <meta
           property="twitter:url"
           content={"https://diffinlist.vercel.app"}
@@ -89,7 +89,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
             "diffinlist is an awesome playlist sharing app built with the t3 stack !!"
           }
         />
-        <meta property="twitter:image" content={"/"}></meta>
+        <meta property="twitter:image" content={""}></meta>
       </Head>
     </ClerkProvider>
   );

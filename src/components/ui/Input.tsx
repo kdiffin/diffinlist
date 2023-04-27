@@ -5,7 +5,7 @@ function Input(props: {
   placeholder: string;
   type: string;
   value: string | undefined;
-  onChange: Dispatch<React.SetStateAction<string>>;
+  onChange: Function | Dispatch<React.SetStateAction<string>>;
   className?: string;
   defaultValue?: string;
   name?: string;
@@ -24,6 +24,7 @@ function Input(props: {
       <input
         value={props.value}
         type={props.type}
+        // @ts-ignore
         onChange={(e) => props.onChange(e.target.value)}
         autoComplete="off"
         id={props.id}
