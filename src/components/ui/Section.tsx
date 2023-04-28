@@ -87,7 +87,7 @@ export const Section = memo(function Section({
   );
 });
 
-export function SectionCard({
+export const SectionCard = memo(function ({
   title,
   pictureUrl,
   href,
@@ -114,7 +114,7 @@ export function SectionCard({
         <>
           <div
             className="flex h-[150px] w-[150px] animate-pulse items-center justify-center
-           bg-neutral-700/60 italic"
+             bg-neutral-700/60 italic"
           ></div>
           <div className="text-neutral-800"> placeholder text</div>
         </>
@@ -148,14 +148,14 @@ export function SectionCard({
       href={href && !skeleton ? href : ""}
       shallow={shallow}
       className={`${skeleton && "animate-pulse"} 
-      neutral-lowkey-bg  flex flex-col items-center gap-2 p-4 hover:bg-neutral-700/50 focus-visible:bg-neutral-700/50`}
+        neutral-lowkey-bg  flex flex-col items-center gap-2 p-4 hover:bg-neutral-700/50 focus-visible:bg-neutral-700/50`}
     >
       {addSong ? (
         <>
           <div
             className="
-          flex  h-[150px] w-[150px]  items-center justify-center  rounded-sm border-2 border-dotted border-neutral-700 text-center text-neutral-400
-          "
+            flex  h-[150px] w-[150px]  items-center justify-center  rounded-sm border-2 border-dotted border-neutral-700 text-center text-neutral-400
+            "
           >
             <MdAdd size={32} />
           </div>
@@ -166,4 +166,4 @@ export function SectionCard({
       )}
     </Link>
   );
-}
+});

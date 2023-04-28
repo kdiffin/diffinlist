@@ -18,7 +18,7 @@ function Input(props: InputProps) {
     <div
       className={
         props.className +
-        " flex w-full items-center  gap-2 rounded-sm bg-zinc-700 p-1 focus-within:bg-zinc-600 focus-within:shadow-[0_0_0_2px] focus-within:shadow-neutral-500  hover:bg-zinc-600  md:p-2 "
+        " flex w-full items-center  gap-2 rounded-sm bg-zinc-700 p-2 focus-within:bg-zinc-600 focus-within:shadow-[0_0_0_2px] focus-within:shadow-neutral-500  hover:bg-zinc-600  "
       }
     >
       {props.icon ? props.icon : null}

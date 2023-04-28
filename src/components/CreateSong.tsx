@@ -1,18 +1,26 @@
 import { useRouter } from "next/router";
-import React, {
-  Dispatch,
-  InputHTMLAttributes,
-  SetStateAction,
-  useState,
-} from "react";
+import React, { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import Input, { InputField } from "./ui/Input";
+import { InputField } from "./ui/Input";
 import { api } from "~/utils/api";
 import Button from "./ui/Button";
-import { toast } from "react-hot-toast";
-import { error } from "console";
 import { LoadingSpinner } from "./ui/Loading";
 import { ImageSkeleton } from "./ui/Skeletons";
+import {
+  MdArrowBack,
+  MdArrowCircleLeft,
+  MdArrowForward,
+  MdArrowLeft,
+  MdArrowRightAlt,
+  MdFlipToBack,
+  MdOutlineArrowLeft,
+  MdOutlineArrowRight,
+  MdPanoramaFishEye,
+  MdRedo,
+  MdRotateLeft,
+  MdTurnLeft,
+  MdUndo,
+} from "react-icons/md";
 
 //UI is basically a copy paste of the settings one
 function CreateSong() {
@@ -20,14 +28,16 @@ function CreateSong() {
   const [pictureUrl, setPictureUrl] = useState("");
   const [genre, setGenre] = useState("");
   const [name, setName] = useState("");
+  const [nextStep, setNextStep] = useState(false);
   const ctx = api.useContext();
   const isLoading = false;
 
   const isOpen = router.query?.showCreateSong === "true";
 
   function closeCreatePlaylist() {
-    delete router.query?.showCreateSong;
+    setNextStep(false);
 
+    delete router.query?.showCreateSong;
     router.replace(router, undefined, { shallow: true });
   }
 
@@ -42,23 +52,34 @@ function CreateSong() {
     // add mutate fiunction
   }
 
-  //   Rating: 9.5/10
-
-  // Description: batshit insane solo at 2:00
-
   return (
     // https://www.radix-ui.com/docs/primitives/components/dialog#dialog
     <>
       <Dialog.Root open={isOpen} onOpenChange={closeCreatePlaylist}>
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0  bg-neutral-900/40 data-[state=open]:animate-overlayShow" />
-          <Dialog.Content className="modal !max-h-[93vh] ">
+          <Dialog.Content className="modal !max-h-[93vh]  ">
+            <div className="absolute left-1/2 top-3 flex gap-1">
+              <div
+                className={`
+                ${nextStep ? "bg-transparent" : "bg-white"}
+                 rounded-full border p-[2.5px]`}
+              />
+              <div
+                className={`
+                ${nextStep ? "bg-white" : "bg-transparent"} 
+                rounded-full border  p-[2.5px]`}
+              />
+            </div>
+
             <Dialog.Title className="  text-2xl font-medium">
-              Add Song
+              {!nextStep ? "Add Song" : "Optional fields"}
             </Dialog.Title>
 
             <Dialog.Description className="text-mauve11 mb-5 mt-3 text-[15px] leading-normal">
-              Add a song or album here. Click add song when you're done.
+              {!nextStep
+                ? "Create a playlist here. Click add playlist when you're done."
+                : "These fields are skippable. hi!!!!!!!"}
             </Dialog.Description>
 
             <div className="my-10 flex flex-col items-center justify-between gap-10 sm:flex-row sm:gap-0 ">
@@ -119,77 +140,95 @@ function CreateSong() {
 
             <form onSubmit={(e) => addPlaylist(e)}>
               <div>
-                <InputField
-                  name="Name"
-                  value={name}
-                  type="text"
-                  placeholder="Enter new name"
-                  setValue={setName}
-                />
-
-                <InputField
-                  name="Picture"
-                  value={pictureUrl}
-                  type="url"
-                  placeholder="Enter picture URL"
-                  setValue={setPictureUrl}
-                />
-
-                <InputField
-                  name="Song URL"
-                  value={pictureUrl}
-                  type="text"
-                  placeholder="The link to the song itself (youtube, spotify, soundcloud etc)"
-                  setValue={setPictureUrl}
-                />
-
-                <InputField
-                  name="Aesthetic / genre"
-                  value={pictureUrl}
-                  type="text"
-                  placeholder="Genre of the song"
-                  setValue={setPictureUrl}
-                />
-                {/* 
-                <InputField
-                  name="Artist"
-                  value={pictureUrl}
-                  type="text"
-                  placeholder="Artist who made the song"
-                  setValue={setPictureUrl}
-                />
-
-                <InputField
-                  name="Album"
-                  value={pictureUrl}
-                  type="text"
-                  placeholder="The album which the song belongs to"
-                  setValue={setPictureUrl}
-                />
-
-                <InputField
-                  name="Sub genre"
-                  value={pictureUrl}
-                  type="text"
-                  placeholder="A sub genre the song might belong to"
-                  setValue={setPictureUrl}
-                />
-
-                <InputField
-                  name="Description"
-                  value={pictureUrl}
-                  type="text"
-                  placeholder="Genre of the song"
-                  setValue={setPictureUrl}
-                /> */}
+                {!nextStep ? (
+                  <>
+                    <InputField
+                      name="Name"
+                      value={name}
+                      type="text"
+                      placeholder="Enter new name"
+                      setValue={setName}
+                    />
+                    <InputField
+                      name="Picture"
+                      value={pictureUrl}
+                      type="url"
+                      placeholder="Enter picture URL"
+                      setValue={setPictureUrl}
+                    />
+                    <InputField
+                      name="Song URL"
+                      value={pictureUrl}
+                      type="text"
+                      placeholder="The link to the song itself (youtube, spotify, soundcloud etc)"
+                      setValue={setPictureUrl}
+                    />
+                    <InputField
+                      name="Aesthetic / genre"
+                      value={pictureUrl}
+                      type="text"
+                      placeholder="Genre of the song"
+                      setValue={setPictureUrl}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <InputField
+                      name="Artist"
+                      value={pictureUrl}
+                      type="text"
+                      placeholder="Artist who made the song"
+                      setValue={setPictureUrl}
+                    />
+                    <InputField
+                      name="Album"
+                      value={pictureUrl}
+                      type="text"
+                      placeholder="The album which the song belongs to"
+                      setValue={setPictureUrl}
+                    />
+                    <InputField
+                      name="Sub genre"
+                      value={pictureUrl}
+                      type="text"
+                      placeholder="A sub genre the song might belong to"
+                      setValue={setPictureUrl}
+                    />
+                    <InputField
+                      name="Description"
+                      value={pictureUrl}
+                      type="text"
+                      placeholder="Genre of the song"
+                      setValue={setPictureUrl}
+                    />
+                  </>
+                )}
               </div>
 
               <div className="mt-10  flex items-center justify-between">
                 <Dialog.Close onClick={addPlaylist} asChild>
                   <Button type="submit" disabled={isLoading}>
-                    + Add song
+                    + Add Song
                   </Button>
                 </Dialog.Close>
+
+                {nextStep ? (
+                  <Button
+                    type="button"
+                    disabled={isLoading}
+                    onClick={() => setNextStep(false)}
+                  >
+                    <MdOutlineArrowLeft /> Back
+                  </Button>
+                ) : (
+                  <Button
+                    type="button"
+                    disabled={isLoading}
+                    onClick={() => setNextStep(true)}
+                  >
+                    <MdOutlineArrowRight /> Extra
+                  </Button>
+                )}
 
                 {isLoading ? (
                   <div className="flex items-center gap-5 text-zinc-400">
@@ -201,16 +240,19 @@ function CreateSong() {
               </div>
             </form>
 
-            <Dialog.Close asChild>
-              <button
-                className="   absolute right-[10px] 
-              top-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center 
+            <div className="absolute right-[0px] top-[10px] flex w-[100%] justify-between  px-4">
+              <div></div>
+              <Dialog.Close asChild>
+                <button
+                  className=" 
+               inline-flex h-[25px] w-[25px] appearance-none items-center 
               justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none"
-                aria-label="Close"
-              >
-                X
-              </button>
-            </Dialog.Close>
+                  aria-label="Close"
+                >
+                  X
+                </button>
+              </Dialog.Close>
+            </div>
           </Dialog.Content>
         </Dialog.Portal>
       </Dialog.Root>
