@@ -1,5 +1,10 @@
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, {
+  Dispatch,
+  InputHTMLAttributes,
+  SetStateAction,
+  useState,
+} from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import Input from "./ui/Input";
 import { api } from "~/utils/api";
@@ -12,7 +17,7 @@ import { ImageSkeleton } from "./ui/Skeletons";
 //UI is basically a copy paste of the settings one
 function CreateSong() {
   const router = useRouter();
-  const [playlistPicUrl, setPlaylistPicUrl] = useState("");
+  const [pictureUrl, setPictureUrl] = useState("");
   const [genre, setGenre] = useState("");
   const [name, setName] = useState("");
   const ctx = api.useContext();
@@ -29,7 +34,7 @@ function CreateSong() {
   function removeChanges() {
     setGenre("");
     setName("");
-    setPlaylistPicUrl("");
+    setPictureUrl("");
   }
 
   function addPlaylist(e: { preventDefault: () => void }) {
@@ -37,28 +42,32 @@ function CreateSong() {
     // add mutate fiunction
   }
 
+  //   Rating: 9.5/10
+
+  // Description: batshit insane solo at 2:00
+
   return (
     // https://www.radix-ui.com/docs/primitives/components/dialog#dialog
     <>
       <Dialog.Root open={isOpen} onOpenChange={closeCreatePlaylist}>
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0  bg-neutral-900/40 data-[state=open]:animate-overlayShow" />
-          <Dialog.Content className="modal">
+          <Dialog.Content className="modal !max-h-[93vh] ">
             <Dialog.Title className="  text-2xl font-medium">
-              Create playlist
+              Add Song
             </Dialog.Title>
 
             <Dialog.Description className="text-mauve11 mb-5 mt-3 text-[15px] leading-normal">
-              Create a playlist here. Click add playlist when you're done.
+              Add a song or album here. Click add song when you're done.
             </Dialog.Description>
 
             <div className="my-10 flex flex-col items-center justify-between gap-10 sm:flex-row sm:gap-0 ">
               <div className="flex  items-center gap-5 ">
                 <>
-                  {playlistPicUrl ? (
+                  {pictureUrl ? (
                     <img
                       alt="Playlist Image"
-                      src={playlistPicUrl}
+                      src={pictureUrl}
                       width={130}
                       className="rounded-sm bg-cover "
                       height={130}
@@ -68,12 +77,12 @@ function CreateSong() {
                   )}
 
                   <div className="flex flex-col gap-3">
-                    <label htmlFor="name" className=" cursor-text text-4xl">
+                    <label htmlFor="Name" className=" cursor-text text-4xl">
                       {name ? (
                         name
                       ) : (
                         <label
-                          htmlFor="name"
+                          htmlFor="Name"
                           className="cursor-text text-2xl italic text-neutral-500 "
                         >
                           enter in name
@@ -82,14 +91,14 @@ function CreateSong() {
                     </label>
 
                     <label
-                      htmlFor="name"
+                      htmlFor="Aesthetic / genre"
                       className=" cursor-text   text-neutral-500"
                     >
                       {genre ? (
                         <p className="">Aesthetic / genre: {genre}</p>
                       ) : (
                         <label
-                          htmlFor="genre"
+                          htmlFor="Aesthetic / genre"
                           className="cursor-text italic text-neutral-500 "
                         >
                           Enter genre
@@ -110,61 +119,67 @@ function CreateSong() {
 
             <form onSubmit={(e) => addPlaylist(e)}>
               <div>
-                <fieldset className="mb-6 flex items-center gap-5">
-                  <label
-                    className=" w-[90px]  text-right text-[15px]"
-                    htmlFor="name"
-                  >
-                    Name
-                  </label>
-                  <Input
-                    onChange={setName}
-                    type="text"
-                    name="name "
-                    id="name"
-                    value={name}
-                    placeholder="Enter new name"
-                  />
-                </fieldset>
+                <InputField
+                  name="Name"
+                  value={name}
+                  type="text"
+                  placeholder="Enter new name"
+                  setValue={setName}
+                />
 
-                <fieldset className="mb-6 flex items-center gap-5">
-                  <label
-                    className=" w-[90px] text-right   text-[15px]"
-                    htmlFor="profile picture"
-                  >
-                    Picture
-                  </label>
-                  <Input
-                    type="url"
-                    value={playlistPicUrl}
-                    placeholder="Enter playlist picture URL"
-                    onChange={setPlaylistPicUrl}
-                    id="playlist picture"
-                  />
-                </fieldset>
+                <InputField
+                  name="Picture"
+                  value={pictureUrl}
+                  type="url"
+                  placeholder="Enter picture URL"
+                  setValue={setPictureUrl}
+                />
 
-                <fieldset className="mb-6 flex items-center gap-5 ">
-                  <label
-                    className=" text-wrap w-[90px]  text-right   text-[15px]"
-                    htmlFor="genre"
-                  >
-                    Aesthetic / Genre
-                  </label>
+                <InputField
+                  name="Song URL"
+                  value={pictureUrl}
+                  type="text"
+                  placeholder="The link to the song itself (youtube, spotify, soundcloud etc)"
+                  setValue={setPictureUrl}
+                />
 
-                  <Input
-                    type="text"
-                    value={genre}
-                    placeholder="Enter the genre of your playlist"
-                    onChange={setGenre}
-                    id="genre"
-                  />
-                </fieldset>
+                <InputField
+                  name="Aesthetic / genre"
+                  value={pictureUrl}
+                  type="text"
+                  placeholder="Genre of the song"
+                  setValue={setPictureUrl}
+                />
+
+                {/* <InputField
+                  name="Artist"
+                  value={pictureUrl}
+                  type="text"
+                  placeholder="Artist who made the song"
+                  setValue={setPictureUrl}
+                />
+
+                <InputField
+                  name="Album"
+                  value={pictureUrl}
+                  type="text"
+                  placeholder="The album which the song belongs to"
+                  setValue={setPictureUrl}
+                />
+
+                <InputField
+                  name="Description"
+                  value={pictureUrl}
+                  type="text"
+                  placeholder="Genre of the song"
+                  setValue={setPictureUrl}
+                /> */}
               </div>
 
               <div className="mt-10  flex items-center justify-between">
                 <Dialog.Close onClick={addPlaylist} asChild>
                   <Button type="submit" disabled={isLoading}>
-                    + Add playlist
+                    + Add song
                   </Button>
                 </Dialog.Close>
 
@@ -192,6 +207,40 @@ function CreateSong() {
         </Dialog.Portal>
       </Dialog.Root>
     </>
+  );
+}
+
+interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
+  setValue: any;
+  placeholder: string;
+  className?: string;
+  name?: string;
+  value: string;
+}
+
+function InputField({
+  setValue,
+  value,
+  type,
+  className,
+  name,
+  placeholder,
+}: InputFieldProps) {
+  return (
+    <fieldset className={` ${className} mb-6 flex items-center gap-5`}>
+      <label className=" w-[90px]  text-right text-[15px]" htmlFor={name}>
+        {name}
+      </label>
+
+      <Input
+        onType={setValue}
+        type={type}
+        name={name}
+        id={name}
+        value={value}
+        placeholder={placeholder}
+      />
+    </fieldset>
   );
 }
 

@@ -1,18 +1,19 @@
-import React, { ChangeEvent, Dispatch, ReactNode } from "react";
+import React, {
+  ChangeEvent,
+  Dispatch,
+  InputHTMLAttributes,
+  ReactNode,
+  SetStateAction,
+} from "react";
 
-//straight up copy pasted from diffin chat LOL
-function Input(props: {
-  placeholder: string;
-  type: string;
-  value: string | undefined;
-  onChange: Function | Dispatch<React.SetStateAction<string>>;
-  className?: string;
-  defaultValue?: string;
-  name?: string;
-  id?: string;
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  //naming this onchange results in an error
+  onType: Function | Dispatch<React.SetStateAction<string>>;
   customFunction?: boolean;
   icon?: ReactNode;
-}) {
+}
+
+function Input(props: InputProps) {
   return (
     <div
       className={

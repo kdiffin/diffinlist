@@ -47,7 +47,6 @@ function Song() {
               <p className="text-lg xl:text-xl  ">Rating: 9.5/10</p>
               <p className="text-lg xl:text-xl  ">Genre: Death metal</p>
 
-              <p className="text-lg xl:text-xl  ">Sub-genre: Tech death</p>
               <p className="text-lg xl:text-xl  ">Artist: Equipose</p>
               <p className="text-lg xl:text-xl  ">Album name: Demiurgus</p>
               <p className="text-lg xl:text-xl  ">
