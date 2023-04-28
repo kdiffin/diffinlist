@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { ReactNode, useState } from "react";
 import { MdAdd, MdArrowDownward, MdSearch } from "react-icons/md";
+import CreateSong from "~/components/CreateSong";
 import CustomError from "~/components/CustomError";
 import Avatar from "~/components/ui/Avatar";
 import Button from "~/components/ui/Button";
@@ -124,7 +125,8 @@ function Profile({
                 title="Add song"
                 addSong={true}
                 pictureUrl=""
-                href={router.asPath}
+                shallow
+                href={router.asPath + "?showCreateSong=true"}
               />
             ) : null}
           </Section>
@@ -153,6 +155,9 @@ function Profile({
 
           <Section loading={playlistsLoading} name="Favourited songs" /> */}
         </div>
+
+        {/* this component gets its open and close logic through query params */}
+        <CreateSong />
       </div>
 
       <Head>
@@ -217,6 +222,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
     profileName: searchQueryProfileName,
     playlistName: searchQueryPlaylistName,
   });
+
+  console.log("rerun check");
 
   return {
     props: {

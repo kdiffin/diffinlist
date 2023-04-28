@@ -91,10 +91,12 @@ export function SectionCard({
   title,
   pictureUrl,
   href,
+  shallow,
   skeleton,
   addSong,
 }: {
   title: string | null;
+  shallow?: boolean;
   skeleton?: boolean;
   pictureUrl: string | null;
   href: string | null;
@@ -144,6 +146,7 @@ export function SectionCard({
   return (
     <Link
       href={href && !skeleton ? href : ""}
+      shallow={shallow}
       className={`${skeleton && "animate-pulse"} 
       neutral-lowkey-bg  flex flex-col items-center gap-2 p-4 hover:bg-neutral-700/50 focus-visible:bg-neutral-700/50`}
     >
