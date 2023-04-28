@@ -6,7 +6,7 @@ import React, {
   useState,
 } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import Input from "./ui/Input";
+import Input, { InputField } from "./ui/Input";
 import { api } from "~/utils/api";
 import Button from "./ui/Button";
 import { toast } from "react-hot-toast";
@@ -150,8 +150,8 @@ function CreateSong() {
                   placeholder="Genre of the song"
                   setValue={setPictureUrl}
                 />
-
-                {/* <InputField
+                {/* 
+                <InputField
                   name="Artist"
                   value={pictureUrl}
                   type="text"
@@ -164,6 +164,14 @@ function CreateSong() {
                   value={pictureUrl}
                   type="text"
                   placeholder="The album which the song belongs to"
+                  setValue={setPictureUrl}
+                />
+
+                <InputField
+                  name="Sub genre"
+                  value={pictureUrl}
+                  type="text"
+                  placeholder="A sub genre the song might belong to"
                   setValue={setPictureUrl}
                 />
 
@@ -207,40 +215,6 @@ function CreateSong() {
         </Dialog.Portal>
       </Dialog.Root>
     </>
-  );
-}
-
-interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
-  setValue: any;
-  placeholder: string;
-  className?: string;
-  name?: string;
-  value: string;
-}
-
-function InputField({
-  setValue,
-  value,
-  type,
-  className,
-  name,
-  placeholder,
-}: InputFieldProps) {
-  return (
-    <fieldset className={` ${className} mb-6 flex items-center gap-5`}>
-      <label className=" w-[90px]  text-right text-[15px]" htmlFor={name}>
-        {name}
-      </label>
-
-      <Input
-        onType={setValue}
-        type={type}
-        name={name}
-        id={name}
-        value={value}
-        placeholder={placeholder}
-      />
-    </fieldset>
   );
 }
 

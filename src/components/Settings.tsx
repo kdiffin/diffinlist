@@ -69,7 +69,7 @@ function Settings() {
                 type="text"
                 value={username}
                 placeholder="Enter new username"
-                onType={setUsername}
+                setValue={setUsername}
               />
             </fieldset>
 
@@ -84,7 +84,7 @@ function Settings() {
                 type="url"
                 value={profilePicURL}
                 placeholder="Enter profile picture URL"
-                onType={setProfilePicURL}
+                setValue={setProfilePicURL}
                 id="profile"
               />
             </fieldset>

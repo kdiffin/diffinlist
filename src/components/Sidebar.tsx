@@ -103,13 +103,12 @@ function Sidebar() {
 
         <div className=" mt-auto  border-t-neutral-400  text-center ">
           <div className=" w-full border-t border-t-neutral-700 "> </div>
+
+          {/* //ok idk why but without the input the ui doesnt look good  */}
           <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
             autoComplete="off"
             disabled={true}
-            className=" opacity-0"
+            className="   bg-none opacity-0 "
           />
 
           <button

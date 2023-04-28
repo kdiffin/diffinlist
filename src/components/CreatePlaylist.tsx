@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import Input from "./ui/Input";
+import Input, { InputField } from "./ui/Input";
 import { api } from "~/utils/api";
 import Button from "./ui/Button";
 import { toast } from "react-hot-toast";
@@ -148,55 +148,29 @@ function CreatePlaylist() {
 
             <form onSubmit={(e) => addPlaylist(e)}>
               <div>
-                <fieldset className="mb-6 flex items-center gap-5">
-                  <label
-                    className=" w-[90px]  text-right text-[15px]"
-                    htmlFor="name"
-                  >
-                    Name
-                  </label>
-                  <Input
-                    onChange={setName}
-                    type="text"
-                    name="name "
-                    id="name"
-                    value={name}
-                    placeholder="Enter new name"
-                  />
-                </fieldset>
+                <InputField
+                  setValue={setName}
+                  type="text"
+                  placeholder="Enter new name"
+                  name="Name "
+                  value={name}
+                />
 
-                <fieldset className="mb-6 flex items-center gap-5">
-                  <label
-                    className=" w-[90px] text-right   text-[15px]"
-                    htmlFor="profile picture"
-                  >
-                    Picture
-                  </label>
-                  <Input
-                    type="url"
-                    value={playlistPicUrl}
-                    placeholder="Enter playlist picture URL"
-                    onChange={setPlaylistPicUrl}
-                    id="playlist picture"
-                  />
-                </fieldset>
+                <InputField
+                  type="text"
+                  value={playlistPicUrl}
+                  setValue={setPlaylistPicUrl}
+                  placeholder="Enter playlist picture URL"
+                  name="Picture "
+                />
 
-                <fieldset className="mb-6 flex items-center gap-5 ">
-                  <label
-                    className=" text-wrap w-[90px]  text-right   text-[15px]"
-                    htmlFor="genre"
-                  >
-                    Aesthetic / Genre
-                  </label>
-
-                  <Input
-                    type="text"
-                    value={genre}
-                    placeholder="Enter the genre of your playlist"
-                    onChange={setGenre}
-                    id="genre"
-                  />
-                </fieldset>
+                <InputField
+                  type="url"
+                  value={genre}
+                  placeholder="Enter the genre of your playlist"
+                  setValue={setGenre}
+                  name="Aesthetic / genre "
+                />
               </div>
 
               <div className="mt-10  flex items-center justify-between">

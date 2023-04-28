@@ -8,7 +8,7 @@ import React, {
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   //naming this onchange results in an error
-  onType: Function | Dispatch<React.SetStateAction<string>>;
+  setValue: Function | Dispatch<React.SetStateAction<string>>;
   customFunction?: boolean;
   icon?: ReactNode;
 }
@@ -26,7 +26,7 @@ function Input(props: InputProps) {
         value={props.value || ""}
         type={props.type}
         // @ts-ignore
-        onChange={(e) => props.onChange(e.target.value)}
+        onChange={(e) => props.setValue(e.target.value)}
         autoComplete="off"
         id={props.id}
         defaultValue={props.defaultValue}
@@ -38,4 +38,39 @@ function Input(props: InputProps) {
     </div>
   );
 }
+
+export function InputField({
+  setValue,
+  value,
+  type,
+  className,
+  name,
+  placeholder,
+}: InputFieldProps) {
+  return (
+    <fieldset className={` ${className} mb-6 flex items-center gap-5`}>
+      <label className=" w-[90px]  text-right text-[15px]" htmlFor={name}>
+        {name}
+      </label>
+
+      <Input
+        setValue={setValue}
+        type={type}
+        name={name}
+        id={name}
+        value={value}
+        placeholder={placeholder}
+      />
+    </fieldset>
+  );
+}
+
 export default Input;
+
+interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
+  setValue: any;
+  placeholder: string;
+  className?: string;
+  name?: string;
+  value: string;
+}

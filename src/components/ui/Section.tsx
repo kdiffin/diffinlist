@@ -65,7 +65,7 @@ export const Section = memo(function Section({
             type="text"
             value={router.query?.search as string}
             className=" w-full max-w-lg !px-6 !py-3   xl:max-w-md "
-            onChange={(value: string) => filterSongs(value)}
+            setValue={(value: string) => filterSongs(value)}
           />
         ) : null}
       </div>
