@@ -50,10 +50,10 @@ function CreateSong() {
     setName("");
     setPictureUrl("");
 
-    albumRef.current!.value = "";
-    artistRef.current!.value = "";
-    subGenreRef.current!.value = "";
-    descriptionRef.current!.value = "";
+    albumRef.current ? (albumRef.current.value = "") : null;
+    artistRef.current ? (artistRef.current!.value = "") : null;
+    subGenreRef.current ? (subGenreRef.current!.value = "") : null;
+    descriptionRef.current ? (descriptionRef.current!.value = "") : null;
   }
 
   function addPlaylist(e: { preventDefault: () => void }) {
@@ -109,7 +109,9 @@ function CreateSong() {
                   <div className="flex flex-col gap-3">
                     <label htmlFor="Name" className=" cursor-text text-4xl">
                       {name ? (
-                        name
+                        <a href={songUrl} target="_blank">
+                          {name}
+                        </a>
                       ) : (
                         <label
                           htmlFor="Name"
