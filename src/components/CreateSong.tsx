@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import { InputField } from "./ui/Input";
+import { InputField, RefInput, RefInputField } from "./ui/Input";
 import { api } from "~/utils/api";
 import Button from "./ui/Button";
 import { LoadingSpinner } from "./ui/Loading";
@@ -25,18 +25,22 @@ import {
 //UI is basically a copy paste of the settings one
 function CreateSong() {
   const router = useRouter();
+  const isOpen = router.query?.showCreateSong === "true";
+
+  const [name, setName] = useState("");
   const [pictureUrl, setPictureUrl] = useState("");
   const [genre, setGenre] = useState("");
-  const [name, setName] = useState("");
+  const [songUrl, setSongUrl] = useState("");
+  const artistRef = useRef<HTMLInputElement>(null);
+  const albumRef = useRef<HTMLInputElement>(null);
+  const subGenreRef = useRef<HTMLInputElement>(null);
+  const descriptionRef = useRef<HTMLInputElement>(null);
   const [nextStep, setNextStep] = useState(false);
+
   const ctx = api.useContext();
   const isLoading = false;
 
-  const isOpen = router.query?.showCreateSong === "true";
-
   function closeCreatePlaylist() {
-    setNextStep(false);
-
     delete router.query?.showCreateSong;
     router.replace(router, undefined, { shallow: true });
   }
@@ -45,6 +49,11 @@ function CreateSong() {
     setGenre("");
     setName("");
     setPictureUrl("");
+
+    albumRef.current!.value = "";
+    artistRef.current!.value = "";
+    subGenreRef.current!.value = "";
+    descriptionRef.current!.value = "";
   }
 
   function addPlaylist(e: { preventDefault: () => void }) {
@@ -157,49 +166,48 @@ function CreateSong() {
                       setValue={setPictureUrl}
                     />
                     <InputField
-                      name="Song URL"
-                      value={pictureUrl}
-                      type="text"
-                      placeholder="The link to the song itself (youtube, spotify, soundcloud etc)"
-                      setValue={setPictureUrl}
-                    />
-                    <InputField
                       name="Aesthetic / genre"
-                      value={pictureUrl}
+                      value={genre}
                       type="text"
                       placeholder="Genre of the song"
-                      setValue={setPictureUrl}
+                      setValue={setGenre}
+                    />
+                    <InputField
+                      name="Song URL"
+                      value={songUrl}
+                      type="text"
+                      placeholder="The link to the song itself (youtube, spotify, soundcloud etc)"
+                      setValue={setSongUrl}
                     />
                   </>
                 ) : (
                   <>
-                    <InputField
+                    <RefInputField
                       name="Artist"
-                      value={pictureUrl}
+                      ref={artistRef}
                       type="text"
                       placeholder="Artist who made the song"
-                      setValue={setPictureUrl}
                     />
-                    <InputField
+
+                    <RefInputField
                       name="Album"
-                      value={pictureUrl}
+                      ref={albumRef}
                       type="text"
                       placeholder="The album which the song belongs to"
-                      setValue={setPictureUrl}
                     />
-                    <InputField
+
+                    <RefInputField
                       name="Sub genre"
-                      value={pictureUrl}
+                      ref={subGenreRef}
                       type="text"
-                      placeholder="A sub genre the song might belong to"
-                      setValue={setPictureUrl}
+                      placeholder="Sub genre the song might belong to"
                     />
-                    <InputField
+
+                    <RefInputField
                       name="Description"
-                      value={pictureUrl}
+                      ref={descriptionRef}
                       type="text"
-                      placeholder="Genre of the song"
-                      setValue={setPictureUrl}
+                      placeholder="Short description of the song"
                     />
                   </>
                 )}
@@ -234,9 +242,7 @@ function CreateSong() {
                   <div className="flex items-center gap-5 text-zinc-400">
                     Submitting... <LoadingSpinner />
                   </div>
-                ) : (
-                  <></>
-                )}
+                ) : null}
               </div>
             </form>
 
