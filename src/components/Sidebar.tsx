@@ -38,9 +38,10 @@ function Sidebar() {
 
   return (
     <>
+      {/* desktop sidebar */}
       <nav
         className="bg-neutral  hidden h-screen w-[12%] min-w-[200px] flex-col items-center bg-neutral-900 py-5 
-     sm:flex  "
+     md:flex  "
       >
         <Link
           href="/"
@@ -118,6 +119,19 @@ function Sidebar() {
             + create playlist
           </button>
         </div>
+      </nav>
+
+      {/* mobile navbar */}
+      <nav
+        className="bg-neutral  flex  w-screen  items-center bg-neutral-900 py-5 md:hidden 
+       "
+      >
+        <Link
+          href="/"
+          className="flex items-center justify-center gap-1 text-xl  font-semibold text-gray-300 "
+        >
+          {Logo} <p className="mb-[3px] ">diffinlist</p>
+        </Link>
       </nav>
     </>
   );

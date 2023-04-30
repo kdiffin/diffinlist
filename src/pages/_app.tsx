@@ -35,7 +35,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         options={{ showSpinner: false }}
       />
 
-      <div className=" [&>div]:dark-scrollbar smooth-scroll flex  h-screen  [&>div]:w-full [&>div]:overflow-y-scroll ">
+      <div className=" [&>div]:dark-scrollbar smooth-scroll flex  h-screen flex-col md:flex-row  [&>div]:w-full [&>div]:flex-1 [&>div]:overflow-y-scroll ">
         {/* https://react-hot-toast.com/docs  */}
         <Toaster
           position="bottom-right"
@@ -48,7 +48,6 @@ const MyApp: AppType = ({ Component, pageProps }) => {
 
         {/* all modals triggered by query params */}
         <Settings />
-        <CreatePlaylist />
         <Song />
       </div>
 

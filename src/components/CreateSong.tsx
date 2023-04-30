@@ -63,208 +63,206 @@ function CreateSong() {
 
   return (
     // https://www.radix-ui.com/docs/primitives/components/dialog#dialog
-    <>
-      <Dialog.Root open={isOpen} onOpenChange={closeCreatePlaylist}>
-        <Dialog.Portal>
-          <Dialog.Overlay className="fixed inset-0  bg-neutral-900/40 data-[state=open]:animate-overlayShow" />
-          <Dialog.Content className="modal !max-h-[93vh]  ">
-            <div className="absolute left-1/2 top-3 flex gap-1">
-              <div
-                className={`
+    <Dialog.Root open={isOpen} onOpenChange={closeCreatePlaylist}>
+      <Dialog.Portal>
+        <Dialog.Overlay className="fixed inset-0  bg-neutral-900/40 data-[state=open]:animate-overlayShow" />
+        <Dialog.Content className="modal !max-h-[93vh]  ">
+          <div className="absolute left-1/2 top-3 flex gap-1">
+            <div
+              className={`
                 ${nextStep ? "bg-transparent" : "bg-white"}
                  rounded-full border p-[2.5px]`}
-              />
-              <div
-                className={`
+            />
+            <div
+              className={`
                 ${nextStep ? "bg-white" : "bg-transparent"} 
                 rounded-full border  p-[2.5px]`}
-              />
+            />
+          </div>
+
+          <Dialog.Title className="  text-2xl font-medium">
+            {!nextStep ? "Add Song" : "Optional fields"}
+          </Dialog.Title>
+
+          <Dialog.Description className="text-mauve11 mb-5 mt-3 text-[15px] leading-normal">
+            {!nextStep
+              ? "Create a playlist here. Click add playlist when you're done."
+              : "These fields are skippable. hi!!!!!!!"}
+          </Dialog.Description>
+
+          <div className="my-10 flex flex-col items-center justify-between gap-10 sm:flex-row sm:gap-0 ">
+            <div className="flex  items-center gap-5 ">
+              <>
+                {pictureUrl ? (
+                  <img
+                    alt="Playlist Image"
+                    src={pictureUrl}
+                    width={130}
+                    className="rounded-sm bg-cover "
+                    height={130}
+                  />
+                ) : (
+                  <ImageSkeleton className={"h-[130px] w-[130px]"} />
+                )}
+
+                <div className="flex flex-col gap-3">
+                  <label htmlFor="Name" className=" cursor-text text-4xl">
+                    {name ? (
+                      <a href={songUrl} target="_blank">
+                        {name}
+                      </a>
+                    ) : (
+                      <label
+                        htmlFor="Name"
+                        className="cursor-text text-2xl italic text-neutral-500 "
+                      >
+                        enter in name
+                      </label>
+                    )}
+                  </label>
+
+                  <label
+                    htmlFor="Aesthetic / genre"
+                    className=" cursor-text   text-neutral-500"
+                  >
+                    {genre ? (
+                      <p className="">Aesthetic / genre: {genre}</p>
+                    ) : (
+                      <label
+                        htmlFor="Aesthetic / genre"
+                        className="cursor-text italic text-neutral-500 "
+                      >
+                        Enter genre
+                      </label>
+                    )}
+                  </label>
+                </div>
+              </>
             </div>
 
-            <Dialog.Title className="  text-2xl font-medium">
-              {!nextStep ? "Add Song" : "Optional fields"}
-            </Dialog.Title>
+            <Button
+              onClick={removeChanges}
+              className="   bg-red-400/30 text-sm"
+            >
+              Remove changes
+            </Button>
+          </div>
 
-            <Dialog.Description className="text-mauve11 mb-5 mt-3 text-[15px] leading-normal">
-              {!nextStep
-                ? "Create a playlist here. Click add playlist when you're done."
-                : "These fields are skippable. hi!!!!!!!"}
-            </Dialog.Description>
-
-            <div className="my-10 flex flex-col items-center justify-between gap-10 sm:flex-row sm:gap-0 ">
-              <div className="flex  items-center gap-5 ">
+          <form onSubmit={(e) => addPlaylist(e)}>
+            <div>
+              {!nextStep ? (
                 <>
-                  {pictureUrl ? (
-                    <img
-                      alt="Playlist Image"
-                      src={pictureUrl}
-                      width={130}
-                      className="rounded-sm bg-cover "
-                      height={130}
-                    />
-                  ) : (
-                    <ImageSkeleton className={"h-[130px] w-[130px]"} />
-                  )}
-
-                  <div className="flex flex-col gap-3">
-                    <label htmlFor="Name" className=" cursor-text text-4xl">
-                      {name ? (
-                        <a href={songUrl} target="_blank">
-                          {name}
-                        </a>
-                      ) : (
-                        <label
-                          htmlFor="Name"
-                          className="cursor-text text-2xl italic text-neutral-500 "
-                        >
-                          enter in name
-                        </label>
-                      )}
-                    </label>
-
-                    <label
-                      htmlFor="Aesthetic / genre"
-                      className=" cursor-text   text-neutral-500"
-                    >
-                      {genre ? (
-                        <p className="">Aesthetic / genre: {genre}</p>
-                      ) : (
-                        <label
-                          htmlFor="Aesthetic / genre"
-                          className="cursor-text italic text-neutral-500 "
-                        >
-                          Enter genre
-                        </label>
-                      )}
-                    </label>
-                  </div>
+                  <InputField
+                    name="Name"
+                    value={name}
+                    type="text"
+                    placeholder="Enter new name"
+                    setValue={setName}
+                  />
+                  <InputField
+                    name="Picture"
+                    value={pictureUrl}
+                    type="url"
+                    placeholder="Enter picture URL"
+                    setValue={setPictureUrl}
+                  />
+                  <InputField
+                    name="Aesthetic / genre"
+                    value={genre}
+                    type="text"
+                    placeholder="Genre of the song"
+                    setValue={setGenre}
+                  />
+                  <InputField
+                    name="Song URL"
+                    value={songUrl}
+                    type="text"
+                    placeholder="The link to the song itself (youtube, spotify, soundcloud etc)"
+                    setValue={setSongUrl}
+                  />
                 </>
-              </div>
+              ) : (
+                <>
+                  <RefInputField
+                    name="Artist"
+                    ref={artistRef}
+                    type="text"
+                    placeholder="Artist who made the song"
+                  />
 
-              <Button
-                onClick={removeChanges}
-                className="   bg-red-400/30 text-sm"
-              >
-                Remove changes
-              </Button>
+                  <RefInputField
+                    name="Album"
+                    ref={albumRef}
+                    type="text"
+                    placeholder="The album which the song belongs to"
+                  />
+
+                  <RefInputField
+                    name="Sub genre"
+                    ref={subGenreRef}
+                    type="text"
+                    placeholder="Sub genre the song might belong to"
+                  />
+
+                  <RefInputField
+                    name="Description"
+                    ref={descriptionRef}
+                    type="text"
+                    placeholder="Short description of the song"
+                  />
+                </>
+              )}
             </div>
 
-            <form onSubmit={(e) => addPlaylist(e)}>
-              <div>
-                {!nextStep ? (
-                  <>
-                    <InputField
-                      name="Name"
-                      value={name}
-                      type="text"
-                      placeholder="Enter new name"
-                      setValue={setName}
-                    />
-                    <InputField
-                      name="Picture"
-                      value={pictureUrl}
-                      type="url"
-                      placeholder="Enter picture URL"
-                      setValue={setPictureUrl}
-                    />
-                    <InputField
-                      name="Aesthetic / genre"
-                      value={genre}
-                      type="text"
-                      placeholder="Genre of the song"
-                      setValue={setGenre}
-                    />
-                    <InputField
-                      name="Song URL"
-                      value={songUrl}
-                      type="text"
-                      placeholder="The link to the song itself (youtube, spotify, soundcloud etc)"
-                      setValue={setSongUrl}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <RefInputField
-                      name="Artist"
-                      ref={artistRef}
-                      type="text"
-                      placeholder="Artist who made the song"
-                    />
+            <div className="mt-10  flex items-center justify-between">
+              <Dialog.Close onClick={addPlaylist} asChild>
+                <Button type="submit" disabled={isLoading}>
+                  + Add Song
+                </Button>
+              </Dialog.Close>
 
-                    <RefInputField
-                      name="Album"
-                      ref={albumRef}
-                      type="text"
-                      placeholder="The album which the song belongs to"
-                    />
+              {nextStep ? (
+                <Button
+                  type="button"
+                  disabled={isLoading}
+                  onClick={() => setNextStep(false)}
+                >
+                  <MdOutlineArrowLeft /> Back
+                </Button>
+              ) : (
+                <Button
+                  type="button"
+                  disabled={isLoading}
+                  onClick={() => setNextStep(true)}
+                >
+                  <MdOutlineArrowRight /> Extra
+                </Button>
+              )}
 
-                    <RefInputField
-                      name="Sub genre"
-                      ref={subGenreRef}
-                      type="text"
-                      placeholder="Sub genre the song might belong to"
-                    />
+              {isLoading ? (
+                <div className="flex items-center gap-5 text-zinc-400">
+                  Submitting... <LoadingSpinner />
+                </div>
+              ) : null}
+            </div>
+          </form>
 
-                    <RefInputField
-                      name="Description"
-                      ref={descriptionRef}
-                      type="text"
-                      placeholder="Short description of the song"
-                    />
-                  </>
-                )}
-              </div>
-
-              <div className="mt-10  flex items-center justify-between">
-                <Dialog.Close onClick={addPlaylist} asChild>
-                  <Button type="submit" disabled={isLoading}>
-                    + Add Song
-                  </Button>
-                </Dialog.Close>
-
-                {nextStep ? (
-                  <Button
-                    type="button"
-                    disabled={isLoading}
-                    onClick={() => setNextStep(false)}
-                  >
-                    <MdOutlineArrowLeft /> Back
-                  </Button>
-                ) : (
-                  <Button
-                    type="button"
-                    disabled={isLoading}
-                    onClick={() => setNextStep(true)}
-                  >
-                    <MdOutlineArrowRight /> Extra
-                  </Button>
-                )}
-
-                {isLoading ? (
-                  <div className="flex items-center gap-5 text-zinc-400">
-                    Submitting... <LoadingSpinner />
-                  </div>
-                ) : null}
-              </div>
-            </form>
-
-            <div className="absolute right-[0px] top-[10px] flex w-[100%] justify-between  px-4">
-              <div></div>
-              <Dialog.Close asChild>
-                <button
-                  className=" 
+          <div className="absolute right-[0px] top-[10px] flex w-[100%] justify-between  px-4">
+            <div></div>
+            <Dialog.Close asChild>
+              <button
+                className=" 
                inline-flex h-[25px] w-[25px] appearance-none items-center 
               justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none"
-                  aria-label="Close"
-                >
-                  X
-                </button>
-              </Dialog.Close>
-            </div>
-          </Dialog.Content>
-        </Dialog.Portal>
-      </Dialog.Root>
-    </>
+                aria-label="Close"
+              >
+                X
+              </button>
+            </Dialog.Close>
+          </div>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   );
 }
 
