@@ -223,8 +223,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
     playlistName: searchQueryPlaylistName,
   });
 
-  console.log("rerun check");
-
   return {
     props: {
       //ngl this is a weird pattern

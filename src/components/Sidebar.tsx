@@ -64,7 +64,6 @@ function Sidebar() {
       shallow: true,
     });
   }
-  console.log(router);
 
   return (
     <>
@@ -153,7 +152,7 @@ function Sidebar() {
 
       {/* mobile navbar */}
       <nav
-        className="bg-neutral  flex  w-screen items-center justify-between  bg-neutral-900 p-4 md:hidden 
+        className="bg-neutral  flex w-screen items-center  justify-between overflow-x-hidden  bg-neutral-900 p-4 md:hidden 
        "
       >
         <Dialog.Root open={isOpen} onOpenChange={closeSidebar}>
@@ -180,7 +179,9 @@ function Sidebar() {
           {/* decided to be --lazy-- efficent and copy pasted everything */}
           <Dialog.Portal>
             <Dialog.Overlay className="fixed inset-0  bg-neutral-900/40 data-[state=open]:animate-overlayShow" />
-            <Dialog.Content className="fixed left-0 top-0 flex  h-screen w-64 flex-col  bg-neutral-900 py-6">
+            <Dialog.Content
+              className={`fixed left-0 top-0 flex h-screen   w-64 flex-col   bg-neutral-900  py-6 data-[state=open]:animate-showSidebar`}
+            >
               <Link
                 href="/"
                 className="flex items-center justify-center gap-1 text-xl  font-semibold text-gray-300 "

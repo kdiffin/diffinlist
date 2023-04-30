@@ -34,6 +34,12 @@ a:active {
     @apply rounded-sm shadow-[0_0_0_2px] shadow-neutral-400;
   }
 
+  .sidenav-transition {
+    transition: 4s; /* 0.5 second transition effect to slide in the sidenav */
+    transition-delay: 4s;
+    @apply w-64;
+  }
+
   /* Add a thumb */
   .subtle-scrollbar::-webkit-scrollbar-thumb {
     border-radius: 10px;
