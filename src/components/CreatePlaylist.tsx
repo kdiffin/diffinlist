@@ -8,6 +8,7 @@ import { toast } from "react-hot-toast";
 import { error } from "console";
 import { LoadingSpinner } from "./ui/Loading";
 import { ImageSkeleton } from "./ui/Skeletons";
+import { useClerk } from "@clerk/nextjs";
 
 //UI is basically a copy paste of the settings one
 function CreatePlaylist() {
@@ -16,12 +17,14 @@ function CreatePlaylist() {
   const [genre, setGenre] = useState("");
   const [name, setName] = useState("");
   const ctx = api.useContext();
-  const { mutate, isLoading } = api.playlist.createPlaylist.useMutation({
+  const { mutate, isLoading, data } = api.playlist.createPlaylist.useMutation({
     onSuccess: () => {
       removeChanges();
       ctx.playlist.getPlaylistsByProfileName
         .invalidate()
-        .then(() => closeCreatePlaylist())
+        .then(() => {
+          router.push(`/${data?.authorName}`);
+        })
         .catch((err) => console.error(err));
     },
 
