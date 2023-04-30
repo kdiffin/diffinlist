@@ -15,6 +15,7 @@ function CreatePlaylist() {
   const router = useRouter();
   const [playlistPicUrl, setPlaylistPicUrl] = useState("");
   const [genre, setGenre] = useState("");
+  const { user } = useClerk();
   const [name, setName] = useState("");
   const ctx = api.useContext();
   const { mutate, isLoading, data } = api.playlist.createPlaylist.useMutation({
@@ -23,7 +24,7 @@ function CreatePlaylist() {
       ctx.playlist.getPlaylistsByProfileName
         .invalidate()
         .then(() => {
-          router.push(`/${data?.authorName}`);
+          router.push(`${user ? user.username : ""}`);
         })
         .catch((err) => console.error(err));
     },
