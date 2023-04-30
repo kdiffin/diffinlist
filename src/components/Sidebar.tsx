@@ -2,6 +2,7 @@ import * as Collapsible from "@radix-ui/react-collapsible";
 import {
   MdHome,
   MdLogin,
+  MdMenu,
   MdOutlineExpandLess,
   MdOutlineExpandMore,
   MdSearch,
@@ -14,6 +15,8 @@ import { SignInButton, useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import Avatar from "./ui/Avatar";
 import CreatePlaylist from "./CreatePlaylist";
+import * as Dialog from "@radix-ui/react-dialog";
+
 import { api } from "~/utils/api";
 import { Playlist } from "@prisma/client";
 import Loading, { LoadingSpinner } from "./ui/Loading";
@@ -22,7 +25,7 @@ import { Url } from "next/dist/shared/lib/router/router";
 function Sidebar() {
   const router = useRouter();
   const { user, isLoaded } = useUser();
-  const [name, setName] = useState("");
+  const [showSidebar, setShowSidebar] = useState(false);
 
   const { data: playlists, isLoading } =
     api.playlist.getPlaylistsByProfileName.useQuery({
@@ -123,15 +126,120 @@ function Sidebar() {
 
       {/* mobile navbar */}
       <nav
-        className="bg-neutral  flex  w-screen  items-center bg-neutral-900 py-5 md:hidden 
+        className="bg-neutral  flex  w-screen items-center justify-between  bg-neutral-900 p-4 md:hidden 
        "
       >
-        <Link
-          href="/"
-          className="flex items-center justify-center gap-1 text-xl  font-semibold text-gray-300 "
-        >
-          {Logo} <p className="mb-[3px] ">diffinlist</p>
-        </Link>
+        <Dialog.Root>
+          <Dialog.Trigger className="flex items-center gap-2">
+            <MdMenu size={24} className="text-neutral-300" />
+          </Dialog.Trigger>
+
+          <Link
+            href="/"
+            className="flex items-center justify-center gap-1 text-xl  font-semibold text-gray-300 "
+          >
+            {Logo} <p className="mb-[3px] ">diffinlist</p>
+          </Link>
+
+          <Link href={`/${user?.username}`}>
+            <Avatar
+              src={user?.profileImageUrl}
+              loading={!isLoaded}
+              width_height={26}
+            />
+          </Link>
+
+          {/* open and closable section */}
+          {/* decided to be --lazy-- efficent and copy pasted everything */}
+          <Dialog.Portal>
+            <Dialog.Overlay className="fixed inset-0  bg-neutral-900/40 data-[state=open]:animate-overlayShow" />
+            <Dialog.Content className="fixed left-0 top-0 flex  h-screen w-64 flex-col  bg-neutral-900 py-6">
+              <Link
+                href="/"
+                className="flex items-center justify-center gap-1 text-xl  font-semibold text-gray-300 "
+              >
+                {Logo} <p className="mb-[3px] ">diffinlist</p>
+              </Link>
+
+              <div className="mt-5 w-full border-t border-t-neutral-700 ">
+                {" "}
+              </div>
+
+              <div className="  subtle-scrollbar  max-h-[80vh]   w-full overflow-y-scroll px-5  [&>a]:mt-4 ">
+                <SidebarItem currentRoute={router.asPath} href="/">
+                  <MdHome /> <p>Home</p>
+                </SidebarItem>
+
+                <SidebarItem currentRoute={router.asPath} href="/search">
+                  <MdSearch /> <p>Search</p>
+                </SidebarItem>
+
+                {user ? (
+                  <SidebarItem
+                    currentRoute={router.asPath}
+                    href={`/${user!.username}`}
+                  >
+                    <Avatar
+                      loading={!isLoaded}
+                      width_height={22}
+                      src={user.profileImageUrl}
+                    />{" "}
+                    <p>Profile</p>
+                  </SidebarItem>
+                ) : (
+                  <SidebarItem currentRoute="asdasdkasdkj" href="/">
+                    <SignInButton>
+                      <button className=" flex items-center gap-2">
+                        {" "}
+                        <MdLogin /> Sign in
+                      </button>
+                    </SignInButton>
+                  </SidebarItem>
+                )}
+
+                <SidebarItem
+                  currentRoute={router.asPath}
+                  shallow={true}
+                  href={{
+                    pathname: router.asPath,
+                    query: { showSettings: "true" },
+                  }}
+                >
+                  <MdSettings /> <p>Settings</p>
+                </SidebarItem>
+
+                <div className="my-6 w-full  border-t border-t-neutral-800 ">
+                  {" "}
+                </div>
+
+                <div className="flex w-full  flex-col items-start  ">
+                  <PlaylistsCollapsible
+                    playlists={playlists}
+                    isLoading={isLoading}
+                  />
+                </div>
+              </div>
+
+              <div className=" mt-auto  border-t-neutral-400  text-center ">
+                <div className=" w-full border-t border-t-neutral-700 "> </div>
+
+                {/* //ok idk why but without the input the ui doesnt look good  */}
+                <input
+                  autoComplete="off"
+                  disabled={true}
+                  className="   bg-none opacity-0 "
+                />
+
+                <button
+                  onClick={openCreatePlaylist}
+                  className="rounded-sm bg-neutral-800 p-2  px-3 text-neutral-400"
+                >
+                  + create playlist
+                </button>
+              </div>
+            </Dialog.Content>
+          </Dialog.Portal>
+        </Dialog.Root>
       </nav>
     </>
   );
