@@ -113,7 +113,7 @@ export const SectionCard = memo(function ({
       return (
         <>
           <div
-            className="flex h-[150px] w-[150px] animate-pulse items-center justify-center
+            className="flex h-[149px] w-[149px] animate-pulse items-center justify-center
              bg-neutral-700/60 italic"
           ></div>
           <div className="text-neutral-800"> placeholder text</div>
@@ -122,12 +122,12 @@ export const SectionCard = memo(function ({
     } else {
       return pictureUrl === "" ? (
         <>
-          <ImageSkeleton className="h-[150px] w-[150px]" />
+          <ImageSkeleton className="h-[148px] w-[148px]" />
           <p className="">{title}</p>
         </>
       ) : (
         <>
-          <div className="h-[150px] w-[150px]">
+          <div className="h-[148px] w-[148px]">
             <img
               width={130}
               height={130}

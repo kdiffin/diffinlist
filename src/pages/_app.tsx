@@ -48,6 +48,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
 
         {/* all modals triggered by query params */}
         <Settings />
+        <CreatePlaylist />
         <Song />
       </div>
 

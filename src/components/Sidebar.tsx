@@ -34,10 +34,37 @@ function Sidebar() {
     });
 
   function openCreatePlaylist() {
-    router.replace(router.asPath + "?showCreatePlaylist=true", undefined, {
+    const url = {
+      pathname: router.route,
+      query: { ...router.query, showCreatePlaylist: "true" },
+    };
+
+    router.replace(url, undefined, {
       shallow: true,
     });
   }
+
+  //this only applies to mobile logic
+  const isOpen = router.query.showSidebar === "true";
+  function closeSidebar() {
+    delete router.query.showSidebar;
+    router.replace(router, undefined, { shallow: true });
+  }
+
+  function openSidebar() {
+    const url = {
+      pathname: router.route,
+      query: {
+        ...router.query,
+        showSidebar: "true",
+      },
+    };
+
+    router.replace(url, undefined, {
+      shallow: true,
+    });
+  }
+  console.log(router);
 
   return (
     <>
@@ -91,8 +118,8 @@ function Sidebar() {
             currentRoute={router.asPath}
             shallow={true}
             href={{
-              pathname: router.asPath,
-              query: { showSettings: "true" },
+              pathname: router.basePath,
+              query: { ...router.query, showSettings: "true" },
             }}
           >
             <MdSettings /> <p>Settings</p>
@@ -129,10 +156,10 @@ function Sidebar() {
         className="bg-neutral  flex  w-screen items-center justify-between  bg-neutral-900 p-4 md:hidden 
        "
       >
-        <Dialog.Root>
-          <Dialog.Trigger className="flex items-center gap-2">
+        <Dialog.Root open={isOpen} onOpenChange={closeSidebar}>
+          <button onClick={openSidebar} className="flex items-center gap-2">
             <MdMenu size={24} className="text-neutral-300" />
-          </Dialog.Trigger>
+          </button>
 
           <Link
             href="/"
@@ -201,8 +228,8 @@ function Sidebar() {
                   currentRoute={router.asPath}
                   shallow={true}
                   href={{
-                    pathname: router.asPath,
-                    query: { showSettings: "true" },
+                    pathname: router.route,
+                    query: { ...router.query, showSettings: "true" },
                   }}
                 >
                   <MdSettings /> <p>Settings</p>
