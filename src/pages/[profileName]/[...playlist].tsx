@@ -36,7 +36,6 @@ function Profile({
     playlistName: playlistName,
     profileName: profileName,
   });
-  const [openCreateSong, setOpenCreateSong] = useState();
   const router = useRouter();
   const { user } = useUser();
 
