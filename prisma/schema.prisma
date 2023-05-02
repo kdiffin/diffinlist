@@ -16,7 +16,7 @@ model Playlist {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    name       String @unique
+    name       String
     genre      String
     pictureUrl String @db.Text
     authorName String
@@ -41,8 +41,8 @@ model Song {
     album       String?
     description String?
 
-    authorName   String
-    playlistName String
+    authorName   String   @default("")
+    playlistName String   @default("")
     playlist     Playlist @relation(fields: [playlistName, authorName], references: [name, authorName])
 
     @@unique([name, playlistName, authorName])
