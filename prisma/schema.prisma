@@ -18,7 +18,17 @@ model Playlist {
     genre      String
     pictureUrl String   @db.Text
     authorName String
+    Song       Song[]
 
     @@unique([name, authorName])
     @@index([authorName])
+}
+
+model Song {
+    id         String   @id @unique @default(uuid())
+    playlistId String
+    createdAt  DateTime @default(now())
+    playlist   Playlist @relation(fields: [playlistId], references: [id])
+
+    @@index([playlistId])
 }

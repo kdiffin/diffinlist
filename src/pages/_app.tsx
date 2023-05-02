@@ -4,7 +4,6 @@ import "~/styles/globals.css";
 import Sidebar from "~/components/Sidebar";
 import { ClerkProvider } from "@clerk/nextjs";
 import Head from "next/head";
-import { useRouter } from "next/router";
 
 //https://www.npmjs.com/package/@approximant/next-progress
 import NextProgress from "@approximant/next-progress";
@@ -14,8 +13,6 @@ import { Toaster } from "react-hot-toast";
 import Song from "~/components/Song";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
-  const router = useRouter();
-
   //todo: createSong.tsx
   //todo: give Song.tsx getSong
   //todo: add
