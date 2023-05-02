@@ -12,11 +12,13 @@ generator client {
 }
 
 model Playlist {
-    id         String   @id @unique @default(uuid())
-    createdAt  DateTime @default(now())
+    id        String   @id @unique @default(uuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
     name       String
     genre      String
-    pictureUrl String   @db.Text
+    pictureUrl String @db.Text
     authorName String
     Song       Song[]
 
@@ -25,10 +27,23 @@ model Playlist {
 }
 
 model Song {
-    id         String   @id @unique @default(uuid())
+    id        String   @id @unique @default(uuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    pictureUrl String @db.Text
+    songUrl    String @db.Text
+    name       String
+    genre      String
+
+    subGenre    String?
+    artist      String?
+    album       String?
+    description String?
+
     playlistId String
-    createdAt  DateTime @default(now())
-    playlist   Playlist @relation(fields: [playlistId], references: [id])
+
+    playlist Playlist @relation(fields: [playlistId], references: [id])
 
     @@index([playlistId])
 }
