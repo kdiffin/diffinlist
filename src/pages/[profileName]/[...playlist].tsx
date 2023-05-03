@@ -99,13 +99,14 @@ function Profile({
             name="Songs"
           >
             <>
-              <div className="absolute -top-2 right-0  "></div>
-
               {songs && songs.length > 0 ? (
                 songs.map((song) => {
                   return (
                     <SectionCard
-                      href={`/`}
+                      href={{
+                        query: { ...router.query, song: song.name },
+                      }}
+                      shallow
                       pictureUrl={song.pictureUrl!}
                       title={song.name}
                       key={song.id}

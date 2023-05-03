@@ -7,6 +7,7 @@ import { memo } from "react";
 import { ImageSkeleton } from "./Skeletons";
 import Input from "./Input";
 import { useRouter } from "next/router";
+import { Url } from "next/dist/shared/lib/router/router";
 
 // okay I think something like react composition couldve been very useful for this component
 // ill try that pattern out later maybe.
@@ -31,9 +32,9 @@ export const Section = memo(function Section({
     return (
       <SectionCard
         skeleton={true}
-        href={null}
-        title={null}
-        pictureUrl={null}
+        href={""}
+        title={""}
+        pictureUrl={""}
         key={index}
       />
     );
@@ -95,11 +96,11 @@ export const SectionCard = memo(function ({
   skeleton,
   addSong,
 }: {
-  title: string | null;
+  title: string;
   shallow?: boolean;
   skeleton?: boolean;
-  pictureUrl: string | null;
-  href: string | null;
+  pictureUrl: string;
+  href: Url;
   addSong?: boolean;
 }) {
   function RenderBoolean() {
