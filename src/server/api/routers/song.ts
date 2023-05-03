@@ -11,10 +11,7 @@ export const songRouter = createTRPCRouter({
       })
     )
     .query(async ({ ctx }) => {
-      ctx.prisma.song
-        .deleteMany({ where: { name: "k" } })
-        .then(() => console.log("yoasdasdasda test etst ets tes tst "))
-        .catch((e) => console.log(e));
+      ctx.prisma.song.deleteMany({ where: { name: "k" } });
     }),
 
   getSongs: publicProcedure
@@ -25,14 +22,11 @@ export const songRouter = createTRPCRouter({
       })
     )
     .query(async ({ ctx, input }) => {
-      ctx.prisma.song
-        .findMany({
-          where: {
-            authorName: input.profileName,
-            playlistName: input.playlistName,
-          },
-        })
-        .then(() => console.log("yoasdasdasda test etst ets tes tst "))
-        .catch((e) => console.log(e));
+      ctx.prisma.song.findMany({
+        where: {
+          authorName: input.profileName,
+          playlistName: input.playlistName,
+        },
+      });
     }),
 });
