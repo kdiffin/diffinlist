@@ -18,7 +18,6 @@ import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 
 import { prisma } from "~/server/db";
 
- 
 /**
  * This is the actual context you will use in your router. It will be used to process every request
  * that goes through your tRPC endpoint.
@@ -26,12 +25,11 @@ import { prisma } from "~/server/db";
  * @see https://trpc.io/docs/context
  */
 export const createTRPCContext = async (opts: CreateNextContextOptions) => {
-  const {req} = opts;
-  const sesh = getAuth(req)
-  const userId = sesh.userId
+  const { req } = opts;
+  const sesh = getAuth(req);
+  const userId = sesh.userId;
 
-
-  return ({prisma,  userId});
+  return { prisma, userId };
 };
 
 /**
@@ -83,24 +81,24 @@ export const createTRPCRouter = t.router;
  */
 export const publicProcedure = t.procedure;
 
-
-const enforceUserIsAuthed = t.middleware(async ({ctx,next}) => {
-
-  if (!ctx.userId ) {
-    throw new TRPCError({  code: "NOT_FOUND" ,message: "userId not found"})
+const enforceUserIsAuthed = t.middleware(async ({ ctx, next }) => {
+  if (!ctx.userId) {
+    throw new TRPCError({ code: "NOT_FOUND", message: "userId not found" });
   }
 
-  const user = await clerkClient.users.getUser(ctx.userId)
-  const username = user.username
+  const user = await clerkClient.users.getUser(ctx.userId);
+  const username = user.username;
 
   if (!username) {
-    throw new TRPCError({  code: "NOT_FOUND" ,message: "No username found"})
+    throw new TRPCError({ code: "NOT_FOUND", message: "No username found" });
   }
 
-  return next({ ctx: {
-   ...user,
-   username
-  }})
-})
+  return next({
+    ctx: {
+      user: { ...user },
+      username,
+    },
+  });
+});
 
-export const withAuthProcedure = t.procedure.use(enforceUserIsAuthed)
+export const withAuthProcedure = t.procedure.use(enforceUserIsAuthed);

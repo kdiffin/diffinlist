@@ -39,11 +39,10 @@ function Profile({
   const router = useRouter();
   const { user } = useUser();
 
-  const { data: playlists, isLoading: playlistsLoading } =
-    api.playlist.getPlaylistsByProfileName.useQuery({
-      profileName: profileName,
-      takeLimit: 50,
-    });
+  const { data: songs, isLoading: songsLoading } = api.song.getSongs.useQuery({
+    profileName: profileName,
+    playlistName: playlistName,
+  });
 
   if (!playlist) throw new Error("couldnt find playlist");
 
@@ -96,26 +95,25 @@ function Profile({
           <Section
             hideShowMore={true}
             showSearchSong={true}
-            loading={playlistsLoading}
+            loading={songsLoading}
             name="Songs"
           >
             <>
               <div className="absolute -top-2 right-0  "></div>
 
-              {playlists && playlists.length > 0 ? (
-                [].map((playlist) => {
+              {songs && songs.length > 0 ? (
+                songs.map((song) => {
                   return (
-                    // <SectionCard
-                    //   href={`/${playlist?.authorName!}/${playlist?.name!}`}
-                    //   pictureUrl={playlist?.pictureUrl!}
-                    //   title={playlist?.name!}
-                    //   key={playlist?.id!}
-                    // />
-                    <></>
+                    <SectionCard
+                      href={`/`}
+                      pictureUrl={song.pictureUrl!}
+                      title={song.name}
+                      key={song.id}
+                    />
                   );
                 })
               ) : (
-                <> </>
+                <></>
               )}
             </>
 
@@ -127,32 +125,12 @@ function Profile({
                 shallow
                 href={router.asPath + "?showCreateSong=true"}
               />
-            ) : null}
+            ) : (
+              <div className="h-full flex-1 text-lg italic text-neutral-500">
+                No songs found
+              </div>
+            )}
           </Section>
-
-          {/* <Divider />
-
-          <Section loading={playlistsLoading} name="Songs">
-            no playlists found
-          </Section>
-
-          <Divider />
-
-          <Section loading={playlistsLoading} name="Favourited playlists">
-            no playlists found
-          </Section>
-
-          <Divider />
-
-          <Section loading={playlistsLoading} name="Favourited songs">
-            no playlists found
-          </Section> */}
-
-          {/* <Section loading={playlistsLoading} name="Songs" />
-
-          <Section loading={playlistsLoading} name="Favourited playlists" />
-
-          <Section loading={playlistsLoading} name="Favourited songs" /> */}
         </div>
 
         {/* this component gets its open and close logic through query params */}

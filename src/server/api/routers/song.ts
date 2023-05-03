@@ -22,10 +22,36 @@ export const songRouter = createTRPCRouter({
       })
     )
     .query(async ({ ctx, input }) => {
-      ctx.prisma.song.findMany({
+      const songs = ctx.prisma.song.findMany({
         where: {
           authorName: input.profileName,
           playlistName: input.playlistName,
+        },
+        take: 50,
+      });
+
+      return songs;
+    }),
+
+  fakeCreateSong: withAuthProcedure
+    .input(
+      z.object({
+        genre: z.string().min(1),
+        name: z.string().min(1),
+        pictureUrl: z.string().min(1).url(),
+        songUrl: z.string().min(1).url(),
+        playlistName: z.string().min(1),
+      })
+    )
+    .mutation(({ ctx, input }) => {
+      ctx.prisma.song.create({
+        data: {
+          genre: input.genre,
+          authorName: ctx.username,
+          playlistName: input.playlistName,
+          name: input.name,
+          pictureUrl: input.pictureUrl,
+          songUrl: input.songUrl,
         },
       });
     }),

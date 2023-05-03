@@ -27,11 +27,10 @@ function Sidebar() {
   const { user, isLoaded } = useUser();
   const [showSidebar, setShowSidebar] = useState(false);
 
-  const { data: playlists, isLoading } =
-    api.playlist.getPlaylistsByProfileName.useQuery({
-      profileName: user && user.username ? user.username : "",
-      takeLimit: 20,
-    });
+  const { data: playlists, isLoading } = api.playlist.getPlaylists.useQuery({
+    profileName: user && user.username ? user.username : "",
+    takeLimit: 20,
+  });
 
   function openCreatePlaylist() {
     const url = {
