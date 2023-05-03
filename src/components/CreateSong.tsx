@@ -56,7 +56,7 @@ function CreateSong() {
     descriptionRef.current ? (descriptionRef.current!.value = "") : null;
   }
 
-  function addPlaylist(e: { preventDefault: () => void }) {
+  function addSong(e: { preventDefault: () => void }) {
     e.preventDefault();
     // add mutate fiunction
   }
@@ -148,7 +148,7 @@ function CreateSong() {
             </Button>
           </div>
 
-          <form onSubmit={(e) => addPlaylist(e)}>
+          <form onSubmit={(e) => addSong(e)}>
             <div>
               {!nextStep ? (
                 <>
@@ -215,11 +215,9 @@ function CreateSong() {
             </div>
 
             <div className="mt-10  flex items-center justify-between">
-              <Dialog.Close onClick={addPlaylist} asChild>
-                <Button type="submit" disabled={isLoading}>
-                  + Add Song
-                </Button>
-              </Dialog.Close>
+              <Button type="submit" disabled={isLoading}>
+                + Add Song
+              </Button>
 
               {nextStep ? (
                 <Button

@@ -10,7 +10,7 @@ import {
 } from "~/server/api/trpc";
 
 export const playlistRouter = createTRPCRouter({
-  getPlaylistsByProfileName: publicProcedure
+  getPlaylists: publicProcedure
     .input(z.object({ profileName: z.string(), takeLimit: z.number() }))
     .query(async ({ input, ctx }) => {
       const playlists = await ctx.prisma.playlist.findMany({
@@ -24,12 +24,15 @@ export const playlistRouter = createTRPCRouter({
       return playlists;
     }),
 
-    getPlaylist: publicProcedure
+  getPlaylist: publicProcedure
     .input(z.object({ profileName: z.string(), playlistName: z.string() }))
     .query(async ({ input, ctx }) => {
       const playlist = await ctx.prisma.playlist.findUnique({
         where: {
-          name_authorName: {authorName: input.profileName, name: input.playlistName }
+          name_authorName: {
+            authorName: input.profileName,
+            name: input.playlistName,
+          },
         },
       });
 

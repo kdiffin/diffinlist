@@ -21,7 +21,7 @@ function CreatePlaylist() {
   const { mutate, isLoading, data } = api.playlist.createPlaylist.useMutation({
     onSuccess: () => {
       removeChanges();
-      ctx.playlist.getPlaylistsByProfileName
+      ctx.playlist.getPlaylists
         .invalidate()
         .then(() => {
           router.push(`${user ? user.username : ""}`);
@@ -178,11 +178,9 @@ function CreatePlaylist() {
               </div>
 
               <div className="mt-10  flex items-center justify-between">
-                <Dialog.Close onClick={addPlaylist} asChild>
-                  <Button type="submit" disabled={isLoading}>
-                    + Add playlist
-                  </Button>
-                </Dialog.Close>
+                <Button type="submit" disabled={isLoading}>
+                  + Add playlist
+                </Button>
 
                 {isLoading ? (
                   <div className="flex items-center gap-5 text-zinc-400">

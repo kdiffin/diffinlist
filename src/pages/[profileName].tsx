@@ -15,7 +15,7 @@ function Profile({ profileName }: { profileName: string }) {
   });
 
   const { data: playlists, isLoading: playlistsLoading } =
-    api.playlist.getPlaylistsByProfileName.useQuery({
+    api.playlist.getPlaylists.useQuery({
       profileName: profileName,
       takeLimit: 8,
     });

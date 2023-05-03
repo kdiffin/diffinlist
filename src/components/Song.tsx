@@ -17,6 +17,12 @@ function Song() {
   const { user, isLoaded } = useUser();
   const isOpen = Boolean(router.query?.song);
 
+  const { data, isLoading } = api.song.getSong.useQuery({
+    playlistName: "",
+    songName: "",
+    profileName: "",
+  });
+
   function closeSettings() {
     delete router.query.song;
 
