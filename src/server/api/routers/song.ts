@@ -5,21 +5,25 @@ export const songRouter = createTRPCRouter({
   getSong: publicProcedure
     .input(
       z.object({
+        shouldFetch: z.boolean(),
         profileName: z.string(),
         playlistName: z.string(),
         songName: z.string(),
       })
     )
     .query(async ({ ctx, input }) => {
-      const song = await ctx.prisma.song.findUnique({
-        where: {
-          name_playlistName_authorName: {
-            authorName: input.profileName,
-            name: input.songName,
-            playlistName: input.playlistName,
-          },
-        },
-      });
+      //input.shouldFetch makes sure that song only fetches when the modal is actually open
+      const song = input.shouldFetch
+        ? await ctx.prisma.song.findUnique({
+            where: {
+              name_playlistName_authorName: {
+                authorName: input.profileName,
+                name: input.songName,
+                playlistName: input.playlistName,
+              },
+            },
+          })
+        : undefined;
 
       return song;
     }),

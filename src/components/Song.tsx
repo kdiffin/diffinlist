@@ -20,6 +20,8 @@ function Song() {
   const { user, isLoaded } = useUser();
   const isOpen = Boolean(router.query?.song);
 
+  //shouldFetch makes sure that song only fetches when the modal is actually open
+  //cuz this component is mounted all the time
   const {
     data: song,
     isLoading,
@@ -29,6 +31,8 @@ function Song() {
       router.query.playlist && typeof router.query.playlist[0] === "string"
         ? (router.query.playlist[0] as string)
         : "",
+
+    shouldFetch: isOpen,
 
     songName: typeof router.query.song === "string" ? router.query.song : "",
 
@@ -110,9 +114,9 @@ function Song() {
             )}
           </p>
 
-          <p className="text-lg xl:text-xl  ">
+          <p className="max-w-[400px] text-lg xl:text-xl ">
             {!isLoading ? (
-              `Description: ${song?.description}`
+              `${song?.description}`
             ) : (
               <SquareSkeleton className="h-[20px] w-[200px] max-w-full" />
             )}
