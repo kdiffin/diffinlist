@@ -10,8 +10,18 @@ export const songRouter = createTRPCRouter({
         songName: z.string(),
       })
     )
-    .query(async ({ ctx }) => {
-      ctx.prisma.song.deleteMany({ where: { name: "k" } });
+    .query(async ({ ctx, input }) => {
+      const song = await ctx.prisma.song.findUnique({
+        where: {
+          name_playlistName_authorName: {
+            authorName: input.profileName,
+            name: input.songName,
+            playlistName: input.playlistName,
+          },
+        },
+      });
+
+      return song;
     }),
 
   getSongs: publicProcedure
@@ -22,7 +32,7 @@ export const songRouter = createTRPCRouter({
       })
     )
     .query(async ({ ctx, input }) => {
-      const songs = ctx.prisma.song.findMany({
+      const songs = await ctx.prisma.song.findMany({
         where: {
           authorName: input.profileName,
           playlistName: input.playlistName,
