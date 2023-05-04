@@ -36,6 +36,7 @@ function Profile({
     playlistName: playlistName,
     profileName: profileName,
   });
+
   const router = useRouter();
   const { user } = useUser();
 
@@ -118,7 +119,7 @@ function Profile({
               )}
             </>
 
-            {user?.username === playlist.authorName ? (
+            {user?.username === playlist.authorName && (
               <SectionCard
                 title="Add song"
                 addSong={true}
@@ -126,10 +127,6 @@ function Profile({
                 shallow
                 href={router.asPath + "?showCreateSong=true"}
               />
-            ) : (
-              <div className="h-full flex-1 text-lg italic text-neutral-500">
-                No songs found
-              </div>
             )}
           </Section>
         </div>
