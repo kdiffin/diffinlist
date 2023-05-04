@@ -134,7 +134,7 @@ function Song() {
         <Divider className=" mx-2    !w-[1px] [&>div]:h-[30px]    [&>div]:border-r-2" />
 
         <div className="flex items-center gap-3">
-          <Link href={song ? song.authorName : ""}>
+          <Link href={`/${router.query.profileName}`}>
             {router.query.profileName}
           </Link>
         </div>
