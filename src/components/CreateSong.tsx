@@ -176,7 +176,7 @@ function CreateSong() {
                   <InputField
                     name="Song URL"
                     value={songUrl}
-                    type="text"
+                    type="url"
                     placeholder="The link to the song itself (youtube, spotify, soundcloud etc)"
                     setValue={setSongUrl}
                   />

@@ -14,3 +14,15 @@ export function ImageSkeleton({
     </label>
   );
 }
+
+export function SquareSkeleton({
+  className,
+  forWhat,
+}: {
+  className: string;
+  forWhat?: string;
+}) {
+  return (
+    <div className={`${className} animate-pulse  bg-neutral-700/60`}></div>
+  );
+}

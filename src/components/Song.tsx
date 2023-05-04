@@ -9,6 +9,8 @@ import Avatar, { AvatarSkeleton } from "./ui/Avatar";
 import { MdDelete, MdRemove } from "react-icons/md";
 import Divider from "./ui/Divider";
 import CustomError from "./CustomError";
+import Link from "next/link";
+import { ImageSkeleton, SquareSkeleton } from "./ui/Skeletons";
 
 function Song() {
   const router = useRouter();
@@ -18,7 +20,11 @@ function Song() {
   const { user, isLoaded } = useUser();
   const isOpen = Boolean(router.query?.song);
 
-  const { data, isLoading, isError } = api.song.getSong.useQuery({
+  const {
+    data: song,
+    isLoading,
+    isError,
+  } = api.song.getSong.useQuery({
     playlistName:
       router.query.playlist && typeof router.query.playlist[0] === "string"
         ? (router.query.playlist[0] as string)
@@ -38,57 +44,98 @@ function Song() {
     router.replace(router, undefined, { shallow: true });
   }
 
-  console.log(data);
-
   const LoadedPage = (
     <>
       <div className="flex flex-col xl:flex-row  xl:items-center xl:justify-center xl:gap-20">
         <div className="flex flex-col items-center gap-5  xl:justify-center">
-          <img
-            loading="lazy"
-            className="w-full max-w-[250px] md:max-w-[300px] xl:max-w-[380px]"
-            src={
-              "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.ntslive.co.uk%2Fcrop%2F535x535%2F28ce04dd-0a03-4c4f-bf87-c8aa1d433e70_1510617600.png&f=1&nofb=1&ipt=827444f2c0bb77e1feee02fc890db963e69e809fb9558046fc8e4f35f3627314&ipo=images"
-            }
-          />
-          <p className=" text-3xl xl:text-4xl">e</p>
+          {!isLoading ? (
+            song?.pictureUrl ? (
+              <img
+                loading="eager"
+                className="w-full max-w-[250px] md:max-w-[300px] xl:max-w-[380px]"
+                src={song.pictureUrl}
+              />
+            ) : (
+              <ImageSkeleton className=" h-[250px] w-[250px] md:h-[300px] md:w-[300px] xl:h-[380px] xl:w-[380px]" />
+            )
+          ) : (
+            <SquareSkeleton className="h-[250px]  w-[250px] max-w-full md:h-[300px] md:w-[300px] xl:h-[380px] xl:w-[380px]" />
+          )}
+
+          <a
+            target="_blank"
+            href={song ? song.songUrl : ""}
+            className=" text-3xl xl:text-4xl"
+          >
+            {isLoading ? (
+              <SquareSkeleton className="h-[20px] w-[200px] max-w-full" />
+            ) : (
+              song?.name
+            )}
+          </a>
         </div>
 
         <Divider className=" hidden !w-[1px]  xl:block  [&>div]:h-[450px]    [&>div]:border-r-2" />
 
         <div className="mt-6 flex flex-col items-center gap-4 text-neutral-400 xl:my-auto xl:items-start">
-          <p className="text-lg xl:text-xl  ">Rating: 9.5/10</p>
-          <p className="text-lg xl:text-xl  ">Genre: Death metal</p>
-
-          <p className="text-lg xl:text-xl  ">Artist: Equipose</p>
-          <p className="text-lg xl:text-xl  ">Album name: Demiurgus</p>
           <p className="text-lg xl:text-xl  ">
-            Description: batshit insane solo at 2:00{" "}
+            {!isLoading ? (
+              `Rating: 9.5/10`
+            ) : (
+              <SquareSkeleton className="h-[20px] w-[200px] max-w-full " />
+            )}
+          </p>
+
+          <p className="text-lg xl:text-xl  ">
+            {!isLoading ? (
+              `Genre: ${song?.genre}`
+            ) : (
+              <SquareSkeleton className="h-[20px] w-[200px] max-w-full" />
+            )}
+          </p>
+
+          <p className="text-lg xl:text-xl  ">
+            {!isLoading ? (
+              `Artist: ${song?.artist}`
+            ) : (
+              <SquareSkeleton className="h-[20px] w-[200px] max-w-full" />
+            )}
+          </p>
+
+          <p className="text-lg xl:text-xl  ">
+            {!isLoading ? (
+              `Album name: ${song?.album}`
+            ) : (
+              <SquareSkeleton className="h-[20px] w-[200px] max-w-full" />
+            )}
+          </p>
+
+          <p className="text-lg xl:text-xl  ">
+            {!isLoading ? (
+              `Description: ${song?.description}`
+            ) : (
+              <SquareSkeleton className="h-[20px] w-[200px] max-w-full" />
+            )}
           </p>
         </div>
       </div>
+
       <div className=" -mb mt-12 flex   gap-3">
         <div className="flex items-center gap-3">
-          <Avatar
-            width_height={28}
-            loading={!isLoaded}
-            src={user?.profileImageUrl}
-          />
-          <p>diffim</p>
+          <Link href={`/${router.query.profileName}/${router.query.playlist}`}>
+            {router.query.playlist}
+          </Link>
         </div>
 
         <Divider className=" mx-2    !w-[1px] [&>div]:h-[30px]    [&>div]:border-r-2" />
 
         <div className="flex items-center gap-3">
-          <img
-            width={28}
-            height={28}
-            loading="lazy"
-            src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.ntslive.co.uk%2Fcrop%2F535x535%2F28ce04dd-0a03-4c4f-bf87-c8aa1d433e70_1510617600.png&f=1&nofb=1&ipt=827444f2c0bb77e1feee02fc890db963e69e809fb9558046fc8e4f35f3627314&ipo=images"
-          />
-          <p>trap playlist</p>
+          <Link href={song ? song.authorName : ""}>
+            {router.query.profileName}
+          </Link>
         </div>
       </div>
+
       <Dialog.Close asChild>
         <button
           className="  absolute right-[10px] top-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none"
