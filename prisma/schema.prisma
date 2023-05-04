@@ -36,7 +36,7 @@ model Song {
     name       String
     genre      String
 
-    subGenre    String?
+    rating      String?
     artist      String?
     album       String?
     description String?

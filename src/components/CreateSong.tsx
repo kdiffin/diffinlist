@@ -38,6 +38,7 @@ function CreateSong() {
   const [nextStep, setNextStep] = useState(false);
 
   const ctx = api.useContext();
+  const { mutate } = api.song.fakeCreateSong.useMutation();
   const isLoading = false;
 
   function closeCreatePlaylist() {
@@ -59,6 +60,7 @@ function CreateSong() {
   function addSong(e: { preventDefault: () => void }) {
     e.preventDefault();
     // add mutate fiunction
+    mutate({});
   }
 
   return (

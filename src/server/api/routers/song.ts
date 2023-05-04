@@ -46,22 +46,17 @@ export const songRouter = createTRPCRouter({
   fakeCreateSong: withAuthProcedure
     .input(
       z.object({
-        genre: z.string().min(1),
-        name: z.string().min(1),
-        pictureUrl: z.string().min(1).url(),
-        songUrl: z.string().min(1).url(),
-        playlistName: z.string().min(1),
+        genre: z.string().min(1).optional(),
+        name: z.string().min(1).optional(),
+        pictureUrl: z.string().min(1).url().optional(),
+        songUrl: z.string().min(1).url().optional(),
+        playlistName: z.string().min(1).optional(),
       })
     )
-    .mutation(({ ctx, input }) => {
-      ctx.prisma.song.create({
-        data: {
-          genre: input.genre,
-          authorName: ctx.username,
-          playlistName: input.playlistName,
-          name: input.name,
-          pictureUrl: input.pictureUrl,
-          songUrl: input.songUrl,
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.song.deleteMany({
+        where: {
+          description: "yea",
         },
       });
     }),
