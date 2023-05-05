@@ -48,6 +48,26 @@ function Song() {
     router.replace(router, undefined, { shallow: true });
   }
 
+  function SongSection({
+    data,
+    text,
+  }: {
+    data: string | null | undefined;
+    text: string;
+  }) {
+    return !isLoading ? (
+      data ? (
+        <p className="mt-4 text-center text-lg xl:text-xl">
+          {text + " " + data}
+        </p>
+      ) : (
+        <></>
+      )
+    ) : (
+      <SquareSkeleton className="mt-4 h-[25px] w-[300px] max-w-full " />
+    );
+  }
+
   const LoadedPage = (
     <>
       <div className="flex flex-col xl:flex-row  xl:items-center xl:justify-center xl:gap-20">
@@ -81,46 +101,12 @@ function Song() {
 
         <Divider className=" hidden !w-[1px]  xl:block  [&>div]:h-[450px]    [&>div]:border-r-2" />
 
-        <div className="mt-6 flex flex-col items-center gap-4 text-neutral-400 xl:my-auto xl:items-start">
-          <p className="text-center text-lg xl:text-xl  ">
-            {!isLoading ? (
-              `Rating: 9.5/10`
-            ) : (
-              <SquareSkeleton className="h-[20px] w-[200px] max-w-full " />
-            )}
-          </p>
-
-          <p className="text-center text-lg xl:text-xl  ">
-            {!isLoading ? (
-              `Genre: ${song?.genre}`
-            ) : (
-              <SquareSkeleton className="h-[20px] w-[200px] max-w-full" />
-            )}
-          </p>
-
-          <p className="text-center text-lg xl:text-xl  ">
-            {!isLoading ? (
-              `Artist: ${song?.artist}`
-            ) : (
-              <SquareSkeleton className="h-[20px] w-[200px] max-w-full" />
-            )}
-          </p>
-
-          <p className="text-center text-lg xl:text-xl  ">
-            {!isLoading ? (
-              `Album name: ${song?.album}`
-            ) : (
-              <SquareSkeleton className="h-[20px] w-[200px] max-w-full" />
-            )}
-          </p>
-
-          <p className="text-center max-w-[400px] text-lg xl:text-xl ">
-            {!isLoading ? (
-              `${song?.description}`
-            ) : (
-              <SquareSkeleton className="h-[20px] w-[200px] max-w-full" />
-            )}
-          </p>
+        <div className="mt-6 flex flex-col items-center  text-neutral-400 xl:my-auto xl:items-start">
+          <SongSection data={song?.rating} text="Rating:" />
+          <SongSection data={song?.genre} text="Genre:" />
+          <SongSection data={song?.artist} text="Artist:" />
+          <SongSection data={song?.album} text="Album:" />
+          <SongSection data={song?.description} text="" />
         </div>
       </div>
 
