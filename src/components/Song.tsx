@@ -82,7 +82,7 @@ function Song() {
         <Divider className=" hidden !w-[1px]  xl:block  [&>div]:h-[450px]    [&>div]:border-r-2" />
 
         <div className="mt-6 flex flex-col items-center gap-4 text-neutral-400 xl:my-auto xl:items-start">
-          <p className="text-lg xl:text-xl  ">
+          <p className="text-center text-lg xl:text-xl  ">
             {!isLoading ? (
               `Rating: 9.5/10`
             ) : (
@@ -90,7 +90,7 @@ function Song() {
             )}
           </p>
 
-          <p className="text-lg xl:text-xl  ">
+          <p className="text-center text-lg xl:text-xl  ">
             {!isLoading ? (
               `Genre: ${song?.genre}`
             ) : (
@@ -98,7 +98,7 @@ function Song() {
             )}
           </p>
 
-          <p className="text-lg xl:text-xl  ">
+          <p className="text-center text-lg xl:text-xl  ">
             {!isLoading ? (
               `Artist: ${song?.artist}`
             ) : (
@@ -106,7 +106,7 @@ function Song() {
             )}
           </p>
 
-          <p className="text-lg xl:text-xl  ">
+          <p className="text-center text-lg xl:text-xl  ">
             {!isLoading ? (
               `Album name: ${song?.album}`
             ) : (
@@ -114,7 +114,7 @@ function Song() {
             )}
           </p>
 
-          <p className="max-w-[400px] text-lg xl:text-xl ">
+          <p className="text-center max-w-[400px] text-lg xl:text-xl ">
             {!isLoading ? (
               `${song?.description}`
             ) : (

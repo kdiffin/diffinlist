@@ -221,7 +221,11 @@ function CreateSong() {
                 + Add Song
               </Button>
 
-              {nextStep ? (
+              {isLoading ? (
+                <div className="flex items-center gap-5 text-zinc-400">
+                  Submitting... <LoadingSpinner />
+                </div>
+              ) : nextStep ? (
                 <Button
                   type="button"
                   disabled={isLoading}
@@ -238,12 +242,6 @@ function CreateSong() {
                   <MdOutlineArrowRight /> Extra
                 </Button>
               )}
-
-              {isLoading ? (
-                <div className="flex items-center gap-5 text-zinc-400">
-                  Submitting... <LoadingSpinner />
-                </div>
-              ) : null}
             </div>
           </form>
 
