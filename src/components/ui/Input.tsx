@@ -73,6 +73,8 @@ export const RefInput = forwardRef(
       setValue,
       id,
       name,
+      max,
+      maxLength,
       placeholder,
     }: RefInputProps,
     ref: React.Ref<HTMLInputElement>
@@ -90,6 +92,8 @@ export const RefInput = forwardRef(
           onChange={(e) => setValue && setValue(e.target.value)}
           autoComplete="off"
           id={id}
+          maxLength={maxLength}
+          max={max}
           ref={ref}
           spellCheck="false"
           name={name}

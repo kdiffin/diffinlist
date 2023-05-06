@@ -161,7 +161,7 @@ function CreatePlaylist() {
                 />
 
                 <InputField
-                  type="text"
+                  type="url"
                   value={playlistPicUrl}
                   setValue={setPlaylistPicUrl}
                   placeholder="Enter playlist picture URL"
@@ -169,7 +169,7 @@ function CreatePlaylist() {
                 />
 
                 <InputField
-                  type="url"
+                  type="text"
                   value={genre}
                   placeholder="Enter the genre of your playlist"
                   setValue={setGenre}

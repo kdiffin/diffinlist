@@ -200,10 +200,11 @@ function CreateSong() {
                   />
 
                   <RefInputField
-                    name="Sub genre"
+                    name="Rating"
                     ref={subGenreRef}
-                    type="text"
-                    placeholder="Sub genre the song might belong to"
+                    type="number"
+                    max={10}
+                    placeholder="Rating / 10"
                   />
 
                   <RefInputField
