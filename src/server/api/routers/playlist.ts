@@ -1,6 +1,7 @@
 import type { User } from "@clerk/nextjs/dist/api";
 import { clerkClient } from "@clerk/nextjs/server";
 import { Prisma } from "@prisma/client";
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import {
@@ -65,6 +66,13 @@ export const playlistRouter = createTRPCRouter({
         isImageValid +
           " asddddddddddddasjkdahksdkhasdhkaskjdajksdhakjsdhaskjdhkj"
       );
+
+      if (isImageValid === false) {
+        throw new TRPCError({
+          code: "PARSE_ERROR",
+          message: "Please make sure your URL is a picture URL.",
+        });
+      }
 
       const playlist = await ctx.prisma.playlist.create({
         data: {

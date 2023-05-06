@@ -18,43 +18,48 @@ function CreatePlaylist() {
   const { user } = useClerk();
   const [name, setName] = useState("");
   const ctx = api.useContext();
-  const { mutate, isLoading, data } = api.playlist.createPlaylist.useMutation({
-    onSuccess: () => {
-      removeChanges();
-      ctx.playlist.getPlaylists
-        .invalidate()
-        .then(() => {
+  const { mutate, isLoading, data, error } =
+    api.playlist.createPlaylist.useMutation({
+      onSuccess: () => {
+        removeChanges();
+        ctx.playlist.getPlaylists.invalidate().then(() => {
           router.push(`/${user ? user.username : ""}`);
-        })
-        .catch((err) => console.error(err));
-    },
+        });
+      },
 
-    onError: (e) => {
-      const errorMessagePicture = e.data?.zodError?.fieldErrors.picture;
-      const errorMessageName = e.data?.zodError?.fieldErrors.name;
+      onError: (e) => {
+        const errorMessagePicture = e.data?.zodError?.fieldErrors.picture;
+        const errorMessageName = e.data?.zodError?.fieldErrors.name;
 
-      // okay another crazy if else lets get to explaining
-      // first it checks if the playlists name already exists on your profile
-      // if not, then it checks both the picture and the name's error fields
-      // and finally if the manual checks fail but theres still an error it shows a default toast.
-
-      if (e.data?.stack?.includes("invocation:\n\n\nUnique constraint")) {
-        toast.error("You can't have 2 playlists with the same name");
-        setName("");
-      } else {
-        if (errorMessageName && errorMessageName[0]) {
-          toast.error(errorMessageName[0]);
-          setName("");
-        }
-        if (errorMessagePicture && errorMessagePicture[0]) {
-          toast.error(errorMessagePicture[0]);
+        if (e.message === "Please make sure your URL is a picture URL.") {
+          toast.error(e.message);
           setPlaylistPicUrl("");
-        } else {
-          toast.error("Failed to post! Please try again later.");
+
+          return;
         }
-      }
-    },
-  });
+
+        // okay another crazy if else lets get to explaining
+        // first it checks if the playlists name already exists on your profile
+        // if not, then it checks both the picture and the name's error fields
+        // and finally if the manual checks fail but theres still an error it shows a default toast.
+
+        if (e.data?.stack?.includes("invocation:\n\n\nUnique constraint")) {
+          toast.error("You can't have 2 playlists with the same name");
+          setName("");
+        } else {
+          if (errorMessageName && errorMessageName[0]) {
+            toast.error(errorMessageName[0]);
+            setName("");
+          }
+          if (errorMessagePicture && errorMessagePicture[0]) {
+            toast.error(errorMessagePicture[0]);
+            setPlaylistPicUrl("");
+          } else {
+            toast.error("Failed to post! Please try again later.");
+          }
+        }
+      },
+    });
 
   const isOpen = router.query?.showCreatePlaylist === "true";
 
