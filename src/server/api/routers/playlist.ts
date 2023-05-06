@@ -8,6 +8,7 @@ import {
   publicProcedure,
   withAuthProcedure,
 } from "~/server/api/trpc";
+import { isImage } from "~/server/helpers/ImageChecker";
 
 export const playlistRouter = createTRPCRouter({
   getPlaylists: publicProcedure
@@ -58,6 +59,12 @@ export const playlistRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       const authorName = ctx.username;
+      const isImageValid = isImage(input.picture);
+
+      console.log(
+        isImageValid +
+          " asddddddddddddasjkdahksdkhasdhkaskjdajksdhakjsdhaskjdhkj"
+      );
 
       const playlist = await ctx.prisma.playlist.create({
         data: {

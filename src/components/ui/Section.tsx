@@ -128,7 +128,7 @@ export const SectionCard = memo(function ({
         </>
       ) : (
         <>
-          <div className="h-[148px] w-[148px]">
+          <div className="h-[148px] w-[148px] ">
             <img
               width={130}
               height={130}
@@ -138,7 +138,9 @@ export const SectionCard = memo(function ({
               src={pictureUrl!}
             />
           </div>
-          <p className="">{title}</p>
+          <p className=" max-h-[20px] max-w-[150px] overflow-clip text-ellipsis">
+            {title}
+          </p>
         </>
       );
     }
@@ -155,7 +157,7 @@ export const SectionCard = memo(function ({
         <>
           <div
             className="
-            flex  h-[150px] w-[150px]  items-center justify-center  rounded-sm border-2 border-dotted border-neutral-700 text-center text-neutral-400
+            flex   h-[150px] w-[150px]  items-center justify-center  rounded-sm border-2 border-dotted border-neutral-700 text-center text-neutral-400
             "
           >
             <MdAdd size={32} />
