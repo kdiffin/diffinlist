@@ -10,7 +10,7 @@ The application is going to feature:
 - Seeing users latest playlists
 - Viewing other users profiles
 - Sharing your playlist with others
-- Liking other users playlists
+- Viewing songs inside of playlists
 - A dark mode only design
 - Accessible user interface with the help of Radix UI
 
