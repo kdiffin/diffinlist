@@ -26,21 +26,22 @@ function Song() {
     data: song,
     isLoading,
     isError,
-  } = api.song.getSong.useQuery({
-    playlistName:
-      router.query.playlist && typeof router.query.playlist[0] === "string"
-        ? (router.query.playlist[0] as string)
-        : "",
+  } = api.song.getSong.useQuery(
+    {
+      playlistName:
+        router.query.playlist && typeof router.query.playlist[0] === "string"
+          ? (router.query.playlist[0] as string)
+          : "",
 
-    shouldFetch: isOpen,
+      songName: typeof router.query.song === "string" ? router.query.song : "",
 
-    songName: typeof router.query.song === "string" ? router.query.song : "",
-
-    profileName:
-      typeof router.query.profileName === "string"
-        ? router.query.profileName
-        : "",
-  });
+      profileName:
+        typeof router.query.profileName === "string"
+          ? router.query.profileName
+          : "",
+    },
+    { enabled: isOpen }
+  );
 
   function closeSettings() {
     delete router.query.song;

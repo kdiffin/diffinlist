@@ -55,9 +55,7 @@ export const Section = memo(function Section({
     //id is for routing to it
     <div id={name} className="relative">
       <div className=" mb-12 flex flex-col items-center justify-between gap-10 text-center  xl:mb-10  xl:flex-row ">
-        <Link className="text-2xl" href={name}>
-          {name}
-        </Link>
+        <p className="text-2xl">{name}</p>
 
         {showSearchSong ? (
           <Input
@@ -138,7 +136,7 @@ export const SectionCard = memo(function ({
               src={pictureUrl!}
             />
           </div>
-          <p className=" max-h-[20px] max-w-[150px] overflow-clip text-ellipsis">
+          <p className=" max-h-[23px] max-w-[150px] overflow-clip text-ellipsis">
             {title}
           </p>
         </>
