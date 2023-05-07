@@ -4,7 +4,7 @@ Diffinlist is a web application built using the T3 stack,NextJS, Prisma, tRPC, P
 
 ## Features
 
-The application is going to feature:
+The application features:
 
 - Creating your own playlists
 - Seeing users latest playlists

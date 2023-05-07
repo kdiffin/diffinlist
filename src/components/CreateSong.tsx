@@ -21,6 +21,7 @@ import {
   MdTurnLeft,
   MdUndo,
 } from "react-icons/md";
+import { toast } from "react-hot-toast";
 
 //UI is basically a copy paste of the settings one
 function CreateSong() {
@@ -38,9 +39,57 @@ function CreateSong() {
   const [nextStep, setNextStep] = useState(false);
 
   const ctx = api.useContext();
-  const { mutate, isLoading, isIdle } = api.song.createSong.useMutation();
+  const { mutate, isLoading, isIdle } = api.song.createSong.useMutation({
+    onSuccess: () => {
+      removeChanges();
+      ctx.playlist.getPlaylists.invalidate().then(() => createCreateSong());
+    },
 
-  function closeCreatePlaylist() {
+    onError: (e) => {
+      const errorMessagePicture = e.data?.zodError?.fieldErrors.picture;
+      const errorMessageName = e.data?.zodError?.fieldErrors.name;
+      const errorMessageGenre = e.data?.zodError?.fieldErrors.genre;
+      const errorMessageSongUrl = e.data?.zodError?.fieldErrors.songUrl;
+      const errorMessageRating = e.data?.zodError?.fieldErrors.rating;
+
+      if (e.message === "Please make sure your URL is a picture URL.") {
+        toast.error(e.message);
+        setPictureUrl("");
+
+        return;
+      }
+
+      if (e.data?.stack?.includes("invocation:\n\n\nUnique constraint")) {
+        toast.error("You can't have 2 playlists with the same name");
+        setName("");
+      } else {
+        if (errorMessageName && errorMessageName[0]) {
+          toast.error(errorMessageName[0]);
+          setName("");
+        }
+        if (errorMessagePicture && errorMessagePicture[0]) {
+          toast.error(errorMessagePicture[0]);
+          setPictureUrl("");
+        }
+        if (errorMessageGenre && errorMessageGenre[0]) {
+          toast.error(errorMessageGenre[0]);
+          setGenre("");
+        }
+        if (errorMessageRating && errorMessageRating[0]) {
+          toast.error(errorMessageRating[0]);
+          albumRef.current!.value = "";
+        }
+        if (errorMessageSongUrl && errorMessageSongUrl[0]) {
+          toast.error(errorMessageSongUrl[0]);
+          setSongUrl("");
+        } else {
+          toast.error("Failed to post! Please try again later.");
+        }
+      }
+    },
+  });
+
+  function createCreateSong() {
     delete router.query?.showCreateSong;
     router.replace(router, undefined, { shallow: true });
   }
@@ -82,7 +131,7 @@ function CreateSong() {
 
   return (
     // https://www.radix-ui.com/docs/primitives/components/dialog#dialog
-    <Dialog.Root open={isOpen} onOpenChange={closeCreatePlaylist}>
+    <Dialog.Root open={isOpen} onOpenChange={createCreateSong}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0  bg-neutral-900/40 data-[state=open]:animate-overlayShow" />
         <Dialog.Content className="modal !max-h-[93vh]  ">

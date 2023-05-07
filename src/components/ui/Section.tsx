@@ -119,7 +119,7 @@ export const SectionCard = memo(function ({
         </>
       );
     } else {
-      return pictureUrl === "" ? (
+      return !pictureUrl ? (
         <>
           <ImageSkeleton className="h-[148px] w-[148px]" />
           <p className="">{title}</p>
