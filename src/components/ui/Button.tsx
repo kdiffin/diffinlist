@@ -4,10 +4,11 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children?: React.ReactNode;
 }
 
-function Button({ children, className, disabled, onClick }: Props) {
+function Button({ children, type, className, disabled, onClick }: Props) {
   return (
     <button
       onClick={onClick}
+      type={type}
       disabled={disabled}
       className={`${
         className ? className : ""

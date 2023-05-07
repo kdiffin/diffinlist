@@ -38,7 +38,7 @@ function CreateSong() {
   const [nextStep, setNextStep] = useState(false);
 
   const ctx = api.useContext();
-  const { mutate, isLoading } = api.song.createSong.useMutation();
+  const { mutate, isLoading, isIdle } = api.song.createSong.useMutation();
 
   function closeCreatePlaylist() {
     delete router.query?.showCreateSong;
@@ -59,6 +59,7 @@ function CreateSong() {
   function addSong(e: { preventDefault: () => void }) {
     e.preventDefault();
     // add mutate fiunction
+
     mutate({
       name: name,
       pictureUrl: pictureUrl,

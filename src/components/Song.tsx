@@ -14,14 +14,8 @@ import { ImageSkeleton, SquareSkeleton } from "./ui/Skeletons";
 
 function Song() {
   const router = useRouter();
-  //clerk has isLoaded instead of isLoading which is weird
-  const [profilePicURL, setProfilePicURL] = useState("");
-  const [username, setUsername] = useState("");
-  const { user, isLoaded } = useUser();
   const isOpen = Boolean(router.query?.song);
 
-  //shouldFetch makes sure that song only fetches when the modal is actually open
-  //cuz this component is mounted all the time
   const {
     data: song,
     isLoading,
@@ -40,6 +34,9 @@ function Song() {
           ? router.query.profileName
           : "",
     },
+
+    //enabled makes sure that song only fetches when the modal is actually open
+    //cuz this component is mounted all the time
     { enabled: isOpen }
   );
 
