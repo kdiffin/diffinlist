@@ -2,6 +2,7 @@ import { useUser } from "@clerk/nextjs";
 import { createServerSideHelpers } from "@trpc/react-query/server";
 import { TRPCError } from "@trpc/server";
 import { profile } from "console";
+import { matchSorter } from "match-sorter";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import Head from "next/head";
 import Image from "next/image";
@@ -40,12 +41,20 @@ function Profile({
   const router = useRouter();
   const { user } = useUser();
 
-  const { data: songs, isLoading: songsLoading } = api.song.getSongs.useQuery({
+  const { data, isLoading: songsLoading } = api.song.getSongs.useQuery({
     profileName: profileName,
     playlistName: playlistName,
   });
 
   if (!playlist) throw new Error("couldnt find playlist");
+
+  const songs = matchSorter(
+    data ? data : [],
+    router.query && typeof router.query.search === "string"
+      ? router.query.search
+      : "",
+    { keys: ["name"] }
+  );
 
   return (
     <>
