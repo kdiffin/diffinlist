@@ -23,7 +23,7 @@ model Playlist {
     Song       Song[]
 
     @@unique([name, authorName])
-    @@index([authorName])
+    @@index([authorName, name])
 }
 
 model Song {
@@ -43,8 +43,8 @@ model Song {
 
     authorName   String
     playlistName String
-    playlist     Playlist @relation(fields: [playlistName, authorName], references: [name, authorName])
+    playlist     Playlist? @relation(fields: [playlistName, authorName], references: [name, authorName])
 
     @@unique([name, playlistName, authorName])
-    @@index([playlistName, authorName])
+    @@index([playlistName, authorName, name])
 }

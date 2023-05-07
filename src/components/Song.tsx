@@ -58,7 +58,7 @@ function Song() {
   }) {
     return !isLoading ? (
       data ? (
-        <p className="mt-4 text-center text-lg xl:text-xl">
+        <p className="mt-4 max-w-[400px] text-center  text-lg md:text-left xl:text-xl">
           {text + " " + data}
         </p>
       ) : (
@@ -75,11 +75,17 @@ function Song() {
         <div className="flex flex-col items-center gap-5  xl:justify-center">
           {!isLoading ? (
             song?.pictureUrl ? (
-              <img
-                loading="eager"
-                className="w-full max-w-[250px] md:max-w-[300px] xl:max-w-[380px]"
-                src={song.pictureUrl}
-              />
+              <a
+                target="_blank"
+                href={song ? song.songUrl : ""}
+                className=" text-3xl xl:text-4xl"
+              >
+                <img
+                  loading="eager"
+                  className="w-full max-w-[250px] md:max-w-[300px] xl:max-w-[380px]"
+                  src={song.pictureUrl}
+                />
+              </a>
             ) : (
               <ImageSkeleton className=" h-[250px] w-[250px] md:h-[300px] md:w-[300px] xl:h-[380px] xl:w-[380px]" />
             )
@@ -103,7 +109,10 @@ function Song() {
         <Divider className=" hidden !w-[1px]  xl:block  [&>div]:h-[450px]    [&>div]:border-r-2" />
 
         <div className="mt-6 flex flex-col items-center  text-neutral-400 xl:my-auto xl:items-start">
-          <SongSection data={song?.rating?.toString() + "/10"} text="Rating:" />
+          <SongSection
+            data={song?.rating ? song?.rating.toString() + "/10" : undefined}
+            text="Rating:"
+          />
           <SongSection data={song?.genre} text="Genre:" />
           <SongSection data={song?.artist} text="Artist:" />
           <SongSection data={song?.album} text="Album:" />
@@ -112,19 +121,21 @@ function Song() {
       </div>
 
       <div className=" -mb mt-12 flex   gap-3">
-        <div className="flex items-center gap-3">
-          <Link href={`/${router.query.profileName}/${router.query.playlist}`}>
-            {router.query.playlist}
-          </Link>
-        </div>
+        <Link
+          href={`/${router.query.profileName}/${router.query.playlist}`}
+          className="flex items-center gap-3"
+        >
+          {router.query.playlist}
+        </Link>
 
         <Divider className=" mx-2    !w-[1px] [&>div]:h-[30px]    [&>div]:border-r-2" />
 
-        <div className="flex items-center gap-3">
-          <Link href={`/${router.query.profileName}`}>
-            {router.query.profileName}
-          </Link>
-        </div>
+        <Link
+          className="flex items-center gap-3"
+          href={`/${router.query.profileName}`}
+        >
+          {router.query.profileName}
+        </Link>
       </div>
 
       <Dialog.Close asChild>

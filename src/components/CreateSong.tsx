@@ -38,8 +38,7 @@ function CreateSong() {
   const [nextStep, setNextStep] = useState(false);
 
   const ctx = api.useContext();
-  const { mutate } = api.song.createSong.useMutation();
-  const isLoading = false;
+  const { mutate, isLoading } = api.song.createSong.useMutation();
 
   function closeCreatePlaylist() {
     delete router.query?.showCreateSong;

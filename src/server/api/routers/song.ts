@@ -69,9 +69,9 @@ export const songRouter = createTRPCRouter({
           .min(1, { message: "Please enter in a genre for the song" }),
         playlistName: z.string().min(1),
 
-        albumName: z.string().min(1).optional(),
-        artistName: z.string().min(1).optional(),
-        description: z.string().min(1).max(400).optional(),
+        albumName: z.string().optional(),
+        artistName: z.string().optional(),
+        description: z.string().max(400).optional(),
         rating: z
           .number()
           .min(0, { message: "Please enter a number above 0" })
@@ -95,9 +95,9 @@ export const songRouter = createTRPCRouter({
           pictureUrl: input.pictureUrl,
           songUrl: input.songUrl,
           genre: input.genre,
-
           playlistName: input.playlistName,
           authorName: ctx.username,
+
           album: input.albumName,
           artist: input.artistName,
           description: input.description,
@@ -107,11 +107,11 @@ export const songRouter = createTRPCRouter({
     }),
 
   deleteSong: withAuthProcedure.mutation(async ({ ctx, input }) => {
-    ctx.prisma.song.delete({
+    await ctx.prisma.song.delete({
       where: {
         name_playlistName_authorName: {
           authorName: ctx.username,
-          name: "neo-tarran dystopia",
+          name: "The Aura",
           playlistName: "Tech death",
         },
       },
