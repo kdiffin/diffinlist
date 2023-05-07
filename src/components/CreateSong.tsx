@@ -33,12 +33,12 @@ function CreateSong() {
   const [songUrl, setSongUrl] = useState("");
   const artistRef = useRef<HTMLInputElement>(null);
   const albumRef = useRef<HTMLInputElement>(null);
-  const subGenreRef = useRef<HTMLInputElement>(null);
+  const ratingRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
   const [nextStep, setNextStep] = useState(false);
 
   const ctx = api.useContext();
-  const { mutate } = api.song.fakeCreateSong.useMutation();
+  const { mutate } = api.song.createSong.useMutation();
   const isLoading = false;
 
   function closeCreatePlaylist() {
@@ -53,14 +53,31 @@ function CreateSong() {
 
     albumRef.current ? (albumRef.current.value = "") : null;
     artistRef.current ? (artistRef.current!.value = "") : null;
-    subGenreRef.current ? (subGenreRef.current!.value = "") : null;
+    ratingRef.current ? (ratingRef.current!.value = "") : null;
     descriptionRef.current ? (descriptionRef.current!.value = "") : null;
   }
 
   function addSong(e: { preventDefault: () => void }) {
     e.preventDefault();
     // add mutate fiunction
-    mutate({});
+    mutate({
+      name: name,
+      pictureUrl: pictureUrl,
+      songUrl: songUrl,
+      genre: genre,
+      playlistName:
+        router.query.playlist && router.query.playlist[0]
+          ? router.query.playlist[0]
+          : "",
+
+      albumName: albumRef.current?.value,
+      artistName: artistRef.current?.value,
+      description: descriptionRef.current?.value,
+
+      rating: ratingRef.current
+        ? parseInt(ratingRef.current?.value)
+        : undefined,
+    });
   }
 
   return (
@@ -201,8 +218,9 @@ function CreateSong() {
 
                   <RefInputField
                     name="Rating"
-                    ref={subGenreRef}
+                    ref={ratingRef}
                     type="number"
+                    min={0}
                     max={10}
                     placeholder="Rating / 10"
                   />

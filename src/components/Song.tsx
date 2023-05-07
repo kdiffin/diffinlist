@@ -103,7 +103,7 @@ function Song() {
         <Divider className=" hidden !w-[1px]  xl:block  [&>div]:h-[450px]    [&>div]:border-r-2" />
 
         <div className="mt-6 flex flex-col items-center  text-neutral-400 xl:my-auto xl:items-start">
-          <SongSection data={song?.rating} text="Rating:" />
+          <SongSection data={song?.rating?.toString() + "/10"} text="Rating:" />
           <SongSection data={song?.genre} text="Genre:" />
           <SongSection data={song?.artist} text="Artist:" />
           <SongSection data={song?.album} text="Album:" />

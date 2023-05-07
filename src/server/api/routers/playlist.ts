@@ -62,11 +62,6 @@ export const playlistRouter = createTRPCRouter({
       const authorName = ctx.username;
       const isImageValid = isImage(input.picture);
 
-      console.log(
-        isImageValid +
-          " asddddddddddddasjkdahksdkhasdhkaskjdajksdhakjsdhaskjdhkj"
-      );
-
       if (isImageValid === false) {
         throw new TRPCError({
           code: "PARSE_ERROR",

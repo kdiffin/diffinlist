@@ -74,6 +74,7 @@ export const RefInput = forwardRef(
       id,
       name,
       max,
+      min,
       maxLength,
       placeholder,
     }: RefInputProps,
@@ -94,6 +95,7 @@ export const RefInput = forwardRef(
           id={id}
           maxLength={maxLength}
           max={max}
+          min={min}
           ref={ref}
           spellCheck="false"
           name={name}

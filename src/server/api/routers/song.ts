@@ -1,7 +1,10 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure, withAuthProcedure } from "../trpc";
+import { isImage } from "~/server/helpers/ImageChecker";
+import { TRPCError } from "@trpc/server";
 
 export const songRouter = createTRPCRouter({
+  //gets the song for Song.tsx
   getSong: publicProcedure
     .input(
       z.object({
@@ -24,6 +27,7 @@ export const songRouter = createTRPCRouter({
       return song;
     }),
 
+  //gets the songs for the [...playlist] route
   getSongs: publicProcedure
     .input(
       z.object({
@@ -43,21 +47,74 @@ export const songRouter = createTRPCRouter({
       return songs;
     }),
 
-  fakeCreateSong: withAuthProcedure
+  createSong: withAuthProcedure
     .input(
       z.object({
-        genre: z.string().min(1).optional(),
-        name: z.string().min(1).optional(),
-        pictureUrl: z.string().min(1).url().optional(),
-        songUrl: z.string().min(1).url().optional(),
-        playlistName: z.string().min(1).optional(),
+        name: z
+          .string()
+          .min(1, { message: "Please enter in a name for the song" }),
+        pictureUrl: z.union([
+          z.string().url("Please enter in valid picture URL!").trim(),
+          z.string().max(0),
+        ]),
+        songUrl: z
+          .string()
+          .min(1, {
+            message:
+              "Please enter in a link for the song, (youtube, spotify, soundcloud etc.)",
+          })
+          .url(),
+        genre: z
+          .string()
+          .min(1, { message: "Please enter in a genre for the song" }),
+        playlistName: z.string().min(1),
+
+        albumName: z.string().min(1).optional(),
+        artistName: z.string().min(1).optional(),
+        description: z.string().min(1).max(400).optional(),
+        rating: z
+          .number()
+          .min(0, { message: "Please enter a number above 0" })
+          .max(10, { message: "Please enter a number below 10" })
+          .optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.prisma.song.deleteMany({
-        where: {
-          description: "yea",
+      const isImageValid = isImage(input.pictureUrl);
+
+      if (isImageValid === false) {
+        throw new TRPCError({
+          code: "PARSE_ERROR",
+          message: "Please make sure your URL is a picture URL.",
+        });
+      }
+
+      await ctx.prisma.song.create({
+        data: {
+          name: input.name,
+          pictureUrl: input.pictureUrl,
+          songUrl: input.songUrl,
+          genre: input.genre,
+
+          playlistName: input.playlistName,
+          authorName: ctx.username,
+          album: input.albumName,
+          artist: input.artistName,
+          description: input.description,
+          rating: input.rating,
         },
       });
     }),
+
+  deleteSong: withAuthProcedure.mutation(async ({ ctx, input }) => {
+    ctx.prisma.song.delete({
+      where: {
+        name_playlistName_authorName: {
+          authorName: ctx.username,
+          name: "neo-tarran dystopia",
+          playlistName: "Tech death",
+        },
+      },
+    });
+  }),
 });
