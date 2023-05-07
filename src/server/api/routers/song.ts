@@ -106,15 +106,22 @@ export const songRouter = createTRPCRouter({
       });
     }),
 
-  deleteSong: withAuthProcedure.mutation(async ({ ctx, input }) => {
-    await ctx.prisma.song.delete({
-      where: {
-        name_playlistName_authorName: {
-          authorName: ctx.username,
-          name: "The Aura",
-          playlistName: "Tech death",
+  deleteSong: withAuthProcedure
+    .input(
+      z.object({
+        name: z.string().min(1),
+        playlistName: z.string().min(1),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.song.delete({
+        where: {
+          name_playlistName_authorName: {
+            authorName: ctx.username,
+            name: input.name,
+            playlistName: input.playlistName,
+          },
         },
-      },
-    });
-  }),
+      });
+    }),
 });
