@@ -42,7 +42,7 @@ function CreateSong() {
   const { mutate, isLoading, isIdle } = api.song.createSong.useMutation({
     onSuccess: () => {
       removeChanges();
-      ctx.playlist.getPlaylists.invalidate().then(() => createCreateSong());
+      ctx.song.getSongs.invalidate().then(() => createCreateSong());
     },
 
     onError: (e) => {

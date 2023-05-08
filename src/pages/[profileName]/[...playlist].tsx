@@ -134,7 +134,13 @@ function Profile({
                 addSong={true}
                 pictureUrl=""
                 shallow
-                href={router.asPath + "?showCreateSong=true"}
+                href={{
+                  pathname: router.route,
+                  query: {
+                    ...router.query,
+                    showCreateSong: "true",
+                  },
+                }}
               />
             )}
           </Section>

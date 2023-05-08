@@ -44,7 +44,7 @@ export const Section = memo(function Section({
     //ngl in nextjs working with query params is all over the place
     // keeps old params but adds search
     const url = {
-      pathname: router.pathname,
+      pathname: router.route,
       query: { ...router.query, search: value },
     };
 
@@ -128,8 +128,8 @@ export const SectionCard = memo(function ({
         <>
           <div className="h-[148px] w-[148px] ">
             <img
-              width={130}
-              height={130}
+              width={140}
+              height={140}
               alt={title + "'s image"}
               loading="lazy"
               className=" h-full  w-full object-cover"
@@ -146,7 +146,7 @@ export const SectionCard = memo(function ({
 
   return (
     <Link
-      href={href && !skeleton ? href : ""}
+      href={!skeleton ? href : ""}
       shallow={shallow}
       className={`${skeleton && "animate-pulse"} 
         neutral-lowkey-bg  flex flex-col items-center gap-2 p-4 hover:bg-neutral-700/50 focus-visible:bg-neutral-700/50`}
@@ -163,7 +163,9 @@ export const SectionCard = memo(function ({
           <p>{title}</p>
         </>
       ) : (
-        <RenderBoolean />
+        <div className="flex flex-col items-center gap-2">
+          <RenderBoolean />
+        </div>
       )}
     </Link>
   );

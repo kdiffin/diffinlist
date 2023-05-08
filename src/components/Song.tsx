@@ -55,7 +55,7 @@ function Song() {
   }) {
     return !isLoading ? (
       data ? (
-        <p className="mt-4 max-w-[400px] text-center  text-lg md:text-left xl:text-xl">
+        <p className="mt-4 max-w-[300px] text-center  text-lg xl:text-left xl:text-xl">
           {text + " " + data}
         </p>
       ) : (
