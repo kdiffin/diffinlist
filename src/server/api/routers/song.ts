@@ -4,6 +4,7 @@ import { isImage } from "~/server/helpers/ImageChecker";
 import { TRPCError } from "@trpc/server";
 
 export const songRouter = createTRPCRouter({
+  /* QUERIES */
   //gets the song for Song.tsx
   getSong: publicProcedure
     .input(
@@ -47,6 +48,13 @@ export const songRouter = createTRPCRouter({
       return songs;
     }),
 
+  getAllSongs: publicProcedure.query(async ({ ctx }) => {
+    const songs = await ctx.prisma.song.findMany();
+
+    return songs;
+  }),
+
+  /* MUTATIONS */
   createSong: withAuthProcedure
     .input(
       z.object({

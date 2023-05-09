@@ -42,6 +42,12 @@ export const playlistRouter = createTRPCRouter({
       return playlist;
     }),
 
+  getAllPlaylists: publicProcedure.query(async ({ ctx }) => {
+    const playlists = await ctx.prisma.playlist.findMany();
+
+    return playlists;
+  }),
+
   /* MUTATIONS */
   //withAuthProcedure gives the context the username and user info of the logged in user
   createPlaylist: withAuthProcedure
