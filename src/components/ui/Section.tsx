@@ -8,6 +8,7 @@ import { ImageSkeleton } from "./Skeletons";
 import Input from "./Input";
 import { useRouter } from "next/router";
 import { Url } from "next/dist/shared/lib/router/router";
+import Avatar from "./Avatar";
 
 // okay I think something like react composition couldve been very useful for this component
 // ill try that pattern out later maybe.
@@ -92,9 +93,11 @@ export const SectionCard = memo(function ({
   href,
   shallow,
   skeleton,
+  avatar,
   addSong,
 }: {
   title: string;
+  avatar?: boolean | undefined;
   shallow?: boolean;
   skeleton?: boolean;
   pictureUrl: string;
@@ -126,15 +129,24 @@ export const SectionCard = memo(function ({
         </>
       ) : (
         <>
-          <div className="h-[148px] w-[148px] ">
-            <img
-              width={140}
-              height={140}
-              alt={title + "'s image"}
-              loading="lazy"
-              className=" h-full  w-full object-cover"
-              src={pictureUrl!}
-            />
+          <div className="flex h-[148px] w-[148px] items-center justify-center ">
+            {avatar ? (
+              <Avatar
+                loading={false}
+                src={pictureUrl}
+                width_height={130}
+                className=" object-cover"
+              />
+            ) : (
+              <img
+                width={140}
+                height={140}
+                alt={title + "'s image"}
+                loading="lazy"
+                className=" h-full  w-full object-cover"
+                src={pictureUrl!}
+              />
+            )}
           </div>
           <p className=" max-h-[23px] max-w-[150px] overflow-clip text-ellipsis">
             {title}

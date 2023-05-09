@@ -42,7 +42,6 @@ export const songRouter = createTRPCRouter({
           authorName: input.profileName,
           playlistName: input.playlistName,
         },
-        take: 50,
         orderBy: [{ createdAt: "desc" }],
       });
 

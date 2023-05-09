@@ -44,7 +44,8 @@ export const playlistRouter = createTRPCRouter({
 
   getAllPlaylists: publicProcedure.query(async ({ ctx }) => {
     const playlists = await ctx.prisma.playlist.findMany({
-      orderBy: [{ updatedAt: "asc" }],
+      orderBy: [{ createdAt: "desc" }],
+      take: 8,
     });
 
     return playlists;

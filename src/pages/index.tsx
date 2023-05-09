@@ -10,9 +10,11 @@ import { SquareSkeleton } from "~/components/ui/Skeletons";
 import { FaGithub } from "react-icons/fa";
 
 import { api } from "~/utils/api";
+import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
   const { user, isLoaded } = useUser();
+  const router = useRouter();
   const { data: users, isLoading: usersLoading } =
     api.profile.getAllUsers.useQuery();
 
@@ -82,18 +84,54 @@ const Home: NextPage = () => {
 
         <Divider />
 
-        <Section loading={playlistsLoading} name="Songs">
-          <p className="flex w-full items-center justify-center p-5  text-sm text-neutral-500 ">
-            No songs found
-          </p>
+        <Section loading={songsLoading} name="Songs">
+          {songs && songs.length > 0 ? (
+            songs.map((song) => {
+              return (
+                <SectionCard
+                  href={{
+                    pathname: router.route,
+                    query: {
+                      song: song.name,
+                      playlist: song.playlistName,
+                      profileName: song.authorName,
+                    },
+                  }}
+                  pictureUrl={song.pictureUrl}
+                  title={song.name}
+                  key={song.id}
+                />
+              );
+            })
+          ) : (
+            <p className="flex w-full items-center justify-center p-5 text-sm font-medium text-neutral-500 ">
+              No songs found
+            </p>
+          )}
         </Section>
 
         <Divider />
 
-        <Section loading={playlistsLoading} name="Users">
-          <p className="flex w-full items-center justify-center p-5  text-sm text-neutral-500 ">
-            No playlists found
-          </p>
+        <Section loading={usersLoading} name="Users">
+          {users && users.length > 0 ? (
+            users.map((user) => {
+              return (
+                <SectionCard
+                  href={`/${user.username}`}
+                  avatar
+                  pictureUrl={user.profileImageUrl}
+                  title={user.username}
+                  key={user.username}
+                />
+              );
+
+              <></>;
+            })
+          ) : (
+            <p className="flex w-full items-center justify-center p-5 text-sm font-medium text-neutral-500 ">
+              No users found
+            </p>
+          )}
         </Section>
       </div>
     </div>
