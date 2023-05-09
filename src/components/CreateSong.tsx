@@ -98,6 +98,7 @@ function CreateSong() {
     setGenre("");
     setName("");
     setPictureUrl("");
+    setSongUrl("");
 
     albumRef.current ? (albumRef.current.value = "") : null;
     artistRef.current ? (artistRef.current!.value = "") : null;
