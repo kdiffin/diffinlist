@@ -12,6 +12,7 @@ import {
 import { isImage } from "~/server/helpers/ImageChecker";
 
 export const playlistRouter = createTRPCRouter({
+  /* QUERIES */
   getPlaylists: publicProcedure
     .input(z.object({ profileName: z.string(), takeLimit: z.number() }))
     .query(async ({ input, ctx }) => {
@@ -41,6 +42,7 @@ export const playlistRouter = createTRPCRouter({
       return playlist;
     }),
 
+  /* MUTATIONS */
   //withAuthProcedure gives the context the username and user info of the logged in user
   createPlaylist: withAuthProcedure
     .input(

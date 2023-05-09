@@ -42,7 +42,7 @@ export function AvatarSkeleton({
       <div
         className={`${
           className ? className : ""
-        } h-[${width_height}px] w-[${width_height}px] flex items-center justify-center  rounded-full`}
+        } flex h-[${width_height}px] w-[${width_height}px]  items-center justify-center  rounded-full`}
       >
         {" "}
         <LoadingSpinner />

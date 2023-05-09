@@ -92,12 +92,6 @@ function Profile({ profileName }: { profileName: string }) {
               No playlists found
             </p>
           </Section>
-
-          {/* <Section loading={playlistsLoading} name="Songs" />
-
-          <Section loading={playlistsLoading} name="Favourited playlists" />
-
-          <Section loading={playlistsLoading} name="Favourited songs" /> */}
         </div>
       </div>
 

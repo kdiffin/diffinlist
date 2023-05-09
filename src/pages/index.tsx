@@ -7,6 +7,7 @@ import Avatar from "~/components/ui/Avatar";
 import Divider from "~/components/ui/Divider";
 import { Section } from "~/components/ui/Section";
 import { SquareSkeleton } from "~/components/ui/Skeletons";
+import { FaGithub } from "react-icons/fa";
 
 import { api } from "~/utils/api";
 
@@ -18,19 +19,32 @@ const Home: NextPage = () => {
   return (
     <div className=" flex-col">
       {/* this is the header */}
-      <div className=" neutral-lowkey-bg flex   items-center p-8 ">
-        <div className="flex items-center gap-4">
+      <div className=" neutral-lowkey-bg flex   items-center px-8 py-14 lg:px-14 ">
+        <div className="flex items-center gap-8">
           <Avatar
             className="p-1"
             loading={!isLoaded}
-            width_height={130}
+            width_height={160}
             src={user?.profileImageUrl}
           />
 
-          <div className="flex flex-col  gap-2">
-            <p className="text-4xl  ">{`Welcome, ${
+          <div className="mt-10 flex  flex-col gap-5">
+            <p className="text-5xl  ">{`Welcome ${
               user?.username || "user"
-            }!!`}</p>
+            } :3`}</p>
+
+            <div className=" text-neutral-400">
+              <p className="flex items-center gap-2">
+                This project is open source!!
+              </p>
+
+              <p className=" flex items-center gap-2">
+                You can view the source code here:
+                <a target="blank" href="https://github.com/diffim/diffinlist">
+                  <FaGithub size={18} />
+                </a>
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -70,25 +84,11 @@ const Home: NextPage = () => {
 
         <Divider />
 
-        <Section loading={playlistsLoading} name="Favourited playlists">
+        <Section loading={playlistsLoading} name="Users">
           <p className="flex w-full items-center justify-center p-5  text-sm text-neutral-500 ">
             No playlists found
           </p>
         </Section>
-
-        <Divider />
-
-        <Section loading={playlistsLoading} name="Favourited songs">
-          <p className="flex w-full items-center justify-center p-5  text-sm text-neutral-500 ">
-            No playlists found
-          </p>
-        </Section>
-
-        {/* <Section loading={playlistsLoading} name="Songs" />
-
-    <Section loading={playlistsLoading} name="Favourited playlists" />
-
-    <Section loading={playlistsLoading} name="Favourited songs" /> */}
       </div>
     </div>
   );
