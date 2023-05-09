@@ -27,8 +27,8 @@ const Home: NextPage = () => {
   return (
     <div className=" flex-col">
       {/* this is the header */}
-      <div className=" neutral-lowkey-bg flex   items-center px-8 py-14 lg:px-14 ">
-        <div className="flex items-center gap-8">
+      <div className=" neutral-lowkey-bg flex   items-center justify-center  px-8 py-14 sm:justify-normal lg:px-14 ">
+        <div className="flex flex-col items-center  sm:flex-row sm:gap-8">
           <Avatar
             className="p-1"
             loading={!isLoaded}
