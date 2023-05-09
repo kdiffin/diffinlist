@@ -23,7 +23,10 @@ function Song() {
   } = api.song.getSong.useQuery(
     {
       playlistName:
-        router.query.playlist && typeof router.query.playlist[0] === "string"
+        typeof router.query.playlist === "string"
+          ? router.query.playlist
+          : router.query.playlist &&
+            typeof router.query.playlist[0] === "string"
           ? (router.query.playlist[0] as string)
           : "",
 

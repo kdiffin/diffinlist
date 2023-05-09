@@ -39,7 +39,7 @@ function CreateSong() {
   const [nextStep, setNextStep] = useState(false);
 
   const ctx = api.useContext();
-  const { mutate, isLoading, isIdle } = api.song.createSong.useMutation({
+  const { mutate, isLoading } = api.song.createSong.useMutation({
     onSuccess: () => {
       removeChanges();
       ctx.song.getSongs.invalidate().then(() => createCreateSong());
@@ -60,7 +60,7 @@ function CreateSong() {
       }
 
       if (e.data?.stack?.includes("invocation:\n\n\nUnique constraint")) {
-        toast.error("You can't have 2 playlists with the same name");
+        toast.error("You can't have 2 songs with the same name");
         setName("");
       } else {
         if (errorMessageName && errorMessageName[0]) {
@@ -123,9 +123,7 @@ function CreateSong() {
       artistName: artistRef.current?.value,
       description: descriptionRef.current?.value,
 
-      rating: ratingRef.current
-        ? parseInt(ratingRef.current?.value)
-        : undefined,
+      rating: ratingRef.current ? parseInt(ratingRef.current.value) : undefined,
     });
   }
 

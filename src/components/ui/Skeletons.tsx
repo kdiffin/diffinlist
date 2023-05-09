@@ -23,6 +23,10 @@ export function SquareSkeleton({
   forWhat?: string;
 }) {
   return (
-    <div className={`${className} animate-pulse  bg-neutral-700/60`}></div>
+    <div
+      className={`${className} animate-pulse  bg-neutral-700/60 text-transparent`}
+    >
+      a
+    </div>
   );
 }

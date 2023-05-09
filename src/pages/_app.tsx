@@ -13,7 +13,6 @@ import { Toaster } from "react-hot-toast";
 import Song from "~/components/Song";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
-  //todo: createSong.tsx
   //todo: deleteing songs and adding songs to ur playlist
   //todo: search.tsx
   //todo: home feed, recent playlists, recent songs, recent users, popular songs
