@@ -5,7 +5,7 @@ import Link from "next/link";
 import Sidebar from "~/components/Sidebar";
 import Avatar from "~/components/ui/Avatar";
 import Divider from "~/components/ui/Divider";
-import { Section } from "~/components/ui/Section";
+import { Section, SectionCard } from "~/components/ui/Section";
 import { SquareSkeleton } from "~/components/ui/Skeletons";
 import { FaGithub } from "react-icons/fa";
 
@@ -13,8 +13,14 @@ import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
   const { user, isLoaded } = useUser();
+  const { data: users, isLoading: usersLoading } =
+    api.profile.getAllUsers.useQuery();
 
-  const playlistsLoading = false;
+  const { data: playlists, isLoading: playlistsLoading } =
+    api.playlist.getAllPlaylists.useQuery();
+
+  const { data: songs, isLoading: songsLoading } =
+    api.song.getAllSongs.useQuery();
 
   return (
     <div className=" flex-col">
@@ -54,8 +60,7 @@ const Home: NextPage = () => {
         {/* playlists should get filtered when clicked on view more */}
         {/* the reason i didnt reuse the .map function is because I lose typesafety. as different APIS return different objects */}
         <Section loading={playlistsLoading} name="Playlists">
-          {
-            /* {playlists && playlists.length > 0 ? (
+          {playlists && playlists.length > 0 ? (
             playlists.map((playlist) => {
               return (
                 <SectionCard
@@ -66,12 +71,13 @@ const Home: NextPage = () => {
                 />
               );
 
-              <></>
-            }) */ <></>
-          }
-          <p className="flex w-full items-center justify-center p-5 text-sm font-medium text-neutral-500 ">
-            No playlists found
-          </p>
+              <></>;
+            })
+          ) : (
+            <p className="flex w-full items-center justify-center p-5 text-sm font-medium text-neutral-500 ">
+              No playlists found
+            </p>
+          )}
         </Section>
 
         <Divider />

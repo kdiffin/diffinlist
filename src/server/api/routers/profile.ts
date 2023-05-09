@@ -7,8 +7,7 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 function filterProfileForClient(user: User) {
   return {
-    id: user.id,
-    username: user.username,
+    username: user.username ? user.username : "",
     profileImageUrl: user.profileImageUrl,
   };
 }
@@ -35,9 +34,8 @@ export const profileRouter = createTRPCRouter({
     }),
 
   getAllUsers: publicProcedure.query(async () => {
-    const users = await clerkClient.users.getUserList();
-
-    console.log(users);
+    const unfilteredUsers = await clerkClient.users.getUserList();
+    const users = unfilteredUsers.map((user) => filterProfileForClient(user));
 
     return users;
   }),
