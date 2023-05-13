@@ -15,7 +15,7 @@ import Image from "next/image";
 import defaultProfilePic from "../public/defaultuser.png";
 
 const Home: NextPage = () => {
-  const { user, isLoaded } = useUser();
+  const { user, isLoaded, isSignedIn } = useUser();
   const router = useRouter();
   const { data: users, isLoading: usersLoading } =
     api.profile.getAllUsers.useQuery();
@@ -31,12 +31,12 @@ const Home: NextPage = () => {
       {/* this is the header */}
       <div className=" neutral-lowkey-bg flex   items-center justify-center  px-8 py-14 sm:justify-normal lg:px-14 ">
         <div className="flex flex-col items-center  sm:flex-row sm:gap-8">
-          {user ? (
+          {isSignedIn ? (
             <Avatar
               className="p-1"
               loading={!isLoaded}
               width_height={160}
-              src={user.profileImageUrl}
+              src={user?.profileImageUrl}
             />
           ) : (
             <Image
