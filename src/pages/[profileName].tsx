@@ -1,6 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import React from "react";
 import Avatar from "~/components/ui/Avatar";
 import Divider from "~/components/ui/Divider";
@@ -10,6 +11,7 @@ import { api } from "~/utils/api";
 
 function Profile({ profileName }: { profileName: string }) {
   //the usequery will never hit loading because of ssg
+  const router = useRouter();
   const { data: userData } = api.profile.getProfileByProfileName.useQuery({
     profileName: profileName,
   });
@@ -19,6 +21,10 @@ function Profile({ profileName }: { profileName: string }) {
       profileName: profileName,
       takeLimit: 8,
     });
+
+  const { data: songs, isLoading: songsLoading } = api.song.getSongs.useQuery({
+    profileName: profileName,
+  });
 
   if (!userData) throw new Error("Data not found");
 
@@ -71,24 +77,30 @@ function Profile({ profileName }: { profileName: string }) {
 
           <Divider />
 
-          <Section loading={playlistsLoading} name="Songs">
-           
-          </Section>
-
-          <Divider />
-
-          <Section loading={playlistsLoading} name="Favourited playlists">
-            <p className="flex w-full items-center justify-center p-5  text-sm text-neutral-500 ">
-              No playlists found
-            </p>
-          </Section>
-
-          <Divider />
-
-          <Section loading={playlistsLoading} name="Favourited songs">
-            <p className="flex w-full items-center justify-center p-5  text-sm text-neutral-500 ">
-              No playlists found
-            </p>
+          <Section loading={songsLoading} name="Songs">
+            {songs && songs.length > 0 ? (
+              songs.map((song) => {
+                return (
+                  <SectionCard
+                    href={{
+                      pathname: router.route,
+                      query: {
+                        song: song.name,
+                        playlist: song.playlistName,
+                        profileName: song.authorName,
+                      },
+                    }}
+                    pictureUrl={song.pictureUrl}
+                    title={song.name}
+                    key={song.id}
+                  />
+                );
+              })
+            ) : (
+              <p className="flex w-full items-center justify-center p-5 text-sm font-medium text-neutral-500 ">
+                No songs found
+              </p>
+            )}
           </Section>
         </div>
       </div>

@@ -28,12 +28,13 @@ export const songRouter = createTRPCRouter({
       return song;
     }),
 
-  //gets the songs for the [...playlist] route
+  //when fetching for [playlist] it gets it with playlistname and profilename
+  //when fetching for [profileName] it gets it with profilename
   getSongs: publicProcedure
     .input(
       z.object({
         profileName: z.string(),
-        playlistName: z.string(),
+        playlistName: z.string().optional(),
       })
     )
     .query(async ({ ctx, input }) => {

@@ -34,12 +34,13 @@ function Song() {
     },
 
     //enabled makes sure that song only fetches when the modal is actually open
-    //cuz this component is mounted all the time
+    //cuz this component is mounted all the time in app.tsx
     { enabled: isOpen }
   );
 
   function closeSettings() {
-    delete router.query.song;
+    // removes all queries because song modal in index for example triggers 3 queries
+    router.query = {};
 
     router.replace(router, undefined, { shallow: true });
   }
