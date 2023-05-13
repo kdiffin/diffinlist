@@ -72,9 +72,7 @@ function Profile({ profileName }: { profileName: string }) {
           <Divider />
 
           <Section loading={playlistsLoading} name="Songs">
-            <p className="flex w-full items-center justify-center p-5  text-sm text-neutral-500 ">
-              No songs found
-            </p>
+           
           </Section>
 
           <Divider />

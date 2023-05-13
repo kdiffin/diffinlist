@@ -23,12 +23,7 @@ function Song() {
   } = api.song.getSong.useQuery(
     {
       playlistName:
-        typeof router.query.playlist === "string"
-          ? router.query.playlist
-          : router.query.playlist &&
-            typeof router.query.playlist[0] === "string"
-          ? (router.query.playlist[0] as string)
-          : "",
+        typeof router.query.playlist === "string" ? router.query.playlist : "",
 
       songName: typeof router.query.song === "string" ? router.query.song : "",
 
@@ -151,9 +146,7 @@ function Song() {
 
   const ErrorPage = (
     <CustomError
-      href={`${router.query.profileName}/${
-        router.query.playlist && router.query.playlist[0]
-      }`}
+      href={`${router.query.profileName}/${router.query.playlist}`}
       pageName="song"
       backToWhere="playlist"
     />

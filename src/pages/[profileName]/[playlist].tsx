@@ -50,6 +50,7 @@ function Profile({
 
   const songs = matchSorter(
     data ? data : [],
+
     router.query && typeof router.query.search === "string"
       ? router.query.search
       : "",
@@ -190,9 +191,7 @@ function Profile({
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const searchQueryProfileName = context.params?.profileName as string;
-  const searchQueryPlaylistName = context.params?.playlist
-    ? context.params?.playlist[0]
-    : "";
+  const searchQueryPlaylistName = context.params?.playlist as string;
 
   const ssg = ssgHelper;
 

@@ -38,8 +38,8 @@ const Home: NextPage = () => {
 
           <div className="mt-10 flex  flex-col gap-5">
             <p className="text-5xl  ">{`Welcome ${
-              user?.username || "user"
-            } :3`}</p>
+              user?.username + "!!" || "user!!"
+            } `}</p>
 
             <div className=" text-neutral-400">
               <p className="flex items-center gap-2">
