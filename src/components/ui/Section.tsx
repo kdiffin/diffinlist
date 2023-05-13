@@ -76,7 +76,7 @@ export const Section = memo(function Section({
 
       {!hideShowMore && (
         <Link
-          href={`playlists`}
+          href={``}
           className="mt-12 flex w-full items-center justify-center
          gap-2 text-center  font-semibold  text-neutral-600 "
         >
@@ -108,7 +108,8 @@ export const SectionCard = memo(function ({
     // lots of crazy if statements in this project
     // if skeleton prop is passed then render the skeleton of the card
     // if not, then see if the picture has a valid URL, if not, then render out the no image for playlist,
-    // if it does tho render out the regular card with the lazy loaded and regular img
+    // if it does, check if its an avatar and if it is render out the avatar component
+    // if it doesnt tho render out the regular card with the lazy loaded and regular img
     // if anybody knows how to use Image while not knowing the sources of ur images ahead of time let me know
 
     if (skeleton) {

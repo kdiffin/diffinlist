@@ -11,6 +11,8 @@ import { FaGithub } from "react-icons/fa";
 
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
+import Image from "next/image";
+import defaultProfilePic from "../public/defaultuser.png";
 
 const Home: NextPage = () => {
   const { user, isLoaded } = useUser();
@@ -29,16 +31,26 @@ const Home: NextPage = () => {
       {/* this is the header */}
       <div className=" neutral-lowkey-bg flex   items-center justify-center  px-8 py-14 sm:justify-normal lg:px-14 ">
         <div className="flex flex-col items-center  sm:flex-row sm:gap-8">
-          <Avatar
-            className="p-1"
-            loading={!isLoaded}
-            width_height={160}
-            src={user?.profileImageUrl}
-          />
+          {user ? (
+            <Avatar
+              className="p-1"
+              loading={!isLoaded}
+              width_height={160}
+              src={user.profileImageUrl}
+            />
+          ) : (
+            <Image
+              alt="default avatar"
+              src={defaultProfilePic}
+              width={160}
+              className="rounded-full p-1"
+              height={160}
+            />
+          )}
 
           <div className="mt-10 flex  flex-col gap-5">
             <p className="text-5xl  ">{`Welcome ${
-              user?.username + "!!" || "user!!"
+              user ? user.username + "!!" : "user!!"
             } `}</p>
 
             <div className=" text-neutral-400">

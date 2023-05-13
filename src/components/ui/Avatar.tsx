@@ -19,6 +19,7 @@ function Avatar({
         <Image
           alt="Avatar"
           height={width_height}
+          priority
           width={width_height}
           src={src!}
           className={`${className && className} rounded-full`}
