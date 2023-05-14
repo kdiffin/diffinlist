@@ -1,3 +1,4 @@
+import { useUser } from "@clerk/nextjs";
 import { TRPCError } from "@trpc/server";
 import { GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
@@ -15,6 +16,7 @@ function Profile({ profileName }: { profileName: string }) {
   const { data: userData } = api.profile.getProfileByProfileName.useQuery({
     profileName: profileName,
   });
+  const { user } = useUser();
 
   const { data: playlists, isLoading: playlistsLoading } =
     api.playlist.getPlaylists.useQuery({
@@ -62,6 +64,8 @@ function Profile({ profileName }: { profileName: string }) {
                 return (
                   <SectionCard
                     href={`/${playlist.authorName}/${playlist.name}`}
+                    authorName={playlist.authorName}
+                    username={user && user.username ? user.username : ""}
                     pictureUrl={playlist.pictureUrl}
                     title={playlist.name}
                     key={playlist.id}
@@ -90,6 +94,8 @@ function Profile({ profileName }: { profileName: string }) {
                         profileName: song.authorName,
                       },
                     }}
+                    authorName={song.authorName}
+                    username={user && user.username ? user.username : ""}
                     pictureUrl={song.pictureUrl}
                     title={song.name}
                     key={song.id}

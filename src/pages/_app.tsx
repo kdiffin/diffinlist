@@ -9,7 +9,6 @@ import Head from "next/head";
 import NextProgress from "@approximant/next-progress";
 import Settings from "~/components/Settings";
 import CreatePlaylist from "~/components/CreatePlaylist";
-import icon from "../public/mainpic.png";
 import { Toaster } from "react-hot-toast";
 import Song from "~/components/Song";
 

@@ -20,6 +20,7 @@ import Avatar from "./Avatar";
 import React from "react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import * as ContextMenu from "@radix-ui/react-context-menu";
+import { User } from "@clerk/nextjs/dist/api";
 
 // okay I think something like react composition couldve been very useful for this component
 // ill try that pattern out later maybe.
@@ -101,14 +102,18 @@ export const Section = memo(function Section({
 export const SectionCard = memo(function ({
   title,
   pictureUrl,
+  username,
   href,
+  authorName,
   shallow,
   skeleton,
   avatar,
   addSong,
 }: {
   title: string;
+  username: string;
   avatar?: boolean | undefined;
+  authorName: string;
   shallow?: boolean;
   skeleton?: boolean;
   pictureUrl: string;
@@ -172,7 +177,11 @@ export const SectionCard = memo(function ({
     // stops the parent card from redirecting
     e.stopPropagation();
     e.preventDefault();
+    console.log(authorName);
   }
+
+  const isAuthor = authorName === username;
+  console.log(isAuthor);
 
   return (
     <DropdownMenu.Root>
@@ -181,10 +190,10 @@ export const SectionCard = memo(function ({
           <Link
             href={!skeleton ? href : ""}
             shallow={shallow}
-            className={`${
-              skeleton && "animate-pulse"
-            } card neutral-lowkey-bg group
-        relative  flex flex-col items-center gap-2 p-4 focus-within:bg-neutral-700/50 hover:bg-neutral-700/50 focus-visible:bg-neutral-700/50`}
+            className={`${skeleton && " animate-pulse"}
+            ${!skeleton ? "card group" : ""}   neutral-lowkey-bg 
+        relative  flex flex-col items-center gap-2 p-4
+          focus-within:bg-neutral-700/50 hover:bg-neutral-700/50 focus-visible:bg-neutral-700/50`}
           >
             {addSong ? (
               <>
@@ -198,7 +207,7 @@ export const SectionCard = memo(function ({
                 <p>{title}</p>
               </>
             ) : (
-              <div className="    flex flex-col items-center  gap-3 py-1">
+              <div className="    flex flex-col items-center  gap-3 pt-1">
                 <RenderBoolean />
 
                 <DropdownMenu.Trigger asChild>
@@ -213,8 +222,8 @@ export const SectionCard = memo(function ({
               </div>
             )}
           </Link>
-          <Dropdown type="playlist" />
-          <RightClickDropdown type="playlist" />
+          <Dropdown type="playlist" isAuthor={isAuthor} />
+          <RightClickDropdown type="playlist" isAuthor={isAuthor} />
         </ContextMenu.Trigger>
       </ContextMenu.Root>
     </DropdownMenu.Root>
@@ -225,23 +234,33 @@ export const SectionCard = memo(function ({
 // love love love radix ui
 // im gonna slowly build my own library using radix ui like shadcn did
 // i dont like slate like shadcn.ui has I prefer zinc and neutral
-const Dropdown = ({ type }: { type: "playlist" | "song" | "profile" }) => {
+const Dropdown = ({
+  type,
+  isAuthor,
+}: {
+  type: "playlist" | "song" | "profile";
+  isAuthor: boolean;
+}) => {
   return (
-    <DropdownMenu.Content className="dropdown " sideOffset={-15}>
+    <DropdownMenu.Content
+      onCloseAutoFocus={(e) => e.preventDefault()}
+      className="dropdown "
+      sideOffset={-15}
+    >
       <DropdownMenu.Item className="dropdown-item group ">
         <MdLink size={20} className="text-zinc-500" /> Share {type}
       </DropdownMenu.Item>
 
-      <DropdownMenu.Item className="dropdown-item group">
+      <DropdownMenu.Item disabled={!isAuthor} className="dropdown-item group">
         <MdAdd size={20} className="text-zinc-500" /> Add{" "}
         {type === "playlist" ? "playlist to profile" : "song to playlist"}
       </DropdownMenu.Item>
 
-      <DropdownMenu.Item className="dropdown-item group ">
+      <DropdownMenu.Item disabled={!isAuthor} className="dropdown-item group ">
         <MdEdit size={20} className="text-zinc-500" /> Edit {type}
       </DropdownMenu.Item>
 
-      <DropdownMenu.Item className="dropdown-item group ">
+      <DropdownMenu.Item disabled={!isAuthor} className="dropdown-item group ">
         <MdDelete size={20} className="text-zinc-500" /> Delete {type}
       </DropdownMenu.Item>
     </DropdownMenu.Content>
@@ -251,28 +270,32 @@ const Dropdown = ({ type }: { type: "playlist" | "song" | "profile" }) => {
 // the dropdown for when the user right clicks or is a mobile user and long presses
 // https://www.radix-ui.com/docs/primitives/components/context-menu
 // copy pasted the same thing from dropdown
-
 const RightClickDropdown = ({
   type,
+  isAuthor,
 }: {
   type: "playlist" | "song" | "profile";
+  isAuthor: boolean;
 }) => {
   return (
-    <ContextMenu.Content className="dropdown ">
-      <ContextMenu.Item className="dropdown-item group ">
+    <ContextMenu.Content
+      className="dropdown "
+      onCloseAutoFocus={(e) => e.preventDefault()}
+    >
+      <ContextMenu.Item isAuthor={isAuthor} className="dropdown-item group ">
         <MdLink size={20} className="text-zinc-500" /> Share {type}
       </ContextMenu.Item>
 
-      <ContextMenu.Item className="dropdown-item group">
+      <ContextMenu.Item isAuthor={isAuthor} className="dropdown-item group">
         <MdAdd size={20} className="text-zinc-500" /> Add{" "}
         {type === "playlist" ? "playlist to profile" : "song to playlist"}
       </ContextMenu.Item>
 
-      <ContextMenu.Item className="dropdown-item group ">
+      <ContextMenu.Item isAuthor={isAuthor} className="dropdown-item group ">
         <MdEdit size={20} className="text-zinc-500" /> Edit {type}
       </ContextMenu.Item>
 
-      <ContextMenu.Item className="dropdown-item group ">
+      <ContextMenu.Item isAuthor={isAuthor} className="dropdown-item group ">
         <MdDelete size={20} className="text-zinc-500" /> Delete {type}
       </ContextMenu.Item>
     </ContextMenu.Content>
