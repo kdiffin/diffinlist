@@ -186,16 +186,20 @@ export const SectionCard = memo(function ({
     e.preventDefault();
   }
 
-  const linkRef = useRef<HTMLAnchorElement>(null);
   const isAuthor = authorName === username;
-  const linkHref = linkRef.current ? linkRef.current.href : "";
+
+  //check my previous commits i tried doing it with linkref.href but it didnt work bc of hydration errors
+  const linkHref =
+    typeof href === "object" && typeof href.query === "object"
+      ? `https://diffinlist.vercel.app/${href?.query!.profileName!}
+      /${href?.query!.playlist!}?song=${href?.query!.song!} `
+      : `https://diffinlist.vercel.app/${href}`;
 
   return (
     <DropdownMenu.Root>
       <ContextMenu.Root>
         <ContextMenu.Trigger>
           <Link
-            ref={linkRef}
             href={!skeleton ? href : ""}
             shallow={shallow}
             className={`${skeleton && " animate-pulse"}
@@ -231,13 +235,13 @@ export const SectionCard = memo(function ({
             )}
           </Link>
           <Dropdown
-            ShareLink={linkHref}
+            ShareLink={linkHref.toString()}
             isSignedIn={!(username === "")}
             type={type}
             isAuthor={isAuthor}
           />
           <RightClickDropdown
-            ShareLink={linkHref}
+            ShareLink={linkHref.toString()}
             isSignedIn={!(username === "")}
             type={type}
             isAuthor={isAuthor}
@@ -259,7 +263,7 @@ const Dropdown = ({
   isSignedIn,
 }: {
   type: "playlist" | "song" | "profile";
-  ShareLink: Url;
+  ShareLink: string;
   isAuthor: boolean;
   isSignedIn: boolean;
 }) => {
@@ -349,7 +353,8 @@ const RightClickDropdown = ({
     }
   }
 
-  type === "playlist" ? console.log(ShareLink) : "";
+  console.log(ShareLink);
+
   return (
     <ContextMenu.Content
       className="dropdown "

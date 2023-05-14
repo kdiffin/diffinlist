@@ -5,7 +5,6 @@ import Input, { InputField } from "../ui/Input";
 import { api } from "~/utils/api";
 import Button from "../ui/Button";
 import { toast } from "react-hot-toast";
-import { error } from "console";
 import { LoadingSpinner } from "../ui/Loading";
 import { ImageSkeleton } from "../ui/Skeletons";
 import { useClerk } from "@clerk/nextjs";
