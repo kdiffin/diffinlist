@@ -51,7 +51,12 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         {/* Primary Meta Tags  */}
         <title>{"diffinlist"}</title>
         <meta name="title" content="diffinlist" />
-        <link rel="icon" href={"../public/mainpic"} />
+        <link
+          rel="icon"
+          href={
+            "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpre00.deviantart.net%2F70ec%2Fth%2Fpre%2Fi%2F2016%2F164%2Fe%2F4%2Femoticon_cute_cat___facebook_by_thebether-da62hu8.png&f=1&nofb=1&ipt=aa1635971965336a0a75ac721bdadf2b12d7c1472679a7f8be7a76c0b75ff425&ipo=images"
+          }
+        />
         <meta
           name="description"
           content={
@@ -69,10 +74,20 @@ const MyApp: AppType = ({ Component, pageProps }) => {
             "diffinlist is an awesome playlist sharing app built with the t3 stack !!"
           }
         />
-        <meta property="og:image" content={""} />
+        <meta
+          property="og:image"
+          content={
+            "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpre00.deviantart.net%2F70ec%2Fth%2Fpre%2Fi%2F2016%2F164%2Fe%2F4%2Femoticon_cute_cat___facebook_by_thebether-da62hu8.png&f=1&nofb=1&ipt=aa1635971965336a0a75ac721bdadf2b12d7c1472679a7f8be7a76c0b75ff425&ipo=images"
+          }
+        />
 
         {/* <!-- Twitter -- /> */}
-        <meta property="twitter:card" content={""} />
+        <meta
+          property="twitter:card"
+          content={
+            "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpre00.deviantart.net%2F70ec%2Fth%2Fpre%2Fi%2F2016%2F164%2Fe%2F4%2Femoticon_cute_cat___facebook_by_thebether-da62hu8.png&f=1&nofb=1&ipt=aa1635971965336a0a75ac721bdadf2b12d7c1472679a7f8be7a76c0b75ff425&ipo=images"
+          }
+        />
         <meta
           property="twitter:url"
           content={"https://diffinlist.vercel.app"}
@@ -84,7 +99,12 @@ const MyApp: AppType = ({ Component, pageProps }) => {
             "diffinlist is an awesome playlist sharing app built with the t3 stack !!"
           }
         />
-        <meta property="twitter:image" content={""}></meta>
+        <meta
+          property="twitter:image"
+          content={
+            "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpre00.deviantart.net%2F70ec%2Fth%2Fpre%2Fi%2F2016%2F164%2Fe%2F4%2Femoticon_cute_cat___facebook_by_thebether-da62hu8.png&f=1&nofb=1&ipt=aa1635971965336a0a75ac721bdadf2b12d7c1472679a7f8be7a76c0b75ff425&ipo=images"
+          }
+        ></meta>
       </Head>
     </ClerkProvider>
   );
