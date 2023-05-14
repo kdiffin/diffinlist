@@ -1,6 +1,14 @@
 import Link from "next/link";
 import { MouseEvent, ReactNode, useRef, useState } from "react";
-import { MdAdd, MdMoreHoriz, MdSearch } from "react-icons/md";
+import {
+  MdAdd,
+  MdDelete,
+  MdEdit,
+  MdLink,
+  MdMoreHoriz,
+  MdSearch,
+  MdShare,
+} from "react-icons/md";
 import Loading from "./Loading";
 import Image from "next/image";
 import { memo } from "react";
@@ -188,14 +196,11 @@ export const SectionCard = memo(function ({
           <div className="    flex flex-col items-center  gap-3 py-1">
             <RenderBoolean />
 
-            <DropdownMenu.Trigger
-              asChild
-              className="focus:outline-transparent focus-visible:outline-transparent"
-            >
+            <DropdownMenu.Trigger asChild>
               <button
                 onClick={(e) => openDropdown(e)}
                 tabIndex={0}
-                className="dropdown-button absolute -right-2 -top-4 hidden p-3 outline-none transition hover:scale-[1.20]  focus:block focus:scale-[1.20] focus:outline-transparent focus-visible:block focus-visible:outline-transparent  active:scale-100 group-hover:block   group-focus-visible:block"
+                className="dropdown-button absolute -right-2 -top-4 p-3  opacity-0  transition hover:scale-[1.20] focus:scale-[1.20]  active:scale-100 group-focus-within:opacity-100  group-hover:opacity-100  group-focus:opacity-100"
               >
                 <MdMoreHoriz size={26} />
               </button>
@@ -203,89 +208,36 @@ export const SectionCard = memo(function ({
           </div>
         )}
       </Link>
-      <Dropdown />
+      <DropdownMenu.Portal>
+        <Dropdown type="playlist" />
+      </DropdownMenu.Portal>
     </DropdownMenu.Root>
   );
 });
 
-const Dropdown = () => {
-  const [bookmarksChecked, setBookmarksChecked] = React.useState(true);
-  const [urlsChecked, setUrlsChecked] = React.useState(false);
-  const [person, setPerson] = React.useState("pedro");
-
+// https://www.radix-ui.com/docs/primitives/components/dropdown-menu
+// love love love radix ui
+// im gonna slowly build my own library using radix ui like shadcn did
+// i dont like slate like shadcn.ui has I prefer zinc and neutral
+const Dropdown = ({ type }: { type: "playlist" | "song" | "profile" }) => {
   return (
-    <DropdownMenu.Content
-      className="data-[side=top]:animate-slideDownAndFade data-[side=right]:animate-slideLeftAndFade 
-      data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade z-20
-       min-w-[220px]  rounded-md bg-zinc-800
-       p-[5px] shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),_0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] will-change-[opacity,transform]"
-      sideOffset={5}
-    >
-      <DropdownMenu.Item className=" data-[highlighted]:bg- data-[highlighted]:text-violet1 group relative flex h-[25px] select-none items-center rounded-[3px] px-[5px] pl-[25px] text-[13px] leading-none outline-none data-[disabled]:pointer-events-none">
-        New Tab{" "}
-        <div className="text-mauve11 group-data-[disabled]:text-mauve8 ml-auto pl-[20px] group-data-[highlighted]:text-white">
-          ⌘+T
-        </div>
-      </DropdownMenu.Item>
-      <DropdownMenu.Item className="text-violet11 data-[disabled]:text-mauve8 data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1 group relative flex h-[25px] select-none items-center rounded-[3px] px-[5px] pl-[25px] text-[13px] leading-none outline-none data-[disabled]:pointer-events-none">
-        New Window{" "}
-        <div className="text-mauve11 group-data-[disabled]:text-mauve8 ml-auto pl-[20px] group-data-[highlighted]:text-white">
-          ⌘+N
-        </div>
-      </DropdownMenu.Item>
-      <DropdownMenu.Item
-        className="text-violet11 data-[disabled]:text-mauve8 data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1 group relative flex h-[25px] select-none items-center rounded-[3px] px-[5px] pl-[25px] text-[13px] leading-none outline-none data-[disabled]:pointer-events-none"
-        disabled
-      >
-        New Private Window{" "}
-        <div className="text-mauve11 group-data-[disabled]:text-mauve8 ml-auto pl-[20px] group-data-[highlighted]:text-white">
-          ⇧+⌘+N
-        </div>
+    <DropdownMenu.Content className="dropdown " sideOffset={-15}>
+      <DropdownMenu.Item className="dropdown-item group ">
+        <MdLink size={20} className="text-zinc-500" /> Share {type}
       </DropdownMenu.Item>
 
-      <DropdownMenu.Separator className="m-[5px] h-[1px] bg-white" />
+      <DropdownMenu.Item className="dropdown-item group">
+        <MdAdd size={20} className="text-zinc-500" /> Add{" "}
+        {type === "playlist" ? "playlist to profile" : "song to playlist"}
+      </DropdownMenu.Item>
 
-      <DropdownMenu.CheckboxItem
-        className="text-violet11 data-[disabled]:text-mauve8 data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1 group relative flex h-[25px] select-none items-center rounded-[3px] px-[5px] pl-[25px] text-[13px] leading-none outline-none data-[disabled]:pointer-events-none"
-        checked={bookmarksChecked}
-        onCheckedChange={setBookmarksChecked}
-      >
-        <DropdownMenu.ItemIndicator className="absolute left-0 inline-flex w-[25px] items-center justify-center"></DropdownMenu.ItemIndicator>
-        Show Bookmarks{" "}
-        <div className="text-mauve11 group-data-[disabled]:text-mauve8 ml-auto pl-[20px] group-data-[highlighted]:text-white">
-          ⌘+B
-        </div>
-      </DropdownMenu.CheckboxItem>
-      <DropdownMenu.CheckboxItem
-        className="text-violet11 data-[disabled]:text-mauve8 data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1 relative flex h-[25px] select-none items-center rounded-[3px] px-[5px] pl-[25px] text-[13px] leading-none outline-none data-[disabled]:pointer-events-none"
-        checked={urlsChecked}
-        onCheckedChange={setUrlsChecked}
-      >
-        <DropdownMenu.ItemIndicator className="absolute left-0 inline-flex w-[25px] items-center justify-center"></DropdownMenu.ItemIndicator>
-        Show Full URLs
-      </DropdownMenu.CheckboxItem>
+      <DropdownMenu.Item className="dropdown-item group ">
+        <MdEdit size={20} className="text-zinc-500" /> Edit {type}
+      </DropdownMenu.Item>
 
-      <DropdownMenu.Separator className="bg-violet6 m-[5px] h-[1px]" />
-
-      <DropdownMenu.Label className="text-mauve11 pl-[25px] text-xs leading-[25px]">
-        People
-      </DropdownMenu.Label>
-      <DropdownMenu.RadioGroup value={person} onValueChange={setPerson}>
-        <DropdownMenu.RadioItem
-          className="text-violet11 data-[disabled]:text-mauve8 data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1 relative flex h-[25px] select-none items-center rounded-[3px] px-[5px] pl-[25px] text-[13px] leading-none outline-none data-[disabled]:pointer-events-none"
-          value="pedro"
-        >
-          <DropdownMenu.ItemIndicator className="absolute left-0 inline-flex w-[25px] items-center justify-center"></DropdownMenu.ItemIndicator>
-          Pedro Duarte
-        </DropdownMenu.RadioItem>
-        <DropdownMenu.RadioItem
-          className="text-violet11 data-[disabled]:text-mauve8 data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1 relative flex h-[25px] select-none items-center rounded-[3px] px-[5px] pl-[25px] text-[13px] leading-none outline-none data-[disabled]:pointer-events-none"
-          value="colm"
-        >
-          <DropdownMenu.ItemIndicator className="absolute left-0 inline-flex w-[25px] items-center justify-center"></DropdownMenu.ItemIndicator>
-          Colm Tuite
-        </DropdownMenu.RadioItem>
-      </DropdownMenu.RadioGroup>
+      <DropdownMenu.Item className="dropdown-item group ">
+        <MdDelete size={20} className="text-zinc-500" /> Delete {type}
+      </DropdownMenu.Item>
     </DropdownMenu.Content>
   );
 };
