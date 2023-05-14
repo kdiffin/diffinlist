@@ -43,6 +43,10 @@ a:active {
     @apply shadow-none;
   }
 
+  .card:focus-visible {
+    @apply shadow-none;
+  }
+
   button:focus-visible,
   a:focus-visible {
     outline: none;

@@ -19,6 +19,7 @@ import { Url } from "next/dist/shared/lib/router/router";
 import Avatar from "./Avatar";
 import React from "react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import * as ContextMenu from "@radix-ui/react-context-menu";
 
 // okay I think something like react composition couldve been very useful for this component
 // ill try that pattern out later maybe.
@@ -175,42 +176,47 @@ export const SectionCard = memo(function ({
 
   return (
     <DropdownMenu.Root>
-      <Link
-        href={!skeleton ? href : ""}
-        shallow={shallow}
-        className={`${skeleton && "animate-pulse"} card neutral-lowkey-bg group
-        relative  flex flex-col items-center gap-2 p-4 hover:bg-neutral-700/50 focus-visible:bg-neutral-700/50`}
-      >
-        {addSong ? (
-          <>
-            <div
-              className="
+      <ContextMenu.Root>
+        <ContextMenu.Trigger>
+          <Link
+            href={!skeleton ? href : ""}
+            shallow={shallow}
+            className={`${
+              skeleton && "animate-pulse"
+            } card neutral-lowkey-bg group
+        relative  flex flex-col items-center gap-2 p-4 focus-within:bg-neutral-700/50 hover:bg-neutral-700/50 focus-visible:bg-neutral-700/50`}
+          >
+            {addSong ? (
+              <>
+                <div
+                  className="
             flex   h-[150px] w-[150px]  items-center justify-center  rounded-sm border-2 border-dotted border-neutral-700 text-center text-neutral-400
             "
-            >
-              <MdAdd size={32} />
-            </div>
-            <p>{title}</p>
-          </>
-        ) : (
-          <div className="    flex flex-col items-center  gap-3 py-1">
-            <RenderBoolean />
+                >
+                  <MdAdd size={32} />
+                </div>
+                <p>{title}</p>
+              </>
+            ) : (
+              <div className="    flex flex-col items-center  gap-3 py-1">
+                <RenderBoolean />
 
-            <DropdownMenu.Trigger asChild>
-              <button
-                onClick={(e) => openDropdown(e)}
-                tabIndex={0}
-                className="dropdown-button absolute -right-2 -top-4 p-3  opacity-0  transition hover:scale-[1.20] focus:scale-[1.20]  active:scale-100 group-focus-within:opacity-100  group-hover:opacity-100  group-focus:opacity-100"
-              >
-                <MdMoreHoriz size={26} />
-              </button>
-            </DropdownMenu.Trigger>
-          </div>
-        )}
-      </Link>
-      <DropdownMenu.Portal>
-        <Dropdown type="playlist" />
-      </DropdownMenu.Portal>
+                <DropdownMenu.Trigger asChild>
+                  <button
+                    onClick={(e) => openDropdown(e)}
+                    tabIndex={0}
+                    className="dropdown-button absolute -right-2 -top-4 p-3  opacity-0  transition hover:scale-[1.20] focus:scale-[1.20]  active:scale-100 group-focus-within:opacity-100  group-hover:opacity-100  group-focus:opacity-100"
+                  >
+                    <MdMoreHoriz size={26} />
+                  </button>
+                </DropdownMenu.Trigger>
+              </div>
+            )}
+          </Link>
+          <Dropdown type="playlist" />
+          <RightClickDropdown type="playlist" />
+        </ContextMenu.Trigger>
+      </ContextMenu.Root>
     </DropdownMenu.Root>
   );
 });
@@ -239,5 +245,36 @@ const Dropdown = ({ type }: { type: "playlist" | "song" | "profile" }) => {
         <MdDelete size={20} className="text-zinc-500" /> Delete {type}
       </DropdownMenu.Item>
     </DropdownMenu.Content>
+  );
+};
+
+// the dropdown for when the user right clicks or is a mobile user and long presses
+// https://www.radix-ui.com/docs/primitives/components/context-menu
+// copy pasted the same thing from dropdown
+
+const RightClickDropdown = ({
+  type,
+}: {
+  type: "playlist" | "song" | "profile";
+}) => {
+  return (
+    <ContextMenu.Content className="dropdown ">
+      <ContextMenu.Item className="dropdown-item group ">
+        <MdLink size={20} className="text-zinc-500" /> Share {type}
+      </ContextMenu.Item>
+
+      <ContextMenu.Item className="dropdown-item group">
+        <MdAdd size={20} className="text-zinc-500" /> Add{" "}
+        {type === "playlist" ? "playlist to profile" : "song to playlist"}
+      </ContextMenu.Item>
+
+      <ContextMenu.Item className="dropdown-item group ">
+        <MdEdit size={20} className="text-zinc-500" /> Edit {type}
+      </ContextMenu.Item>
+
+      <ContextMenu.Item className="dropdown-item group ">
+        <MdDelete size={20} className="text-zinc-500" /> Delete {type}
+      </ContextMenu.Item>
+    </ContextMenu.Content>
   );
 };
