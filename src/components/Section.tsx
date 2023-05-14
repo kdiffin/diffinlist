@@ -284,11 +284,11 @@ const Dropdown = ({
     >
       <DropdownMenu.Item onSelect={handleCopy} className="dropdown-item group ">
         <input
+          readOnly
           type="text"
           hidden
           ref={textRef}
           value={ShareLink.toString()}
-          readOnly
         />
         <MdLink size={20} className="text-zinc-500" /> Share {type}
       </DropdownMenu.Item>
@@ -349,6 +349,7 @@ const RightClickDropdown = ({
     }
   }
 
+  type === "playlist" ? console.log(ShareLink) : "";
   return (
     <ContextMenu.Content
       className="dropdown "
@@ -356,7 +357,13 @@ const RightClickDropdown = ({
     >
       <ContextMenu.Item onSelect={handleCopy} className="dropdown-item group ">
         <MdLink size={20} className="text-zinc-500" /> Share {type}
-        <input type="text" hidden ref={textRef} value={ShareLink.toString()} />
+        <input
+          readOnly
+          type="text"
+          hidden
+          ref={textRef}
+          value={ShareLink.toString()}
+        />
       </ContextMenu.Item>
 
       {!(type === "profile") ? (
