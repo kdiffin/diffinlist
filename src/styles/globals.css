@@ -40,6 +40,12 @@ a:active {
     @apply w-64;
   }
 
+  /* thsi stops the default shrinking when the card is clicked */
+  .card:has(.dropdown-button:active, .dropdown-button:hover) {
+    transform: scale(1);
+  }
+
+  /* DONT TOUCH THESE  */
   /* Add a thumb */
   .subtle-scrollbar::-webkit-scrollbar-thumb {
     border-radius: 10px;

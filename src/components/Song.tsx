@@ -44,8 +44,6 @@ function Song() {
 
     const pathWithoutQueries = router.asPath.split("?")[0];
 
-    console.log(pathWithoutQueries);
-
     router.replace(pathWithoutQueries!, undefined, {
       shallow: true,
     });

@@ -9,6 +9,7 @@ import Head from "next/head";
 import NextProgress from "@approximant/next-progress";
 import Settings from "~/components/Settings";
 import CreatePlaylist from "~/components/CreatePlaylist";
+import icon from "../public/mainpic.png";
 import { Toaster } from "react-hot-toast";
 import Song from "~/components/Song";
 
@@ -51,7 +52,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         {/* Primary Meta Tags  */}
         <title>{"diffinlist"}</title>
         <meta name="title" content="diffinlist" />
-        <link rel="icon" href={""} />
+        <link rel="icon" href={"../public/mainpic"} />
         <meta
           name="description"
           content={

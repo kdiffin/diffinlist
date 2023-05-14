@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { ReactNode, useState } from "react";
-import { MdAdd, MdSearch } from "react-icons/md";
+import { MouseEvent, ReactNode, useRef, useState } from "react";
+import { MdAdd, MdMoreHoriz, MdSearch } from "react-icons/md";
 import Loading from "./Loading";
 import Image from "next/image";
 import { memo } from "react";
@@ -9,6 +9,8 @@ import Input from "./Input";
 import { useRouter } from "next/router";
 import { Url } from "next/dist/shared/lib/router/router";
 import Avatar from "./Avatar";
+import React from "react";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 
 // okay I think something like react composition couldve been very useful for this component
 // ill try that pattern out later maybe.
@@ -157,29 +159,133 @@ export const SectionCard = memo(function ({
     }
   }
 
+  function openDropdown(e: any) {
+    // stops the parent card from redirecting
+    e.stopPropagation();
+    e.preventDefault();
+  }
+
   return (
-    <Link
-      href={!skeleton ? href : ""}
-      shallow={shallow}
-      className={`${skeleton && "animate-pulse"} 
-        neutral-lowkey-bg  flex flex-col items-center gap-2 p-4 hover:bg-neutral-700/50 focus-visible:bg-neutral-700/50`}
-    >
-      {addSong ? (
-        <>
-          <div
-            className="
+    <DropdownMenu.Root>
+      <Link
+        href={!skeleton ? href : ""}
+        shallow={shallow}
+        className={`${skeleton && "animate-pulse"} card neutral-lowkey-bg group
+        relative  flex flex-col items-center gap-2 p-4 hover:bg-neutral-700/50 focus-visible:bg-neutral-700/50`}
+      >
+        {addSong ? (
+          <>
+            <div
+              className="
             flex   h-[150px] w-[150px]  items-center justify-center  rounded-sm border-2 border-dotted border-neutral-700 text-center text-neutral-400
             "
-          >
-            <MdAdd size={32} />
+            >
+              <MdAdd size={32} />
+            </div>
+            <p>{title}</p>
+          </>
+        ) : (
+          <div className="    flex flex-col items-center  gap-3 py-1">
+            <RenderBoolean />
+
+            <DropdownMenu.Trigger
+              asChild
+              className="focus:outline-transparent focus-visible:outline-transparent"
+            >
+              <button
+                onClick={(e) => openDropdown(e)}
+                tabIndex={0}
+                className="dropdown-button absolute -right-2 -top-4 hidden p-3 outline-none transition hover:scale-[1.20]  focus:block focus:scale-[1.20] focus:outline-transparent focus-visible:block focus-visible:outline-transparent  active:scale-100 group-hover:block   group-focus-visible:block"
+              >
+                <MdMoreHoriz size={26} />
+              </button>
+            </DropdownMenu.Trigger>
           </div>
-          <p>{title}</p>
-        </>
-      ) : (
-        <div className="flex flex-col items-center gap-2">
-          <RenderBoolean />
-        </div>
-      )}
-    </Link>
+        )}
+      </Link>
+      <Dropdown />
+    </DropdownMenu.Root>
   );
 });
+
+const Dropdown = () => {
+  const [bookmarksChecked, setBookmarksChecked] = React.useState(true);
+  const [urlsChecked, setUrlsChecked] = React.useState(false);
+  const [person, setPerson] = React.useState("pedro");
+
+  return (
+    <DropdownMenu.Content
+      className="data-[side=top]:animate-slideDownAndFade data-[side=right]:animate-slideLeftAndFade 
+      data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade z-20
+       min-w-[220px]  rounded-md bg-zinc-800
+       p-[5px] shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),_0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] will-change-[opacity,transform]"
+      sideOffset={5}
+    >
+      <DropdownMenu.Item className=" data-[highlighted]:bg- data-[highlighted]:text-violet1 group relative flex h-[25px] select-none items-center rounded-[3px] px-[5px] pl-[25px] text-[13px] leading-none outline-none data-[disabled]:pointer-events-none">
+        New Tab{" "}
+        <div className="text-mauve11 group-data-[disabled]:text-mauve8 ml-auto pl-[20px] group-data-[highlighted]:text-white">
+          ⌘+T
+        </div>
+      </DropdownMenu.Item>
+      <DropdownMenu.Item className="text-violet11 data-[disabled]:text-mauve8 data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1 group relative flex h-[25px] select-none items-center rounded-[3px] px-[5px] pl-[25px] text-[13px] leading-none outline-none data-[disabled]:pointer-events-none">
+        New Window{" "}
+        <div className="text-mauve11 group-data-[disabled]:text-mauve8 ml-auto pl-[20px] group-data-[highlighted]:text-white">
+          ⌘+N
+        </div>
+      </DropdownMenu.Item>
+      <DropdownMenu.Item
+        className="text-violet11 data-[disabled]:text-mauve8 data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1 group relative flex h-[25px] select-none items-center rounded-[3px] px-[5px] pl-[25px] text-[13px] leading-none outline-none data-[disabled]:pointer-events-none"
+        disabled
+      >
+        New Private Window{" "}
+        <div className="text-mauve11 group-data-[disabled]:text-mauve8 ml-auto pl-[20px] group-data-[highlighted]:text-white">
+          ⇧+⌘+N
+        </div>
+      </DropdownMenu.Item>
+
+      <DropdownMenu.Separator className="m-[5px] h-[1px] bg-white" />
+
+      <DropdownMenu.CheckboxItem
+        className="text-violet11 data-[disabled]:text-mauve8 data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1 group relative flex h-[25px] select-none items-center rounded-[3px] px-[5px] pl-[25px] text-[13px] leading-none outline-none data-[disabled]:pointer-events-none"
+        checked={bookmarksChecked}
+        onCheckedChange={setBookmarksChecked}
+      >
+        <DropdownMenu.ItemIndicator className="absolute left-0 inline-flex w-[25px] items-center justify-center"></DropdownMenu.ItemIndicator>
+        Show Bookmarks{" "}
+        <div className="text-mauve11 group-data-[disabled]:text-mauve8 ml-auto pl-[20px] group-data-[highlighted]:text-white">
+          ⌘+B
+        </div>
+      </DropdownMenu.CheckboxItem>
+      <DropdownMenu.CheckboxItem
+        className="text-violet11 data-[disabled]:text-mauve8 data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1 relative flex h-[25px] select-none items-center rounded-[3px] px-[5px] pl-[25px] text-[13px] leading-none outline-none data-[disabled]:pointer-events-none"
+        checked={urlsChecked}
+        onCheckedChange={setUrlsChecked}
+      >
+        <DropdownMenu.ItemIndicator className="absolute left-0 inline-flex w-[25px] items-center justify-center"></DropdownMenu.ItemIndicator>
+        Show Full URLs
+      </DropdownMenu.CheckboxItem>
+
+      <DropdownMenu.Separator className="bg-violet6 m-[5px] h-[1px]" />
+
+      <DropdownMenu.Label className="text-mauve11 pl-[25px] text-xs leading-[25px]">
+        People
+      </DropdownMenu.Label>
+      <DropdownMenu.RadioGroup value={person} onValueChange={setPerson}>
+        <DropdownMenu.RadioItem
+          className="text-violet11 data-[disabled]:text-mauve8 data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1 relative flex h-[25px] select-none items-center rounded-[3px] px-[5px] pl-[25px] text-[13px] leading-none outline-none data-[disabled]:pointer-events-none"
+          value="pedro"
+        >
+          <DropdownMenu.ItemIndicator className="absolute left-0 inline-flex w-[25px] items-center justify-center"></DropdownMenu.ItemIndicator>
+          Pedro Duarte
+        </DropdownMenu.RadioItem>
+        <DropdownMenu.RadioItem
+          className="text-violet11 data-[disabled]:text-mauve8 data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1 relative flex h-[25px] select-none items-center rounded-[3px] px-[5px] pl-[25px] text-[13px] leading-none outline-none data-[disabled]:pointer-events-none"
+          value="colm"
+        >
+          <DropdownMenu.ItemIndicator className="absolute left-0 inline-flex w-[25px] items-center justify-center"></DropdownMenu.ItemIndicator>
+          Colm Tuite
+        </DropdownMenu.RadioItem>
+      </DropdownMenu.RadioGroup>
+    </DropdownMenu.Content>
+  );
+};
