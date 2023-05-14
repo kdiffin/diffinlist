@@ -63,6 +63,7 @@ function Profile({ profileName }: { profileName: string }) {
               playlists.map((playlist) => {
                 return (
                   <SectionCard
+                    type="playlist"
                     href={`/${playlist.authorName}/${playlist.name}`}
                     authorName={playlist.authorName}
                     username={user && user.username ? user.username : ""}
@@ -86,6 +87,7 @@ function Profile({ profileName }: { profileName: string }) {
               songs.map((song) => {
                 return (
                   <SectionCard
+                    type="song"
                     href={{
                       pathname: router.route,
                       query: {

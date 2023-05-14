@@ -45,8 +45,9 @@ export const Section = memo(function Section({
     return (
       <SectionCard
         skeleton={true}
-        authorName=""
-        username="a"
+        type="profile"
+        authorName="a"
+        username=""
         href={""}
         title={""}
         pictureUrl={""}
@@ -110,6 +111,7 @@ export const SectionCard = memo(function ({
   shallow,
   skeleton,
   isProfile,
+  type,
   addSong,
 }: {
   title: string;
@@ -119,6 +121,7 @@ export const SectionCard = memo(function ({
   shallow?: boolean;
   skeleton?: boolean;
   pictureUrl: string;
+  type: "playlist" | "song" | "profile";
   href: Url;
   addSong?: boolean;
 }) {
@@ -224,8 +227,16 @@ export const SectionCard = memo(function ({
               </div>
             )}
           </Link>
-          <Dropdown type="playlist" isAuthor={isAuthor} />
-          <RightClickDropdown type="playlist" isAuthor={isAuthor} />
+          <Dropdown
+            isSignedIn={!(username === "")}
+            type={type}
+            isAuthor={isAuthor}
+          />
+          <RightClickDropdown
+            isSignedIn={!(username === "")}
+            type={type}
+            isAuthor={isAuthor}
+          />
         </ContextMenu.Trigger>
       </ContextMenu.Root>
     </DropdownMenu.Root>
@@ -239,9 +250,11 @@ export const SectionCard = memo(function ({
 const Dropdown = ({
   type,
   isAuthor,
+  isSignedIn,
 }: {
   type: "playlist" | "song" | "profile";
   isAuthor: boolean;
+  isSignedIn: boolean;
 }) => {
   return (
     <DropdownMenu.Content
@@ -253,18 +266,31 @@ const Dropdown = ({
         <MdLink size={20} className="text-zinc-500" /> Share {type}
       </DropdownMenu.Item>
 
-      <DropdownMenu.Item disabled={!isAuthor} className="dropdown-item group">
-        <MdAdd size={20} className="text-zinc-500" /> Add{" "}
-        {type === "playlist" ? "playlist to profile" : "song to playlist"}
-      </DropdownMenu.Item>
-
-      <DropdownMenu.Item disabled={!isAuthor} className="dropdown-item group ">
-        <MdEdit size={20} className="text-zinc-500" /> Edit {type}
-      </DropdownMenu.Item>
-
-      <DropdownMenu.Item disabled={!isAuthor} className="dropdown-item group ">
-        <MdDelete size={20} className="text-zinc-500" /> Delete {type}
-      </DropdownMenu.Item>
+      {!(type === "profile") ? (
+        <>
+          <DropdownMenu.Item
+            disabled={!isSignedIn}
+            className="dropdown-item group"
+          >
+            <MdAdd size={20} className="text-zinc-500" /> Add{" "}
+            {type === "playlist" ? "playlist to profile" : "song to playlist"}
+          </DropdownMenu.Item>
+          <DropdownMenu.Item
+            disabled={!isAuthor}
+            className="dropdown-item group "
+          >
+            <MdEdit size={20} className="text-zinc-500" /> Edit {type}
+          </DropdownMenu.Item>
+          <DropdownMenu.Item
+            disabled={!isAuthor}
+            className="dropdown-item group "
+          >
+            <MdDelete size={20} className="text-zinc-500" /> Delete {type}
+          </DropdownMenu.Item>
+        </>
+      ) : (
+        <></>
+      )}
     </DropdownMenu.Content>
   );
 };
@@ -275,9 +301,11 @@ const Dropdown = ({
 const RightClickDropdown = ({
   type,
   isAuthor,
+  isSignedIn,
 }: {
   type: "playlist" | "song" | "profile";
   isAuthor: boolean;
+  isSignedIn: boolean;
 }) => {
   return (
     <ContextMenu.Content
@@ -288,18 +316,31 @@ const RightClickDropdown = ({
         <MdLink size={20} className="text-zinc-500" /> Share {type}
       </ContextMenu.Item>
 
-      <ContextMenu.Item disabled={!isAuthor} className="dropdown-item group">
-        <MdAdd size={20} className="text-zinc-500" /> Add{" "}
-        {type === "playlist" ? "playlist to profile" : "song to playlist"}
-      </ContextMenu.Item>
-
-      <ContextMenu.Item disabled={!isAuthor} className="dropdown-item group ">
-        <MdEdit size={20} className="text-zinc-500" /> Edit {type}
-      </ContextMenu.Item>
-
-      <ContextMenu.Item disabled={!isAuthor} className="dropdown-item group ">
-        <MdDelete size={20} className="text-zinc-500" /> Delete {type}
-      </ContextMenu.Item>
+      {!(type === "profile") ? (
+        <>
+          <ContextMenu.Item
+            disabled={!isSignedIn}
+            className="dropdown-item group"
+          >
+            <MdAdd size={20} className="text-zinc-500" /> Add{" "}
+            {type === "playlist" ? "playlist to profile" : "song to playlist"}
+          </ContextMenu.Item>
+          <ContextMenu.Item
+            disabled={!isAuthor}
+            className="dropdown-item group "
+          >
+            <MdEdit size={20} className="text-zinc-500" /> Edit {type}
+          </ContextMenu.Item>
+          <ContextMenu.Item
+            disabled={!isAuthor}
+            className="dropdown-item group "
+          >
+            <MdDelete size={20} className="text-zinc-500" /> Delete {type}
+          </ContextMenu.Item>
+        </>
+      ) : (
+        <></>
+      )}
     </ContextMenu.Content>
   );
 };

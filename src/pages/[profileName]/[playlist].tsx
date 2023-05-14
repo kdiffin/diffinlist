@@ -114,6 +114,7 @@ function Profile({
                 songs.map((song) => {
                   return (
                     <SectionCard
+                      type="song"
                       authorName={song.authorName}
                       username={user && user.username ? user.username : ""}
                       href={{
@@ -133,6 +134,7 @@ function Profile({
 
             {user?.username === playlist.authorName && (
               <SectionCard
+                type="song"
                 authorName=""
                 username="a"
                 title="Add song"
