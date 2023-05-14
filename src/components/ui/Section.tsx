@@ -21,6 +21,7 @@ import React from "react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import * as ContextMenu from "@radix-ui/react-context-menu";
 import { User } from "@clerk/nextjs/dist/api";
+import { toast } from "react-hot-toast";
 
 // okay I think something like react composition couldve been very useful for this component
 // ill try that pattern out later maybe.
@@ -40,6 +41,7 @@ export const Section = memo(function Section({
   children: ReactNode;
 }) {
   const router = useRouter();
+
   const skeletonArray: string[] = new Array(8).fill("") as string[];
   const SectionCardSkeleton = skeletonArray.map((abc, index) => {
     return (
@@ -182,17 +184,18 @@ export const SectionCard = memo(function ({
     // stops the parent card from redirecting
     e.stopPropagation();
     e.preventDefault();
-    console.log(authorName);
   }
 
+  const linkRef = useRef<HTMLAnchorElement>(null);
   const isAuthor = authorName === username;
-  console.log(isAuthor);
+  const linkHref = linkRef.current ? linkRef.current.href : "";
 
   return (
     <DropdownMenu.Root>
       <ContextMenu.Root>
         <ContextMenu.Trigger>
           <Link
+            ref={linkRef}
             href={!skeleton ? href : ""}
             shallow={shallow}
             className={`${skeleton && " animate-pulse"}
@@ -228,11 +231,13 @@ export const SectionCard = memo(function ({
             )}
           </Link>
           <Dropdown
+            ShareLink={linkHref}
             isSignedIn={!(username === "")}
             type={type}
             isAuthor={isAuthor}
           />
           <RightClickDropdown
+            ShareLink={linkHref}
             isSignedIn={!(username === "")}
             type={type}
             isAuthor={isAuthor}
@@ -250,19 +255,38 @@ export const SectionCard = memo(function ({
 const Dropdown = ({
   type,
   isAuthor,
+  ShareLink,
   isSignedIn,
 }: {
   type: "playlist" | "song" | "profile";
+  ShareLink: Url;
   isAuthor: boolean;
   isSignedIn: boolean;
 }) => {
+  const textRef = useRef<HTMLInputElement>(null);
+
+  function handleCopy() {
+    if (textRef.current) {
+      navigator.clipboard.writeText(textRef.current.value).then(() => {
+        toast.success("Link successfully copied to clipboard!");
+      });
+    }
+  }
+
   return (
     <DropdownMenu.Content
       onCloseAutoFocus={(e) => e.preventDefault()}
       className="dropdown "
       sideOffset={-15}
     >
-      <DropdownMenu.Item className="dropdown-item group ">
+      <DropdownMenu.Item onSelect={handleCopy} className="dropdown-item group ">
+        <input
+          type="text"
+          hidden
+          ref={textRef}
+          value={ShareLink.toString()}
+          readOnly
+        />
         <MdLink size={20} className="text-zinc-500" /> Share {type}
       </DropdownMenu.Item>
 
@@ -302,18 +326,31 @@ const RightClickDropdown = ({
   type,
   isAuthor,
   isSignedIn,
+  ShareLink,
 }: {
   type: "playlist" | "song" | "profile";
   isAuthor: boolean;
+  ShareLink: Url;
   isSignedIn: boolean;
 }) => {
+  const textRef = useRef<HTMLInputElement>(null);
+
+  function handleCopy() {
+    if (textRef.current) {
+      navigator.clipboard.writeText(textRef.current.value).then(() => {
+        toast.success("Link successfully copied to clipboard!");
+      });
+    }
+  }
+
   return (
     <ContextMenu.Content
       className="dropdown "
       onCloseAutoFocus={(e) => e.preventDefault()}
     >
-      <ContextMenu.Item className="dropdown-item group ">
+      <ContextMenu.Item onSelect={handleCopy} className="dropdown-item group ">
         <MdLink size={20} className="text-zinc-500" /> Share {type}
+        <input type="text" hidden ref={textRef} value={ShareLink.toString()} />
       </ContextMenu.Item>
 
       {!(type === "profile") ? (
