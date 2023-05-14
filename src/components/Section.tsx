@@ -191,8 +191,8 @@ export const SectionCard = memo(function ({
   //check my previous commits i tried doing it with linkref.href but it didnt work bc of hydration errors
   const linkHref =
     typeof href === "object" && typeof href.query === "object"
-      ? `https://diffinlist.vercel.app/${href?.query!.profileName!}
-      /${href?.query!.playlist!}?song=${href?.query!.song!} `
+      ? `https://diffinlist.vercel.app/${href?.query!
+          .profileName!}/${href?.query!.playlist!}?song=${href?.query!.song!} `
       : `https://diffinlist.vercel.app/${href}`;
 
   return (
