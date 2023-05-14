@@ -340,6 +340,9 @@ const RightClickDropdown = ({
 
   function handleCopy() {
     if (textRef.current) {
+      textRef.current.select();
+      textRef.current.setSelectionRange(0, 99999); // For mobile devices
+
       navigator.clipboard.writeText(textRef.current.value).then(() => {
         toast.success("Link successfully copied to clipboard!");
       });
