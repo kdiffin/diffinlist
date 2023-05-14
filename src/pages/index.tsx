@@ -78,6 +78,8 @@ const Home: NextPage = () => {
             playlists.map((playlist) => {
               return (
                 <SectionCard
+                  authorName={playlist.authorName}
+                  username={user && user.username ? user.username : ""}
                   href={`/${playlist.authorName}/${playlist.name}`}
                   pictureUrl={playlist.pictureUrl}
                   title={playlist.name}
@@ -101,6 +103,8 @@ const Home: NextPage = () => {
             songs.map((song) => {
               return (
                 <SectionCard
+                  authorName={song.authorName}
+                  username={user && user.username ? user.username : ""}
                   href={{
                     pathname: router.route,
                     query: {
@@ -109,6 +113,7 @@ const Home: NextPage = () => {
                       profileName: song.authorName,
                     },
                   }}
+                  shallow
                   pictureUrl={song.pictureUrl}
                   title={song.name}
                   key={song.id}
@@ -130,7 +135,7 @@ const Home: NextPage = () => {
               return (
                 <SectionCard
                   href={`/${user.username}`}
-                  avatar
+                  isProfile
                   pictureUrl={user.profileImageUrl}
                   title={user.username}
                   key={user.username}

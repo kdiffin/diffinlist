@@ -45,6 +45,8 @@ export const Section = memo(function Section({
     return (
       <SectionCard
         skeleton={true}
+        authorName=""
+        username="a"
         href={""}
         title={""}
         pictureUrl={""}
@@ -107,12 +109,12 @@ export const SectionCard = memo(function ({
   authorName,
   shallow,
   skeleton,
-  avatar,
+  isProfile,
   addSong,
 }: {
   title: string;
   username: string;
-  avatar?: boolean | undefined;
+  isProfile?: boolean | undefined;
   authorName: string;
   shallow?: boolean;
   skeleton?: boolean;
@@ -147,7 +149,7 @@ export const SectionCard = memo(function ({
       ) : (
         <>
           <div className="flex h-[148px] w-[148px] items-center justify-center ">
-            {avatar ? (
+            {isProfile ? (
               <Avatar
                 loading={false}
                 src={pictureUrl}
@@ -282,20 +284,20 @@ const RightClickDropdown = ({
       className="dropdown "
       onCloseAutoFocus={(e) => e.preventDefault()}
     >
-      <ContextMenu.Item isAuthor={isAuthor} className="dropdown-item group ">
+      <ContextMenu.Item className="dropdown-item group ">
         <MdLink size={20} className="text-zinc-500" /> Share {type}
       </ContextMenu.Item>
 
-      <ContextMenu.Item isAuthor={isAuthor} className="dropdown-item group">
+      <ContextMenu.Item disabled={!isAuthor} className="dropdown-item group">
         <MdAdd size={20} className="text-zinc-500" /> Add{" "}
         {type === "playlist" ? "playlist to profile" : "song to playlist"}
       </ContextMenu.Item>
 
-      <ContextMenu.Item isAuthor={isAuthor} className="dropdown-item group ">
+      <ContextMenu.Item disabled={!isAuthor} className="dropdown-item group ">
         <MdEdit size={20} className="text-zinc-500" /> Edit {type}
       </ContextMenu.Item>
 
-      <ContextMenu.Item isAuthor={isAuthor} className="dropdown-item group ">
+      <ContextMenu.Item disabled={!isAuthor} className="dropdown-item group ">
         <MdDelete size={20} className="text-zinc-500" /> Delete {type}
       </ContextMenu.Item>
     </ContextMenu.Content>

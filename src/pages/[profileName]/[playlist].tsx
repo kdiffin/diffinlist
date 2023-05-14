@@ -114,6 +114,8 @@ function Profile({
                 songs.map((song) => {
                   return (
                     <SectionCard
+                      authorName={song.authorName}
+                      username={user && user.username ? user.username : ""}
                       href={{
                         query: { ...router.query, song: song.name },
                       }}
@@ -131,6 +133,8 @@ function Profile({
 
             {user?.username === playlist.authorName && (
               <SectionCard
+                authorName=""
+                username="a"
                 title="Add song"
                 addSong={true}
                 pictureUrl=""

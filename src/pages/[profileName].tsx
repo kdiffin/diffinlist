@@ -13,10 +13,10 @@ import { api } from "~/utils/api";
 function Profile({ profileName }: { profileName: string }) {
   //the usequery will never hit loading because of ssg
   const router = useRouter();
+  const { user } = useUser();
   const { data: userData } = api.profile.getProfileByProfileName.useQuery({
     profileName: profileName,
   });
-  const { user } = useUser();
 
   const { data: playlists, isLoading: playlistsLoading } =
     api.playlist.getPlaylists.useQuery({
