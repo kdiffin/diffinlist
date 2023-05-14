@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import Avatar from "~/components/ui/Avatar";
 import Divider from "~/components/ui/Divider";
-import { Section, SectionCard } from "~/components/ui/Section";
+import { Section, SectionCard } from "~/components/Section";
 import { ssgHelper } from "~/server/helpers/generateSSGHelper";
 import { api } from "~/utils/api";
 

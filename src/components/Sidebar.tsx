@@ -14,7 +14,7 @@ import { useRouter } from "next/router";
 import { SignInButton, useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import Avatar from "./ui/Avatar";
-import CreatePlaylist from "./CreatePlaylist";
+import CreatePlaylist from "./playlist/CreatePlaylist";
 import * as Dialog from "@radix-ui/react-dialog";
 
 import { api } from "~/utils/api";

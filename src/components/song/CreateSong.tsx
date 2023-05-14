@@ -1,11 +1,11 @@
 import { useRouter } from "next/router";
 import React, { useRef, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import { InputField, RefInput, RefInputField } from "./ui/Input";
+import { InputField, RefInput, RefInputField } from "../ui/Input";
 import { api } from "~/utils/api";
-import Button from "./ui/Button";
-import { LoadingSpinner } from "./ui/Loading";
-import { ImageSkeleton } from "./ui/Skeletons";
+import Button from "../ui/Button";
+import { LoadingSpinner } from "../ui/Loading";
+import { ImageSkeleton } from "../ui/Skeletons";
 import {
   MdArrowBack,
   MdArrowCircleLeft,

@@ -1,13 +1,13 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import Input, { InputField } from "./ui/Input";
+import Input, { InputField } from "../ui/Input";
 import { api } from "~/utils/api";
-import Button from "./ui/Button";
+import Button from "../ui/Button";
 import { toast } from "react-hot-toast";
 import { error } from "console";
-import { LoadingSpinner } from "./ui/Loading";
-import { ImageSkeleton } from "./ui/Skeletons";
+import { LoadingSpinner } from "../ui/Loading";
+import { ImageSkeleton } from "../ui/Skeletons";
 import { useClerk } from "@clerk/nextjs";
 
 //UI is basically a copy paste of the settings one

@@ -1,16 +1,16 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import Input from "./ui/Input";
+import Input from "../ui/Input";
 import { api } from "~/utils/api";
 import { useClerk, useUser } from "@clerk/nextjs";
-import Button from "./ui/Button";
-import Avatar, { AvatarSkeleton } from "./ui/Avatar";
+import Button from "../ui/Button";
+import Avatar, { AvatarSkeleton } from "../ui/Avatar";
 import { MdDelete, MdRemove } from "react-icons/md";
-import Divider from "./ui/Divider";
-import CustomError from "./CustomError";
+import Divider from "../ui/Divider";
+import CustomError from "../CustomError";
 import Link from "next/link";
-import { ImageSkeleton, SquareSkeleton } from "./ui/Skeletons";
+import { ImageSkeleton, SquareSkeleton } from "../ui/Skeletons";
 
 function Song() {
   const router = useRouter();

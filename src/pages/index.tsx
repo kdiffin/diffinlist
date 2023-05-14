@@ -5,7 +5,7 @@ import Link from "next/link";
 import Sidebar from "~/components/Sidebar";
 import Avatar from "~/components/ui/Avatar";
 import Divider from "~/components/ui/Divider";
-import { Section, SectionCard } from "~/components/ui/Section";
+import { Section, SectionCard } from "~/components/Section";
 import { SquareSkeleton } from "~/components/ui/Skeletons";
 import { FaGithub } from "react-icons/fa";
 

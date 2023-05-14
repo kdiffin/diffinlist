@@ -8,9 +8,9 @@ import Head from "next/head";
 //https://www.npmjs.com/package/@approximant/next-progress
 import NextProgress from "@approximant/next-progress";
 import Settings from "~/components/Settings";
-import CreatePlaylist from "~/components/CreatePlaylist";
+import CreatePlaylist from "~/components/playlist/CreatePlaylist";
 import { Toaster } from "react-hot-toast";
-import Song from "~/components/Song";
+import Song from "~/components/song/Song";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   //todo: deleteing songs and adding songs to ur playlist

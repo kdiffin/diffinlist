@@ -9,14 +9,14 @@ import {
   MdSearch,
   MdShare,
 } from "react-icons/md";
-import Loading from "./Loading";
+import Loading from "./ui/Loading";
 import Image from "next/image";
 import { memo } from "react";
-import { ImageSkeleton } from "./Skeletons";
-import Input from "./Input";
+import { ImageSkeleton } from "./ui/Skeletons";
+import Input from "./ui/Input";
 import { useRouter } from "next/router";
 import { Url } from "next/dist/shared/lib/router/router";
-import Avatar from "./Avatar";
+import Avatar from "./ui/Avatar";
 import React from "react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import * as ContextMenu from "@radix-ui/react-context-menu";
