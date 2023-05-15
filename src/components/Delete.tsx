@@ -1,8 +1,9 @@
 import React from "react";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
-import Button from "../ui/Button";
+import Button from "./ui/Button";
 
-const DeleteSong = ({
+//these two were similar enough that I decided to reuse the UI and seperate the function logic
+const Delete = ({
   deleteFunction,
   open,
   type,
@@ -46,4 +47,4 @@ const DeleteSong = ({
   </AlertDialog.Root>
 );
 
-export default DeleteSong;
+export default Delete;
