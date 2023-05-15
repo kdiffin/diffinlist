@@ -24,6 +24,7 @@ import { User } from "@clerk/nextjs/dist/api";
 import { toast } from "react-hot-toast";
 import { deleteParamsAtom, showDeleteAtom } from "~/state/atoms";
 import { useAtom } from "jotai";
+import useCardDropdown from "~/hooks/useCardDropdown";
 
 // okay I think something like react composition couldve been very useful for this component
 // ill try that pattern out later maybe.
@@ -271,21 +272,9 @@ const Dropdown = ({
   isAuthor: boolean;
   isSignedIn: boolean;
 }) => {
-  const textRef = useRef<HTMLInputElement>(null);
-
-  function handleCopy() {
-    if (textRef.current) {
-      textRef.current.select();
-      textRef.current.setSelectionRange(0, 99999); // For mobile devices
-
-      navigator.clipboard.writeText(textRef.current.value).then(() => {
-        toast.success("Link successfully copied to clipboard!");
-      });
-    }
-  }
-
-  const [showDelete, setShowDelete] = useAtom(showDeleteAtom);
-  const [deleteParams, setDeleteParams] = useAtom(deleteParamsAtom);
+  const { deleteItem, handleCopy, textRef } = useCardDropdown({
+    type: type,
+  });
 
   return (
     <DropdownMenu.Content
@@ -320,6 +309,7 @@ const Dropdown = ({
             <MdEdit size={20} className="text-zinc-500" /> Edit {type}
           </DropdownMenu.Item>
           <DropdownMenu.Item
+            onSelect={deleteItem}
             disabled={!isAuthor}
             className="dropdown-item group "
           >
@@ -347,20 +337,9 @@ const RightClickDropdown = ({
   ShareLink: Url;
   isSignedIn: boolean;
 }) => {
-  const textRef = useRef<HTMLInputElement>(null);
-
-  function handleCopy() {
-    if (textRef.current) {
-      textRef.current.select();
-      textRef.current.setSelectionRange(0, 99999); // For mobile devices
-
-      navigator.clipboard.writeText(textRef.current.value).then(() => {
-        toast.success("Link successfully copied to clipboard!");
-      });
-    }
-  }
-
-  console.log(ShareLink);
+  const { deleteItem, handleCopy, textRef } = useCardDropdown({
+    type: type,
+  });
 
   return (
     <ContextMenu.Content

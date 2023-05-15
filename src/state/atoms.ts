@@ -4,7 +4,7 @@
 
 import { atom } from "jotai";
 
-export const showDeleteAtom = atom(true);
+export const showDeleteAtom = atom(false);
 
 export const deleteParamsAtom = atom<DeleteParams>({
   type: "playlist",
@@ -13,5 +13,5 @@ export const deleteParamsAtom = atom<DeleteParams>({
 
 type DeleteParams = {
   type: "playlist" | "song";
-  deleteFunction: Function;
+  deleteFunction: VoidFunction;
 };

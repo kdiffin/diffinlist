@@ -8,11 +8,14 @@ import { deleteParamsAtom, showDeleteAtom } from "~/state/atoms";
 const Delete = () => {
   //very similar to reacts usestate
   //here we onyl read it and dont write anything to it
-  const [showDelete] = useAtom(showDeleteAtom);
+  const [showDelete, setShowDelete] = useAtom(showDeleteAtom);
   const [deleteParams] = useAtom(deleteParamsAtom);
 
   return (
-    <AlertDialog.Root open={showDelete}>
+    <AlertDialog.Root
+      open={showDelete}
+      onOpenChange={() => setShowDelete(false)}
+    >
       <AlertDialog.Portal>
         <AlertDialog.Overlay className="fixed inset-0  bg-neutral-900/40 data-[state=open]:animate-overlayShow" />
 
@@ -36,7 +39,7 @@ const Delete = () => {
 
             <AlertDialog.Action asChild>
               <Button
-                onClick={() => deleteParams.deleteFunction}
+                onClick={deleteParams.deleteFunction}
                 className="bg-red-500 text-sm hover:bg-red-400 focus:bg-red-400 focus:shadow-red-800"
               >
                 <p className="">Yes, delete {deleteParams.type}</p>
