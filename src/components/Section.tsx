@@ -189,13 +189,13 @@ export const SectionCard = memo(function ({
   const isAuthor = authorName === username;
 
   //check my previous commits i tried doing it with linkref.href but it didnt work bc of hydration errors
-  const linkHrefWithBadSpace =
+  const unEncodedHref =
     typeof href === "object" && typeof href.query === "object"
       ? `https://diffinlist.vercel.app/${href?.query!
           .profileName!}/${href?.query!.playlist!}?song=${href?.query!.song!} `
       : `https://diffinlist.vercel.app${href}`;
 
-      const linkHref = linkHrefWithBadSpace.replace(" ", "%20")
+  const linkHref = encodeURI(unEncodedHref);
 
   return (
     <DropdownMenu.Root>
