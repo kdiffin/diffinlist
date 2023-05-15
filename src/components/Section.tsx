@@ -22,6 +22,8 @@ import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import * as ContextMenu from "@radix-ui/react-context-menu";
 import { User } from "@clerk/nextjs/dist/api";
 import { toast } from "react-hot-toast";
+import { deleteParamsAtom, showDeleteAtom } from "~/state/atoms";
+import { useAtom } from "jotai";
 
 // okay I think something like react composition couldve been very useful for this component
 // ill try that pattern out later maybe.
@@ -281,6 +283,9 @@ const Dropdown = ({
       });
     }
   }
+
+  const [showDelete, setShowDelete] = useAtom(showDeleteAtom);
+  const [deleteParams, setDeleteParams] = useAtom(deleteParamsAtom);
 
   return (
     <DropdownMenu.Content

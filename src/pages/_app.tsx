@@ -11,6 +11,7 @@ import Settings from "~/components/Settings";
 import CreatePlaylist from "~/components/playlist/CreatePlaylist";
 import { Toaster } from "react-hot-toast";
 import Song from "~/components/song/Song";
+import Delete from "~/components/Delete";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   //todo: deleteing songs and adding songs to ur playlist
@@ -45,6 +46,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         <Settings />
         <CreatePlaylist />
         <Song />
+        <Delete />
       </div>
 
       <Head>

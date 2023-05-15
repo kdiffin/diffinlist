@@ -2,21 +2,14 @@ import React from "react";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import Button from "./ui/Button";
 import { atom, useAtom } from "jotai";
-
-export const showDeleteAtom = atom(false);
+import { deleteParamsAtom, showDeleteAtom } from "~/state/atoms";
 
 //these two were similar enough that I decided to reuse the UI and seperate the function logic
-const Delete = ({
-  deleteFunction,
-  open,
-  type,
-}: {
-  deleteFunction: Promise<Function>;
-  open: boolean;
-  type: "song" | "playlist";
-}) => {
+const Delete = () => {
   //very similar to reacts usestate
+  //here we onyl read it and dont write anything to it
   const [showDelete] = useAtom(showDeleteAtom);
+  const [deleteParams] = useAtom(deleteParamsAtom);
 
   return (
     <AlertDialog.Root open={showDelete}>
@@ -31,8 +24,9 @@ const Delete = ({
             Are you absolutely sure?
           </AlertDialog.Title>
           <AlertDialog.Description className="text-mauve11 mb-5 mt-4 text-[15px] leading-normal">
-            This action cannot be undone. This will permanently delete your
-            {type} and remove the {type}'s data from our servers.
+            This action cannot be undone. This will permanently delete your{" "}
+            {deleteParams.type} and remove the {deleteParams.type}'s data from
+            our servers.
           </AlertDialog.Description>
 
           <div className="flex justify-end gap-[25px]">
@@ -42,10 +36,10 @@ const Delete = ({
 
             <AlertDialog.Action asChild>
               <Button
-                onClick={() => deleteFunction}
+                onClick={() => deleteParams.deleteFunction}
                 className="bg-red-500 text-sm hover:bg-red-400 focus:bg-red-400 focus:shadow-red-800"
               >
-                <p className="">Yes, delete {type}</p>
+                <p className="">Yes, delete {deleteParams.type}</p>
               </Button>
             </AlertDialog.Action>
           </div>
