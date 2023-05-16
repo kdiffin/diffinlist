@@ -27,6 +27,18 @@ function useCardDropdown({
     },
   });
 
+  const { mutate: playlistDelete } = api.playlist.deletePlaylist.useMutation({
+    onSuccess: () => {
+      ctx.playlist.invalidate().then(() => {
+        toast.success("Successfully deleted playlist");
+      });
+    },
+
+    onError: () => {
+      toast.error("Failed to delete playlist, please try again later.");
+    },
+  });
+
   function handleCopy() {
     if (textRef.current) {
       textRef.current.select();
@@ -49,9 +61,13 @@ function useCardDropdown({
     setShowDelete(true);
 
     if (type === "playlist") {
-      console.log("playlist deleted");
+      console.log(playlistName);
+      deleteFunction = () => {
+        playlistDelete({
+          playlistName: playlistName ? playlistName : "",
+        });
+      };
     } else {
-      console.log("song deleted");
       deleteFunction = () => {
         songDelete({
           name: songName ? songName : "",

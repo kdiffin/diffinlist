@@ -11,6 +11,8 @@ const Delete = () => {
   const [showDelete, setShowDelete] = useAtom(showDeleteAtom);
   const [deleteParams] = useAtom(deleteParamsAtom);
 
+  console.log(deleteParams.deleteFunction);
+
   return (
     <AlertDialog.Root
       open={showDelete}

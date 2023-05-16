@@ -99,7 +99,7 @@ export const playlistRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      ctx.prisma.playlist.delete({
+      await ctx.prisma.playlist.delete({
         where: {
           name_authorName: {
             authorName: ctx.username,
