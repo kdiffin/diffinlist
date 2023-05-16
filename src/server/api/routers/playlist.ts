@@ -1,4 +1,4 @@
-import type { User } from "@clerk/nextjs/dist/api";
+import { withAuth, type User } from "@clerk/nextjs/dist/api";
 import { clerkClient } from "@clerk/nextjs/server";
 import { Prisma } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
@@ -90,5 +90,22 @@ export const playlistRouter = createTRPCRouter({
       });
 
       return playlist;
+    }),
+
+  deletePlaylist: withAuthProcedure
+    .input(
+      z.object({
+        playlistName: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      ctx.prisma.playlist.delete({
+        where: {
+          name_authorName: {
+            authorName: ctx.username,
+            name: input.playlistName,
+          },
+        },
+      });
     }),
 });
