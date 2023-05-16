@@ -25,6 +25,8 @@ import { toast } from "react-hot-toast";
 import { deleteParamsAtom, showDeleteAtom } from "~/state/atoms";
 import { useAtom } from "jotai";
 import useCardDropdown from "~/hooks/useCardDropdown";
+import { type } from "os";
+import { Playlist, Song } from "@prisma/client";
 
 // okay I think something like react composition couldve been very useful for this component
 // ill try that pattern out later maybe.
@@ -49,6 +51,7 @@ export const Section = memo(function Section({
   const SectionCardSkeleton = skeletonArray.map((abc, index) => {
     return (
       <SectionCard
+        data={undefined}
         skeleton={true}
         type="profile"
         authorName="a"
@@ -115,6 +118,7 @@ export const SectionCard = memo(function ({
   authorName,
   shallow,
   skeleton,
+  data,
   isProfile,
   type,
   addSong,
@@ -124,6 +128,7 @@ export const SectionCard = memo(function ({
   isProfile?: boolean | undefined;
   authorName: string;
   shallow?: boolean;
+  data: Playlist | Song | undefined;
   skeleton?: boolean;
   pictureUrl: string;
   type: "playlist" | "song" | "profile";
@@ -190,6 +195,21 @@ export const SectionCard = memo(function ({
   }
 
   const isAuthor = authorName === username;
+  const songName = type === "song" ? title : undefined;
+
+  let playlistName = "";
+
+  if (type === "playlist") {
+    playlistName = title;
+  } else if (type === "song") {
+    // @ts-ignore
+    data && data.playlistName
+      ? // @ts-ignore
+        (playlistName = data.playlistName)
+      : (playlistName = "");
+  } else {
+    playlistName = "";
+  }
 
   //check my previous commits i tried doing it with linkref.href but it didnt work bc of hydration errors
   const unEncodedHref =
@@ -241,12 +261,16 @@ export const SectionCard = memo(function ({
           </Link>
           <Dropdown
             ShareLink={linkHref.toString()}
+            playlistName={playlistName}
+            songName={songName}
             isSignedIn={!(username === "")}
             type={type}
             isAuthor={isAuthor}
           />
           <RightClickDropdown
             ShareLink={linkHref.toString()}
+            playlistName={playlistName}
+            songName={songName}
             isSignedIn={!(username === "")}
             type={type}
             isAuthor={isAuthor}
@@ -266,14 +290,20 @@ const Dropdown = ({
   isAuthor,
   ShareLink,
   isSignedIn,
+  songName,
+  playlistName,
 }: {
   type: "playlist" | "song" | "profile";
   ShareLink: string;
   isAuthor: boolean;
   isSignedIn: boolean;
+  songName: undefined | string;
+  playlistName: undefined | string;
 }) => {
   const { deleteItem, handleCopy, textRef } = useCardDropdown({
     type: type,
+    songName: songName,
+    playlistName: playlistName,
   });
 
   return (
@@ -331,14 +361,20 @@ const RightClickDropdown = ({
   isAuthor,
   isSignedIn,
   ShareLink,
+  songName,
+  playlistName,
 }: {
   type: "playlist" | "song" | "profile";
   isAuthor: boolean;
   ShareLink: Url;
   isSignedIn: boolean;
+  songName: undefined | string;
+  playlistName: undefined | string;
 }) => {
   const { deleteItem, handleCopy, textRef } = useCardDropdown({
     type: type,
+    songName: songName,
+    playlistName: playlistName,
   });
 
   return (
@@ -373,6 +409,7 @@ const RightClickDropdown = ({
             <MdEdit size={20} className="text-zinc-500" /> Edit {type}
           </ContextMenu.Item>
           <ContextMenu.Item
+            onSelect={deleteItem}
             disabled={!isAuthor}
             className="dropdown-item group "
           >

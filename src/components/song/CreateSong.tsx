@@ -116,9 +116,7 @@ function CreateSong() {
       songUrl: songUrl,
       genre: genre,
       playlistName:
-        router.query.playlist && router.query.playlist[0]
-          ? router.query.playlist[0]
-          : "",
+        typeof router.query.playlist === "string" ? router.query.playlist : "",
 
       albumName: albumRef.current?.value,
       artistName: artistRef.current?.value,

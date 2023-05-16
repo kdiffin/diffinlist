@@ -113,6 +113,7 @@ function Profile({
                 songs.map((song) => {
                   return (
                     <SectionCard
+                      data={song}
                       type="song"
                       authorName={song.authorName}
                       username={user && user.username ? user.username : ""}
@@ -133,6 +134,7 @@ function Profile({
 
             {user?.username === playlist.authorName && (
               <SectionCard
+                data={undefined}
                 type="song"
                 authorName=""
                 username="a"

@@ -12,6 +12,6 @@ export const deleteParamsAtom = atom<DeleteParams>({
 });
 
 type DeleteParams = {
-  type: "playlist" | "song";
+  type: "playlist" | "song" | "profile";
   deleteFunction: VoidFunction;
 };

@@ -78,6 +78,7 @@ const Home: NextPage = () => {
             playlists.map((playlist) => {
               return (
                 <SectionCard
+                  data={playlist}
                   type="playlist"
                   authorName={playlist.authorName}
                   username={user && user.username ? user.username : ""}
@@ -105,6 +106,7 @@ const Home: NextPage = () => {
               return (
                 <SectionCard
                   type="song"
+                  data={song}
                   authorName={song.authorName}
                   username={user && user.username ? user.username : ""}
                   href={{
@@ -136,6 +138,7 @@ const Home: NextPage = () => {
             users.map((user) => {
               return (
                 <SectionCard
+                  data={undefined}
                   type="profile"
                   href={`/${user.username}`}
                   isProfile
