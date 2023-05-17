@@ -12,6 +12,11 @@ function filterProfileForClient(user: User) {
   };
 }
 
+export type UserClient = {
+  username: string;
+  profileImageUrl: string;
+};
+
 export const profileRouter = createTRPCRouter({
   getProfileByProfileName: publicProcedure
     .input(z.object({ profileName: z.string() }))

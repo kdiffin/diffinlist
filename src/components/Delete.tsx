@@ -42,7 +42,7 @@ const Delete = () => {
             <AlertDialog.Action asChild>
               <Button
                 onClick={deleteParams.deleteFunction}
-                className="bg-red-500 text-sm hover:bg-red-400 focus:bg-red-400 focus:shadow-red-800"
+                className=" !bg-red-500 text-sm hover:!bg-red-400 focus:!bg-red-400 focus:!shadow-red-800 "
               >
                 <p className="">Yes, delete {deleteParams.type}</p>
               </Button>

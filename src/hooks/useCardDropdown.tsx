@@ -15,29 +15,31 @@ function useCardDropdown({
 }) {
   const textRef = useRef<HTMLInputElement>(null);
   const ctx = api.useContext();
-  const { mutate: songDelete } = api.song.deleteSong.useMutation({
-    onSuccess: () => {
-      ctx.song.invalidate().then(() => {
-        toast.success("Successfully deleted song");
-      });
-    },
+  const { mutate: songDelete, isLoading: songLoading } =
+    api.song.deleteSong.useMutation({
+      onSuccess: () => {
+        ctx.song.invalidate().then(() => {
+          toast.success("Successfully deleted song");
+        });
+      },
 
-    onError: () => {
-      toast.error("Failed to delete song, please try again later.");
-    },
-  });
+      onError: () => {
+        toast.error("Failed to delete song, please try again later.");
+      },
+    });
 
-  const { mutate: playlistDelete } = api.playlist.deletePlaylist.useMutation({
-    onSuccess: () => {
-      ctx.playlist.invalidate().then(() => {
-        toast.success("Successfully deleted playlist");
-      });
-    },
+  const { mutate: playlistDelete, isLoading: playlistLoading } =
+    api.playlist.deletePlaylist.useMutation({
+      onSuccess: () => {
+        ctx.playlist.invalidate().then(() => {
+          toast.success("Successfully deleted playlist");
+        });
+      },
 
-    onError: () => {
-      toast.error("Failed to delete playlist, please try again later.");
-    },
-  });
+      onError: () => {
+        toast.error("Failed to delete playlist, please try again later.");
+      },
+    });
 
   function handleCopy() {
     if (textRef.current) {

@@ -27,6 +27,7 @@ import { useAtom } from "jotai";
 import useCardDropdown from "~/hooks/useCardDropdown";
 import { type } from "os";
 import { Playlist, Song } from "@prisma/client";
+import { UserClient } from "~/server/api/routers/profile";
 
 // okay I think something like react composition couldve been very useful for this component
 // ill try that pattern out later maybe.
@@ -128,7 +129,7 @@ export const SectionCard = memo(function ({
   isProfile?: boolean | undefined;
   authorName: string;
   shallow?: boolean;
-  data: Playlist | Song | undefined;
+  data: Playlist | Song | UserClient | undefined;
   skeleton?: boolean;
   pictureUrl: string;
   type: "playlist" | "song" | "profile";
