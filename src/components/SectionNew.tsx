@@ -28,13 +28,10 @@ import useCardDropdown from "~/hooks/useCardDropdown";
 import { type } from "os";
 import { Playlist, Song } from "@prisma/client";
 import { UserClient } from "~/server/api/routers/profile";
-import { Dropdown, RightClickDropdown } from "./Section";
 
-//this isnt used this is for testing purposes
-
-// okay I think something like react composition couldve been very useful for this component
-// ill try that pattern out later maybe.
-// https://www.youtube.com/watch?v=vPRdY87_SH0
+// im making the code more wet but wayyyy more readable and understandable with this commit
+// having way too many conditionals and ternaries just suck and making the code SLIGHTLY non DRY,
+// but way more modular is a good comprimise.
 
 export function SectionNew({
   name,
@@ -51,7 +48,7 @@ export function SectionNew({
 }) {
   const skeletonArray: string[] = new Array(8).fill("") as string[];
   const SectionCardSkeleton = skeletonArray.map((abc, index) => {
-    return <SkeletonCard />;
+    return <SkeletonCard key={index} />;
   });
 
   return (
@@ -81,6 +78,7 @@ export function SectionNew({
 function SectionCard({
   href,
   shallow,
+  deleteFunction,
   data,
   isAuthor,
   isSignedIn,
@@ -88,6 +86,7 @@ function SectionCard({
 }: {
   shallow?: boolean;
   data: SectionCardData;
+  deleteFunction: VoidFunction;
   isAuthor: boolean;
   isSignedIn: boolean;
   type: "playlist" | "song" | "profile";
@@ -137,22 +136,6 @@ function SectionCard({
     e.preventDefault();
   }
 
-  const songName = type === "song" ? data.title : undefined;
-
-  let playlistName = "";
-
-  if (type === "playlist") {
-    playlistName = data.title;
-  } else if (type === "song") {
-    // @ts-ignore
-    data && data.playlistName
-      ? // @ts-ignore
-        (playlistName = data.playlistName)
-      : (playlistName = "");
-  } else {
-    playlistName = "";
-  }
-
   //check my previous commits i tried doing it with linkref.href but it didnt work bc of hydration errors
   const unEncodedHref =
     typeof href === "object" && typeof href.query === "object"
@@ -190,20 +173,16 @@ function SectionCard({
           </Link>
 
           <Dropdown
-            ShareLink={linkHref.toString()}
-            playlistName={playlistName}
-            songName={songName}
+            ShareLink={linkHref}
             isSignedIn={isSignedIn}
-            type={type}
             isAuthor={isAuthor}
+            type={type}
           />
           <RightClickDropdown
-            ShareLink={linkHref.toString()}
-            playlistName={playlistName}
-            songName={songName}
+            ShareLink={linkHref}
             isSignedIn={isSignedIn}
-            type={type}
             isAuthor={isAuthor}
+            type={type}
           />
         </ContextMenu.Trigger>
       </ContextMenu.Root>
@@ -217,3 +196,141 @@ interface SectionCardData {
   pictureUrl: string;
   title: string;
 }
+
+export const Dropdown = ({
+  type,
+  isAuthor,
+  ShareLink,
+  isSignedIn,
+  songName,
+  playlistName,
+}: {
+  type: "playlist" | "song" | "profile";
+  ShareLink: string;
+  isAuthor: boolean;
+  isSignedIn: boolean;
+  songName: undefined | string;
+  playlistName: undefined | string;
+}) => {
+  const { deleteItem, handleCopy, textRef } = useCardDropdown({
+    type: type,
+    songName: songName,
+    playlistName: playlistName,
+  });
+
+  return (
+    <DropdownMenu.Content
+      onCloseAutoFocus={(e) => e.preventDefault()}
+      className="dropdown "
+      sideOffset={-15}
+    >
+      <DropdownMenu.Item onSelect={handleCopy} className="dropdown-item group ">
+        <input
+          readOnly
+          type="text"
+          hidden
+          ref={textRef}
+          value={ShareLink.toString()}
+        />
+        <MdLink size={20} className="text-zinc-500" /> Share {type}
+      </DropdownMenu.Item>
+
+      {!(type === "profile") ? (
+        <>
+          <DropdownMenu.Item
+            disabled={!isSignedIn}
+            className="dropdown-item group"
+          >
+            <MdAdd size={20} className="text-zinc-500" /> Add{" "}
+            {type === "playlist" ? "playlist to profile" : "song to playlist"}
+          </DropdownMenu.Item>
+          <DropdownMenu.Item
+            disabled={!isAuthor}
+            className="dropdown-item group "
+          >
+            <MdEdit size={20} className="text-zinc-500" /> Edit {type}
+          </DropdownMenu.Item>
+          <DropdownMenu.Item
+            onSelect={deleteItem}
+            disabled={!isAuthor}
+            className="dropdown-item group "
+          >
+            <MdDelete size={20} className="text-zinc-500" /> Delete {type}
+          </DropdownMenu.Item>
+        </>
+      ) : (
+        <></>
+      )}
+    </DropdownMenu.Content>
+  );
+};
+
+// the dropdown for when the user right clicks or is a mobile user and long presses
+// https://www.radix-ui.com/docs/primitives/components/context-menu
+// copy pasted the same thing from dropdown
+export const RightClickDropdown = ({
+  type,
+  isAuthor,
+  isSignedIn,
+  ShareLink,
+  songName,
+  playlistName,
+}: {
+  type: "playlist" | "song" | "profile";
+  isAuthor: boolean;
+  ShareLink: Url;
+  isSignedIn: boolean;
+  songName: undefined | string;
+  playlistName: undefined | string;
+}) => {
+  const { deleteItem, handleCopy, textRef } = useCardDropdown({
+    type: type,
+    songName: songName,
+    playlistName: playlistName,
+  });
+
+  return (
+    <ContextMenu.Content
+      className="dropdown "
+      onCloseAutoFocus={(e) => e.preventDefault()}
+    >
+      <ContextMenu.Item onSelect={handleCopy} className="dropdown-item group ">
+        <MdLink size={20} className="text-zinc-500" /> Share {type}
+        <input
+          readOnly
+          type="text"
+          hidden
+          ref={textRef}
+          value={ShareLink.toString()}
+        />
+      </ContextMenu.Item>
+
+      {!(type === "profile") ? (
+        <>
+          <ContextMenu.Item
+            disabled={!isSignedIn}
+            className="dropdown-item group"
+          >
+            <MdAdd size={20} className="text-zinc-500" /> Add{" "}
+            {type === "playlist" ? "playlist to profile" : "song to playlist"}
+          </ContextMenu.Item>
+          <ContextMenu.Item
+            disabled={!isAuthor}
+            className="dropdown-item group "
+          >
+            <MdEdit size={20} className="text-zinc-500" /> Edit {type}
+          </ContextMenu.Item>
+          <ContextMenu.Item
+            onSelect={deleteItem}
+            disabled={!isAuthor}
+            className="dropdown-item group "
+          >
+            <MdDelete size={20} className="text-zinc-500" /> Delete {type}
+          </ContextMenu.Item>
+        </>
+      ) : (
+        <></>
+      )}
+    </ContextMenu.Content>
+  );
+};
