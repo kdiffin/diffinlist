@@ -26,6 +26,32 @@ const Home: NextPage = () => {
   const { data: songs, isLoading: songsLoading } =
     api.song.getAllSongs.useQuery();
 
+    const { mutate: songDelete, isLoading: songLoading } =
+    api.song.deleteSong.useMutation({
+      onSuccess: () => {
+        ctx.song.invalidate().then(() => {
+          toast.success("Successfully deleted song");
+        });
+      },
+
+      onError: () => {
+        toast.error("Failed to delete song, please try again later.");
+      },
+    });
+
+  const { mutate: playlistDelete, isLoading: playlistDeleteLoading } =
+    api.playlist.deletePlaylist.useMutation({
+      onSuccess: () => {
+        ctx.playlist.invalidate().then(() => {
+          toast.success("Successfully deleted playlist");
+        });
+      },
+
+      onError: () => {
+        toast.error("Failed to delete playlist, please try again later.");
+      },
+    });
+
   return (
     <div className=" flex-col">
       {/* this is the header */}
@@ -76,20 +102,25 @@ const Home: NextPage = () => {
         <Section loading={playlistsLoading} name="Playlists">
           {playlists && playlists.length > 0 ? (
             playlists.map((playlist) => {
+              const isAuthor = user?.username === playlist.authorName;
+              const signedIn = isSignedIn ? isSignedIn : false;
+
               return (
                 <SectionCard
-                  data={playlist}
+
+                isAuthor={isAuthor}
+                isSignedIn={signedIn}
                   type="playlist"
-                  authorName={playlist.authorName}
-                  username={user && user.username ? user.username : ""}
                   href={`/${playlist.authorName}/${playlist.name}`}
-                  pictureUrl={playlist.pictureUrl}
-                  title={playlist.name}
+                  data={{
+                    pictureUrl: playlist.pictureUrl,
+                    title: playlist.name,
+                  }}
+                  deleteFunction={() => }
                   key={playlist.id}
                 />
               );
 
-              <></>;
             })
           ) : (
             <p className="flex w-full items-center justify-center p-5 text-sm font-medium text-neutral-500 ">
@@ -103,12 +134,20 @@ const Home: NextPage = () => {
         <Section loading={songsLoading} name="Songs">
           {songs && songs.length > 0 ? (
             songs.map((song) => {
+              const isAuthor = user?.username === song.authorName;
+              const signedIn = isSignedIn ? isSignedIn : false;
+
               return (
                 <SectionCard
+                deleteFunction={() => songDelete}
                   type="song"
-                  data={song}
-                  authorName={song.authorName}
-                  username={user && user.username ? user.username : ""}
+                  data={{
+                    pictureUrl: song.pictureUrl,
+                    title: song.name
+                  }}
+                  isAuthor={isAuthor}
+                  isSignedIn={signedIn}
+  
                   href={{
                     pathname: router.route,
                     query: {
@@ -118,8 +157,6 @@ const Home: NextPage = () => {
                     },
                   }}
                   shallow
-                  pictureUrl={song.pictureUrl}
-                  title={song.name}
                   key={song.id}
                 />
               );
