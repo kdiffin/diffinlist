@@ -9,7 +9,7 @@ import {
   MdSearch,
   MdShare,
 } from "react-icons/md";
-import Loading from "./ui/Loading";
+import Loading, { SkeletonCard } from "./ui/Loading";
 import Image from "next/image";
 import { memo } from "react";
 import { ImageSkeleton } from "./ui/Skeletons";
@@ -51,35 +51,8 @@ export function SectionNew({
 }) {
   const skeletonArray: string[] = new Array(8).fill("") as string[];
   const SectionCardSkeleton = skeletonArray.map((abc, index) => {
-    return (
-      <SectionCardNew
-        isAuthor={false}
-        isSignedIn={false}
-        skeleton={true}
-        type="profile"
-        data={{
-          pictureUrl: "",
-          title: "",
-        }}
-        href={""}
-        key={index}
-      />
-    );
+    return <SkeletonCard />;
   });
-
-  // const SectionPosts = sectionArray.map((sectionItem, index) => {
-  //   <SectionCard
-  //     data={sectionItem}
-  //     skeleton={true}
-  //     type="profile"
-  //     authorName="a"
-  //     username=""
-  //     href={""}
-  //     title={""}
-  //     // @ts-ignore
-  //     key={sectionItem.id || index}
-  //   />;
-  // });
 
   return (
     //id is for routing to it
@@ -94,7 +67,7 @@ export function SectionNew({
 
       {!hideShowMore && (
         <Link
-          href={``}
+          href={showMoreHref ? showMoreHref : ""}
           className="mt-12 flex w-full items-center justify-center
            gap-2 text-center  font-semibold  text-neutral-600 "
         >
@@ -105,10 +78,9 @@ export function SectionNew({
   );
 }
 
-export const SectionCardNew = memo(function ({
+function SectionCard({
   href,
   shallow,
-  skeleton,
   data,
   isAuthor,
   isSignedIn,
@@ -118,62 +90,45 @@ export const SectionCardNew = memo(function ({
   data: SectionCardData;
   isAuthor: boolean;
   isSignedIn: boolean;
-  skeleton?: boolean;
   type: "playlist" | "song" | "profile";
   href: Url;
-  addSong?: boolean;
 }) {
-  function RenderBoolean() {
-    // lots of crazy if statements in this project
-    // if skeleton prop is passed then render the skeleton of the card
-    // if not, then see if the picture has a valid URL, if not, then render out the no image for playlist,
-    // if it does, check if its an avatar and if it is render out the avatar component
-    // if it doesnt tho render out the regular card with the lazy loaded and regular img
-    // if anybody knows how to use Image while not knowing the sources of ur images ahead of time let me know
-
-    if (skeleton) {
+  function ImageChecker() {
+    if (!data.pictureUrl) {
       return (
-        <>
-          <div
-            className="flex h-[149px] w-[149px] animate-pulse items-center justify-center
-             bg-neutral-700/60 italic"
-          ></div>
-          <div className="text-neutral-800"> placeholder text</div>
-        </>
-      );
-    } else {
-      return !data.pictureUrl ? (
         <>
           <ImageSkeleton className="h-[148px] w-[148px]" />
           <p className="">{data.title}</p>
         </>
-      ) : (
-        <>
-          <div className="flex h-[148px] w-[148px] items-center justify-center ">
-            {type === "profile" ? (
-              <Avatar
-                loading={false}
-                src={data.pictureUrl}
-                width_height={130}
-                className=" object-cover"
-              />
-            ) : (
-              <img
-                width={140}
-                height={140}
-                alt={data.title + "'s image"}
-                loading="lazy"
-                className=" h-full  w-full object-cover"
-                src={data.pictureUrl!}
-              />
-            )}
-          </div>
-          <p className=" max-h-[23px] max-w-[150px] overflow-clip text-ellipsis">
-            {data.title}
-          </p>
-        </>
       );
     }
+
+    return (
+      <>
+        <div className="flex h-[148px] w-[148px] items-center justify-center ">
+          {type === "profile" ? (
+            <Avatar
+              loading={false}
+              src={data.pictureUrl}
+              width_height={130}
+              className=" object-cover"
+            />
+          ) : (
+            <img
+              width={140}
+              height={140}
+              alt={data.title + "'s image"}
+              loading="lazy"
+              className=" h-full  w-full object-cover"
+              src={data.pictureUrl!}
+            />
+          )}
+        </div>
+        <p className=" max-h-[23px] max-w-[150px] overflow-clip text-ellipsis">
+          {data.title}
+        </p>
+      </>
+    );
   }
 
   function openDropdown(e: any) {
@@ -210,17 +165,17 @@ export const SectionCardNew = memo(function ({
   return (
     <DropdownMenu.Root>
       <ContextMenu.Root>
+        {/* the whole button is the trigger for the rightclick/hold down dropdown */}
         <ContextMenu.Trigger>
           <Link
             href={href}
             shallow={shallow}
-            className={`${skeleton && " animate-pulse"}
-            ${!skeleton ? "card group" : ""}   neutral-lowkey-bg 
-             relative  flex flex-col items-center gap-2 p-4
+            className={`
+             card neutral-lowkey-bg group  relative  flex flex-col items-center gap-2 p-4
           focus-within:bg-neutral-700/50 hover:bg-neutral-700/50 focus-visible:bg-neutral-700/50`}
           >
-            <div className="    flex flex-col items-center  gap-3 pt-1">
-              <RenderBoolean />
+            <div className="flex flex-col items-center  gap-3 pt-1">
+              <ImageChecker />
 
               <DropdownMenu.Trigger asChild>
                 <button
@@ -234,31 +189,29 @@ export const SectionCardNew = memo(function ({
             </div>
           </Link>
 
-          {!skeleton && (
-            <>
-              <Dropdown
-                ShareLink={linkHref.toString()}
-                playlistName={playlistName}
-                songName={songName}
-                isSignedIn={isSignedIn}
-                type={type}
-                isAuthor={isAuthor}
-              />
-              <RightClickDropdown
-                ShareLink={linkHref.toString()}
-                playlistName={playlistName}
-                songName={songName}
-                isSignedIn={isSignedIn}
-                type={type}
-                isAuthor={isAuthor}
-              />
-            </>
-          )}
+          <Dropdown
+            ShareLink={linkHref.toString()}
+            playlistName={playlistName}
+            songName={songName}
+            isSignedIn={isSignedIn}
+            type={type}
+            isAuthor={isAuthor}
+          />
+          <RightClickDropdown
+            ShareLink={linkHref.toString()}
+            playlistName={playlistName}
+            songName={songName}
+            isSignedIn={isSignedIn}
+            type={type}
+            isAuthor={isAuthor}
+          />
         </ContextMenu.Trigger>
       </ContextMenu.Root>
     </DropdownMenu.Root>
   );
-});
+}
+
+export const SectionCardNew = memo(SectionCard);
 
 interface SectionCardData {
   pictureUrl: string;

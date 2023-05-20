@@ -8,8 +8,19 @@ function Loading({ className }: { className: string }) {
   );
 }
 
-function CardSkeleton() {
-  <div className=" "></div>;
+export function SkeletonCard() {
+  return (
+    <div
+      className={` neutral-lowkey-bg  relative flex  animate-pulse flex-col items-center gap-2 p-4
+focus-within:bg-neutral-700/50 hover:bg-neutral-700/50 focus-visible:bg-neutral-700/50`}
+    >
+      <div
+        className="flex h-[149px] w-[149px] animate-pulse items-center justify-center
+             bg-neutral-700/60 italic"
+      ></div>
+      <div className="text-neutral-800"> placeholder text</div>
+    </div>
+  );
 }
 
 export function LoadingSpinner() {
