@@ -140,7 +140,7 @@ function Profile({
                     );
                   })
                 : !(user?.username === playlist.authorName) && (
-                    <div className="flex h-[50vh] w-full items-center justify-center  text-center   text-xl font-semibold italic text-neutral-700">
+                    <div className="flex h-[50vh] w-full items-center justify-center  text-center   text-lg font-semibold italic text-neutral-700">
                       No songs found
                     </div>
                   )}
