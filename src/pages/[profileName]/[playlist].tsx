@@ -111,37 +111,39 @@ function Profile({
         <div className="flex flex-col  gap-12 p-10 py-10">
           <Section hideShowMore={true} loading={songsLoading} name="Songs">
             <>
-              {songs && songs.length > 0 ? (
-                songs.map((song) => {
-                  const isAuthor = user?.username === song.authorName;
-                  const signedIn = isSignedIn ? isSignedIn : false;
+              {songs && songs.length > 0
+                ? songs.map((song) => {
+                    const isAuthor = user?.username === song.authorName;
+                    const signedIn = isSignedIn ? isSignedIn : false;
 
-                  return (
-                    <SectionCard
-                      data={{
-                        pictureUrl: song.pictureUrl,
-                        title: song.name,
-                      }}
-                      href={{
-                        query: { ...router.query, song: song.name },
-                      }}
-                      deleteFunction={() =>
-                        songDelete({
-                          name: song.name,
-                          playlistName: song.playlistName,
-                        })
-                      }
-                      isAuthor={isAuthor}
-                      isSignedIn={signedIn}
-                      type="song"
-                      shallow
-                      key={song.id}
-                    />
-                  );
-                })
-              ) : (
-                <></>
-              )}
+                    return (
+                      <SectionCard
+                        data={{
+                          pictureUrl: song.pictureUrl,
+                          title: song.name,
+                        }}
+                        href={{
+                          query: { ...router.query, song: song.name },
+                        }}
+                        deleteFunction={() =>
+                          songDelete({
+                            name: song.name,
+                            playlistName: song.playlistName,
+                          })
+                        }
+                        isAuthor={isAuthor}
+                        isSignedIn={signedIn}
+                        type="song"
+                        shallow
+                        key={song.id}
+                      />
+                    );
+                  })
+                : !(user?.username === playlist.authorName) && (
+                    <div className="flex h-[50vh] w-full items-center justify-center  text-center   text-xl font-semibold italic text-neutral-700">
+                      No songs found
+                    </div>
+                  )}
             </>
 
             {user?.username === playlist.authorName && (

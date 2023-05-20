@@ -1,33 +1,14 @@
 import Link from "next/link";
-import { MouseEvent, ReactNode, useRef, useState } from "react";
-import {
-  MdAdd,
-  MdDelete,
-  MdEdit,
-  MdLink,
-  MdMoreHoriz,
-  MdSearch,
-  MdShare,
-} from "react-icons/md";
-import Loading from "./ui/Loading";
-import Image from "next/image";
+import { ReactNode } from "react";
+import { MdAdd, MdDelete, MdEdit, MdLink, MdMoreHoriz } from "react-icons/md";
 import { memo } from "react";
 import { ImageSkeleton, SkeletonCard } from "./ui/Skeletons";
-import Input from "./ui/Input";
-import { useRouter } from "next/router";
 import { Url } from "next/dist/shared/lib/router/router";
 import Avatar from "./ui/Avatar";
 import React from "react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import * as ContextMenu from "@radix-ui/react-context-menu";
-import { User } from "@clerk/nextjs/dist/api";
-import { toast } from "react-hot-toast";
-import { deleteParamsAtom, showDeleteAtom } from "~/state/atoms";
-import { useAtom } from "jotai";
 import useCardDropdown from "~/hooks/useCardDropdown";
-import { type } from "os";
-import { Playlist, Song } from "@prisma/client";
-import { UserClient } from "~/server/api/routers/profile";
 
 // im making the code more wet but wayyyy more readable and understandable with this commit
 // having way too many conditionals and ternaries just suck and making the code SLIGHTLY non DRY,
@@ -204,7 +185,7 @@ interface SectionCardData {
   title: string;
 }
 
-export const Dropdown = ({
+const Dropdown = ({
   type,
   isAuthor,
   ShareLink,
@@ -274,7 +255,7 @@ export const Dropdown = ({
 // the dropdown for when the user right clicks or is a mobile user and long presses
 // https://www.radix-ui.com/docs/primitives/components/context-menu
 // copy pasted the same thing from dropdown
-export const RightClickDropdown = ({
+const RightClickDropdown = ({
   type,
   isAuthor,
   isSignedIn,
