@@ -9,11 +9,12 @@ import Divider from "~/components/ui/Divider";
 import { Section, SectionCard } from "~/components/Section";
 import { ssgHelper } from "~/server/helpers/generateSSGHelper";
 import { api } from "~/utils/api";
+import useDelete from "~/hooks/useDelete";
 
 function Profile({ profileName }: { profileName: string }) {
   //the usequery will never hit loading because of ssg
   const router = useRouter();
-  const { user } = useUser();
+  const { user, isSignedIn } = useUser();
   const { data: userData } = api.profile.getProfileByProfileName.useQuery({
     profileName: profileName,
   });
@@ -27,6 +28,13 @@ function Profile({ profileName }: { profileName: string }) {
   const { data: songs, isLoading: songsLoading } = api.song.getSongs.useQuery({
     profileName: profileName,
   });
+
+  const {
+    playlistDelete,
+    playlistDeleteLoading,
+    songDelete,
+    songDeleteLoading,
+  } = useDelete();
 
   if (!userData) throw new Error("Data not found");
 
@@ -61,15 +69,24 @@ function Profile({ profileName }: { profileName: string }) {
           <Section loading={playlistsLoading} name="Playlists">
             {playlists && playlists.length > 0 ? (
               playlists.map((playlist) => {
+                const isAuthor = user?.username === playlist.authorName;
+                const signedIn = isSignedIn ? isSignedIn : false;
+
                 return (
                   <SectionCard
-                    data={playlist}
+                    isAuthor={isAuthor}
+                    isSignedIn={signedIn}
                     type="playlist"
                     href={`/${playlist.authorName}/${playlist.name}`}
-                    authorName={playlist.authorName}
-                    username={user && user.username ? user.username : ""}
-                    pictureUrl={playlist.pictureUrl}
-                    title={playlist.name}
+                    data={{
+                      pictureUrl: playlist.pictureUrl,
+                      title: playlist.name,
+                    }}
+                    deleteFunction={() =>
+                      playlistDelete({
+                        playlistName: playlist.name,
+                      })
+                    }
                     key={playlist.id}
                   />
                 );
@@ -86,10 +103,21 @@ function Profile({ profileName }: { profileName: string }) {
           <Section loading={songsLoading} name="Songs">
             {songs && songs.length > 0 ? (
               songs.map((song) => {
+                const isAuthor = user?.username === song.authorName;
+                const signedIn = isSignedIn ? isSignedIn : false;
+
                 return (
                   <SectionCard
-                    data={song}
-                    type="song"
+                    deleteFunction={() =>
+                      songDelete({
+                        name: song.name,
+                        playlistName: song.playlistName,
+                      })
+                    }
+                    data={{
+                      pictureUrl: song.pictureUrl,
+                      title: song.name,
+                    }}
                     href={{
                       pathname: router.route,
                       query: {
@@ -98,10 +126,10 @@ function Profile({ profileName }: { profileName: string }) {
                         profileName: song.authorName,
                       },
                     }}
-                    authorName={song.authorName}
-                    username={user && user.username ? user.username : ""}
-                    pictureUrl={song.pictureUrl}
-                    title={song.name}
+                    type="song"
+                    shallow
+                    isAuthor={isAuthor}
+                    isSignedIn={signedIn}
                     key={song.id}
                   />
                 );
