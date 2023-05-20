@@ -13,6 +13,7 @@ import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import defaultProfilePic from "../public/defaultuser.png";
+import useDelete from "~/hooks/useDelete";
 
 const Home: NextPage = () => {
   const { user, isLoaded, isSignedIn } = useUser();
@@ -26,31 +27,12 @@ const Home: NextPage = () => {
   const { data: songs, isLoading: songsLoading } =
     api.song.getAllSongs.useQuery();
 
-    const { mutate: songDelete, isLoading: songLoading } =
-    api.song.deleteSong.useMutation({
-      onSuccess: () => {
-        ctx.song.invalidate().then(() => {
-          toast.success("Successfully deleted song");
-        });
-      },
-
-      onError: () => {
-        toast.error("Failed to delete song, please try again later.");
-      },
-    });
-
-  const { mutate: playlistDelete, isLoading: playlistDeleteLoading } =
-    api.playlist.deletePlaylist.useMutation({
-      onSuccess: () => {
-        ctx.playlist.invalidate().then(() => {
-          toast.success("Successfully deleted playlist");
-        });
-      },
-
-      onError: () => {
-        toast.error("Failed to delete playlist, please try again later.");
-      },
-    });
+  const {
+    playlistDelete,
+    playlistDeleteLoading,
+    songDelete,
+    songDeleteLoading,
+  } = useDelete();
 
   return (
     <div className=" flex-col">
@@ -107,20 +89,22 @@ const Home: NextPage = () => {
 
               return (
                 <SectionCard
-
-                isAuthor={isAuthor}
-                isSignedIn={signedIn}
+                  isAuthor={isAuthor}
+                  isSignedIn={signedIn}
                   type="playlist"
                   href={`/${playlist.authorName}/${playlist.name}`}
                   data={{
                     pictureUrl: playlist.pictureUrl,
                     title: playlist.name,
                   }}
-                  deleteFunction={() => }
+                  deleteFunction={() =>
+                    playlistDelete({
+                      playlistName: playlist.name,
+                    })
+                  }
                   key={playlist.id}
                 />
               );
-
             })
           ) : (
             <p className="flex w-full items-center justify-center p-5 text-sm font-medium text-neutral-500 ">
@@ -139,15 +123,19 @@ const Home: NextPage = () => {
 
               return (
                 <SectionCard
-                deleteFunction={() => songDelete}
+                  deleteFunction={() =>
+                    songDelete({
+                      name: song.name,
+                      playlistName: song.playlistName,
+                    })
+                  }
                   type="song"
                   data={{
                     pictureUrl: song.pictureUrl,
-                    title: song.name
+                    title: song.name,
                   }}
                   isAuthor={isAuthor}
                   isSignedIn={signedIn}
-  
                   href={{
                     pathname: router.route,
                     query: {
@@ -175,19 +163,19 @@ const Home: NextPage = () => {
             users.map((user) => {
               return (
                 <SectionCard
-                  data={undefined}
+                  data={{
+                    pictureUrl: user.profileImageUrl,
+
+                    title: user.username,
+                  }}
+                  deleteFunction={() => null}
+                  isAuthor={false}
+                  isSignedIn={false}
                   type="profile"
                   href={`/${user.username}`}
-                  isProfile
-                  pictureUrl={user.profileImageUrl}
-                  title={user.username}
                   key={user.username}
-                  username={""}
-                  authorName={"a"}
                 />
               );
-
-              <></>;
             })
           ) : (
             <p className="flex w-full items-center justify-center p-5 text-sm font-medium text-neutral-500 ">
