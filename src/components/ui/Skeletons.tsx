@@ -31,7 +31,7 @@ export function SquareSkeleton({
   );
 }
 
-function SkeletonCard() {
+export function SkeletonCard() {
   return (
     <div
       className={` neutral-lowkey-bg  relative flex  animate-pulse flex-col items-center gap-2 p-4

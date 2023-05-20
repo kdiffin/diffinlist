@@ -19,6 +19,7 @@ import { Section, SectionCard } from "~/components/Section";
 import { ImageSkeleton } from "~/components/ui/Skeletons";
 import { ssgHelper } from "~/server/helpers/generateSSGHelper";
 import { api } from "~/utils/api";
+import useDelete from "~/hooks/useDelete";
 
 // ui is very similar to profileName, so I copy pasted that component.
 // I could have made the ui a component and the data fetching parts hooks, but I dont like abstracting such large files.
@@ -36,14 +37,20 @@ function Profile({
     playlistName: playlistName,
     profileName: profileName,
   });
-
   const router = useRouter();
-  const { user } = useUser();
+  const { user, isSignedIn } = useUser();
 
   const { data, isLoading: songsLoading } = api.song.getSongs.useQuery({
     profileName: profileName,
     playlistName: playlistName,
   });
+
+  const {
+    playlistDelete,
+    playlistDeleteLoading,
+    songDelete,
+    songDeleteLoading,
+  } = useDelete();
 
   if (!playlist) throw new Error("couldnt find playlist");
 
@@ -102,27 +109,32 @@ function Profile({
 
         {/* this is the body */}
         <div className="flex flex-col  gap-12 p-10 py-10">
-          <Section
-            hideShowMore={true}
-            showSearchSong={true}
-            loading={songsLoading}
-            name="Songs"
-          >
+          <Section hideShowMore={true} loading={songsLoading} name="Songs">
             <>
               {songs && songs.length > 0 ? (
                 songs.map((song) => {
+                  const isAuthor = user?.username === song.authorName;
+                  const signedIn = isSignedIn ? isSignedIn : false;
+
                   return (
                     <SectionCard
-                      data={song}
-                      type="song"
-                      authorName={song.authorName}
-                      username={user && user.username ? user.username : ""}
+                      data={{
+                        pictureUrl: song.pictureUrl,
+                        title: song.name,
+                      }}
                       href={{
                         query: { ...router.query, song: song.name },
                       }}
+                      deleteFunction={() =>
+                        songDelete({
+                          name: song.name,
+                          playlistName: song.playlistName,
+                        })
+                      }
+                      isAuthor={isAuthor}
+                      isSignedIn={signedIn}
+                      type="song"
                       shallow
-                      pictureUrl={song.pictureUrl!}
-                      title={song.name}
                       key={song.id}
                     />
                   );
@@ -133,15 +145,7 @@ function Profile({
             </>
 
             {user?.username === playlist.authorName && (
-              <SectionCard
-                data={undefined}
-                type="song"
-                authorName=""
-                username="a"
-                title="Add song"
-                addSong={true}
-                pictureUrl=""
-                shallow
+              <Link
                 href={{
                   pathname: router.route,
                   query: {
@@ -149,7 +153,19 @@ function Profile({
                     showCreateSong: "true",
                   },
                 }}
-              />
+                shallow
+                className={` neutral-lowkey-bg  relative flex   flex-col items-center gap-2 p-4
+            focus-within:bg-neutral-700/50 hover:bg-neutral-700/50 focus-visible:bg-neutral-700/50`}
+              >
+                <div
+                  className="flex   h-[150px] w-[150px]  items-center justify-center  rounded-sm border-2
+  border-dotted border-neutral-700 text-center text-neutral-400
+ "
+                >
+                  <MdAdd size={32} />
+                </div>
+                <p>Add Song</p>
+              </Link>
             )}
           </Section>
         </div>

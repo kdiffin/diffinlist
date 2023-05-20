@@ -129,13 +129,10 @@ const Home: NextPage = () => {
                       playlistName: song.playlistName,
                     })
                   }
-                  type="song"
                   data={{
                     pictureUrl: song.pictureUrl,
                     title: song.name,
                   }}
-                  isAuthor={isAuthor}
-                  isSignedIn={signedIn}
                   href={{
                     pathname: router.route,
                     query: {
@@ -144,7 +141,10 @@ const Home: NextPage = () => {
                       profileName: song.authorName,
                     },
                   }}
+                  type="song"
                   shallow
+                  isAuthor={isAuthor}
+                  isSignedIn={signedIn}
                   key={song.id}
                 />
               );

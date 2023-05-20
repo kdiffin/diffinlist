@@ -9,10 +9,10 @@ import {
   MdSearch,
   MdShare,
 } from "react-icons/md";
-import Loading, { SkeletonCard } from "./ui/Loading";
+import Loading from "./ui/Loading";
 import Image from "next/image";
 import { memo } from "react";
-import { ImageSkeleton } from "./ui/Skeletons";
+import { ImageSkeleton, SkeletonCard } from "./ui/Skeletons";
 import Input from "./ui/Input";
 import { useRouter } from "next/router";
 import { Url } from "next/dist/shared/lib/router/router";
@@ -183,6 +183,7 @@ function SectionCardNoMemo({
             isAuthor={isAuthor}
             type={type}
           />
+
           <RightClickDropdown
             deleteFunction={deleteFunction}
             ShareLink={linkHref}
