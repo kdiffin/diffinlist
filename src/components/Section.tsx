@@ -286,7 +286,7 @@ export const SectionCard = memo(function ({
 // love love love radix ui
 // im gonna slowly build my own library using radix ui like shadcn did
 // i dont like slate like shadcn.ui has I prefer zinc and neutral
-const Dropdown = ({
+export const Dropdown = ({
   type,
   isAuthor,
   ShareLink,
@@ -357,7 +357,7 @@ const Dropdown = ({
 // the dropdown for when the user right clicks or is a mobile user and long presses
 // https://www.radix-ui.com/docs/primitives/components/context-menu
 // copy pasted the same thing from dropdown
-const RightClickDropdown = ({
+export const RightClickDropdown = ({
   type,
   isAuthor,
   isSignedIn,
