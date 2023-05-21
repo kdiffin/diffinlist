@@ -22,6 +22,7 @@ import { api } from "~/utils/api";
 import useDelete from "~/hooks/useDelete";
 import { toast } from "react-hot-toast";
 import Divider from "~/components/ui/Divider";
+import useAdd from "~/hooks/useAdd";
 
 // ui is very similar to profileName, so I copy pasted that component.
 // I could have made the ui a component and the data fetching parts hooks, but I dont like abstracting such large files.
@@ -49,7 +50,7 @@ function Profile({
   });
 
   const { songDelete } = useDelete();
-
+  const { addSong } = useAdd();
   if (!playlist) throw new Error("couldnt find playlist");
 
   const songs = matchSorter(
@@ -141,6 +142,19 @@ function Profile({
 
                     return (
                       <SectionCard
+                        addFunction={() =>
+                          addSong({
+                            genre: song.genre,
+                            name: song.name,
+                            pictureUrl: song.pictureUrl,
+                            playlistName: song.playlistName,
+                            songUrl: song.songUrl,
+                            albumName: song.album,
+                            artistName: song.artist,
+                            description: song.description,
+                            rating: song.rating,
+                          })
+                        }
                         data={{
                           pictureUrl: song.pictureUrl,
                           title: song.name,

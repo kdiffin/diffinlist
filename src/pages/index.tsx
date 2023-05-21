@@ -14,12 +14,14 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import defaultProfilePic from "../public/defaultuser.png";
 import useDelete from "~/hooks/useDelete";
+import useAdd from "~/hooks/useAdd";
 
 const Home: NextPage = () => {
   const { user, isLoaded, isSignedIn } = useUser();
   const router = useRouter();
   const { data: users, isLoading: usersLoading } =
     api.profile.getAllUsers.useQuery();
+  const username = user && user.username ? user.username : "";
 
   const { data: playlists, isLoading: playlistsLoading } =
     api.playlist.getAllPlaylists.useQuery();
@@ -33,6 +35,7 @@ const Home: NextPage = () => {
     songDelete,
     songDeleteLoading,
   } = useDelete();
+  const { addPlaylist, addSong } = useAdd();
 
   return (
     <div className=" flex-col">
@@ -97,6 +100,14 @@ const Home: NextPage = () => {
                     pictureUrl: playlist.pictureUrl,
                     title: playlist.name,
                   }}
+                  addFunction={() => {
+                    addPlaylist({
+                      genre: playlist.genre,
+                      name: playlist.name,
+                      picture: playlist.pictureUrl,
+                      authorName: username,
+                    });
+                  }}
                   deleteFunction={() =>
                     playlistDelete({
                       playlistName: playlist.name,
@@ -123,6 +134,19 @@ const Home: NextPage = () => {
 
               return (
                 <SectionCard
+                  addFunction={() => {
+                    addSong({
+                      genre: song.genre,
+                      name: song.name,
+                      pictureUrl: song.pictureUrl,
+                      playlistName: song.playlistName,
+                      songUrl: song.songUrl,
+                      albumName: song.album,
+                      artistName: song.artist,
+                      description: song.description,
+                      rating: song.rating,
+                    });
+                  }}
                   deleteFunction={() =>
                     songDelete({
                       name: song.name,

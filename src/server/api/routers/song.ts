@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { nullable, z } from "zod";
 import { createTRPCRouter, publicProcedure, withAuthProcedure } from "../trpc";
 import { isImage } from "~/server/helpers/ImageChecker";
 import { TRPCError } from "@trpc/server";
@@ -78,13 +78,14 @@ export const songRouter = createTRPCRouter({
           .min(1, { message: "Please enter in a genre for the song" }),
         playlistName: z.string().min(1),
 
-        albumName: z.string().optional(),
-        artistName: z.string().optional(),
-        description: z.string().max(400).optional(),
+        albumName: z.string().nullable().optional(),
+        artistName: z.string().nullable().optional(),
+        description: z.string().max(400).nullable().optional(),
         rating: z
           .number()
           .min(0, { message: "Please enter a number above 0" })
           .max(10, { message: "Please enter a number below 10" })
+          .nullable()
           .optional(),
       })
     )

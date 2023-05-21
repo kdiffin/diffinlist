@@ -121,6 +121,19 @@ function Profile({ profileName }: { profileName: string }) {
 
                 return (
                   <SectionCard
+                    addFunction={() =>
+                      addSong({
+                        genre: song.genre,
+                        name: song.name,
+                        pictureUrl: song.pictureUrl,
+                        playlistName: song.playlistName,
+                        songUrl: song.songUrl,
+                        albumName: song.album,
+                        artistName: song.artist,
+                        description: song.description,
+                        rating: song.rating,
+                      })
+                    }
                     deleteFunction={() =>
                       songDelete({
                         name: song.name,
