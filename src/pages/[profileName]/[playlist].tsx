@@ -36,6 +36,7 @@ function Profile({
 }) {
   const router = useRouter();
   const { user, isSignedIn } = useUser();
+  const username = user && user.username ? user.username : "";
 
   //the usequery will never hit loading because of ssg
   //also trpc uses react query under the hood
@@ -142,15 +143,16 @@ function Profile({
 
                     return (
                       <SectionCard
-                        addFunction={() =>
+                        addFunction={(playlistName: string) =>
                           addSong({
                             genre: song.genre,
                             name: song.name,
                             pictureUrl: song.pictureUrl,
-                            playlistName: song.playlistName,
-                            songUrl: song.songUrl,
                             albumName: song.album,
+                            songUrl: song.songUrl,
+                            authorName: username,
                             artistName: song.artist,
+                            playlistName: playlistName,
                             description: song.description,
                             rating: song.rating,
                           })

@@ -5,9 +5,14 @@
 import { atom } from "jotai";
 
 export const showDeleteAtom = atom(false);
+export const showPlaylists = atom(false);
 
 export const deleteParamsAtom = atom<DeleteParams>({
   type: "playlist",
+  deleteFunction: () => null,
+});
+
+export const addSongToPlaylist = atom({
   deleteFunction: () => null,
 });
 

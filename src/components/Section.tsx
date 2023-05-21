@@ -71,7 +71,7 @@ function SectionCardNoMemo({
   shallow?: boolean;
   isAuthor: boolean;
   isSignedIn: boolean;
-  addFunction: VoidFunction;
+  addFunction: (playlistName: string) => void;
   deleteFunction: VoidFunction;
   type: "playlist" | "song" | "profile";
   href: Url;
@@ -200,7 +200,7 @@ const Dropdown = ({
   isAuthor: boolean;
   isSignedIn: boolean;
   deleteFunction: VoidFunction;
-  addFunction: VoidFunction;
+  addFunction: (playlistName: string) => void;
 }) => {
   const { deleteItem, handleCopy, textRef, addItem } = useCardDropdown({
     type: type,
@@ -274,7 +274,7 @@ const RightClickDropdown = ({
   ShareLink: Url;
   isSignedIn: boolean;
   deleteFunction: VoidFunction;
-  addFunction: VoidFunction;
+  addFunction: (playlistName: string) => void;
 }) => {
   const { deleteItem, handleCopy, textRef, addItem } = useCardDropdown({
     type: type,

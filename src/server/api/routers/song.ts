@@ -87,6 +87,7 @@ export const songRouter = createTRPCRouter({
           .max(10, { message: "Please enter a number below 10" })
           .nullable()
           .optional(),
+        authorName: z.string().optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -106,7 +107,7 @@ export const songRouter = createTRPCRouter({
           songUrl: input.songUrl,
           genre: input.genre,
           playlistName: input.playlistName,
-          authorName: ctx.username,
+          authorName: input.authorName || ctx.username,
 
           album: input.albumName,
           artist: input.artistName,

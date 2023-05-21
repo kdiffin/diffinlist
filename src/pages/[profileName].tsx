@@ -121,15 +121,17 @@ function Profile({ profileName }: { profileName: string }) {
 
                 return (
                   <SectionCard
-                    addFunction={() =>
+                    addFunction={(playlistName: string) =>
                       addSong({
                         genre: song.genre,
+                        authorName: username,
+
                         name: song.name,
                         pictureUrl: song.pictureUrl,
-                        playlistName: song.playlistName,
                         songUrl: song.songUrl,
                         albumName: song.album,
                         artistName: song.artist,
+                        playlistName: playlistName,
                         description: song.description,
                         rating: song.rating,
                       })

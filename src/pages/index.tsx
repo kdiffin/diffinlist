@@ -134,12 +134,13 @@ const Home: NextPage = () => {
 
               return (
                 <SectionCard
-                  addFunction={() => {
+                  addFunction={(playlistName) => {
                     addSong({
                       genre: song.genre,
+                      authorName: username,
                       name: song.name,
+                      playlistName: playlistName,
                       pictureUrl: song.pictureUrl,
-                      playlistName: song.playlistName,
                       songUrl: song.songUrl,
                       albumName: song.album,
                       artistName: song.artist,

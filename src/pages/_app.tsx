@@ -12,6 +12,7 @@ import CreatePlaylist from "~/components/playlist/CreatePlaylist";
 import { Toaster } from "react-hot-toast";
 import Song from "~/components/song/Song";
 import Delete from "~/components/Delete";
+import AddSongToPlaylist from "~/components/song/AddSongToPlaylist";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   //todo: deleteing songs and adding songs to ur playlist
@@ -46,6 +47,9 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         <Settings />
         <CreatePlaylist />
         <Song />
+
+        {/* all modals triggered by global state */}
+        <AddSongToPlaylist />
         <Delete />
       </div>
 
