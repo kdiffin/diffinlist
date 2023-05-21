@@ -5,13 +5,15 @@ import { atom, useAtom } from "jotai";
 import { deleteParamsAtom, showDeleteAtom } from "~/state/atoms";
 
 //these two were similar enough that I decided to reuse the UI and seperate the function logic
+//this is a dumb component, the actual deletion logic is in the useDelete hook.
+//it gets the deletion function via global state and the atom I defined in /state/atoms.ts
+//state management library is jotai so you might wanna read up on that first, its very simple tho.
+//unlike context jotai only updates the values it needs, hence why its atomic.
 const Delete = () => {
   //very similar to reacts usestate
   //here we onyl read it and dont write anything to it
   const [showDelete, setShowDelete] = useAtom(showDeleteAtom);
   const [deleteParams] = useAtom(deleteParamsAtom);
-
-  console.log(deleteParams.deleteFunction);
 
   return (
     <AlertDialog.Root

@@ -10,6 +10,7 @@ import { Section, SectionCard } from "~/components/Section";
 import { ssgHelper } from "~/server/helpers/generateSSGHelper";
 import { api } from "~/utils/api";
 import useDelete from "~/hooks/useDelete";
+import { toast } from "react-hot-toast";
 
 function Profile({ profileName }: { profileName: string }) {
   //the usequery will never hit loading because of ssg

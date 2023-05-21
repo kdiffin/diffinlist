@@ -24,6 +24,8 @@ function CreatePlaylist() {
         ctx.playlist.getPlaylists.invalidate().then(() => {
           router.push(`/${user ? user.username : ""}`);
         });
+
+        ctx.playlist.invalidate();
       },
 
       onError: (e) => {

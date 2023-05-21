@@ -20,6 +20,7 @@ import { ImageSkeleton } from "~/components/ui/Skeletons";
 import { ssgHelper } from "~/server/helpers/generateSSGHelper";
 import { api } from "~/utils/api";
 import useDelete from "~/hooks/useDelete";
+import { toast } from "react-hot-toast";
 
 // ui is very similar to profileName, so I copy pasted that component.
 // I could have made the ui a component and the data fetching parts hooks, but I dont like abstracting such large files.
@@ -31,26 +32,22 @@ function Profile({
   profileName: string;
   playlistName: string;
 }) {
+  const router = useRouter();
+  const { user, isSignedIn } = useUser();
+
   //the usequery will never hit loading because of ssg
   //also trpc uses react query under the hood
   const { data: playlist } = api.playlist.getPlaylist.useQuery({
     playlistName: playlistName,
     profileName: profileName,
   });
-  const router = useRouter();
-  const { user, isSignedIn } = useUser();
 
   const { data, isLoading: songsLoading } = api.song.getSongs.useQuery({
     profileName: profileName,
     playlistName: playlistName,
   });
 
-  const {
-    playlistDelete,
-    playlistDeleteLoading,
-    songDelete,
-    songDeleteLoading,
-  } = useDelete();
+  const { songDelete } = useDelete();
 
   if (!playlist) throw new Error("couldnt find playlist");
 

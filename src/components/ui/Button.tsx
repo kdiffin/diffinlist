@@ -1,12 +1,16 @@
-import React from "react";
+import React, { forwardRef } from "react";
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children?: React.ReactNode;
 }
 
-function Button({ children, type, className, disabled, onClick }: Props) {
+export function ButtonNoRef(
+  { children, type, className, disabled, onClick }: Props,
+  ref: React.Ref<HTMLButtonElement>
+) {
   return (
     <button
+      ref={ref}
       onClick={onClick}
       type={type}
       disabled={disabled}
@@ -20,5 +24,7 @@ function Button({ children, type, className, disabled, onClick }: Props) {
     </button>
   );
 }
+
+const Button = forwardRef(ButtonNoRef);
 
 export default Button;
