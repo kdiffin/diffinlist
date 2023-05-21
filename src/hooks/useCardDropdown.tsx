@@ -11,6 +11,7 @@ function useCardDropdown({
   type: "playlist" | "song" | "profile";
   deleteFunction: VoidFunction;
 }) {
+  //for the copy button
   const textRef = useRef<HTMLInputElement>(null);
 
   function handleCopy() {
@@ -24,9 +25,14 @@ function useCardDropdown({
     }
   }
 
+  //early return cuz the profile ones dont have these extra fields, only copy url
+  if (type === "profile") {
+    return { textRef, handleCopy };
+  }
+
+  //for the delete playlist/song button
   const [deleteParams, setDeleteParams] = useAtom(deleteParamsAtom);
   const [showDelete, setShowDelete] = useAtom(showDeleteAtom);
-
   function deleteItem() {
     setShowDelete(true);
 
@@ -35,6 +41,8 @@ function useCardDropdown({
       type: type,
     });
   }
+
+  //for the edit playlist/song button
 
   return { textRef, handleCopy, deleteItem };
 }

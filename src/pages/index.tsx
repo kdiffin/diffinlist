@@ -81,7 +81,7 @@ const Home: NextPage = () => {
       <div className="flex flex-col  gap-12 p-10 py-10">
         {/* playlists should get filtered when clicked on view more */}
         {/* the reason i didnt reuse the .map function is because I lose typesafety. as different APIS return different objects */}
-        <Section loading={playlistsLoading} name="Playlists">
+        <Section loading={playlistsLoading} title="Playlists">
           {playlists && playlists.length > 0 ? (
             playlists.map((playlist) => {
               const isAuthor = user?.username === playlist.authorName;
@@ -115,7 +115,7 @@ const Home: NextPage = () => {
 
         <Divider />
 
-        <Section loading={songsLoading} name="Songs">
+        <Section loading={songsLoading} title="Songs">
           {songs && songs.length > 0 ? (
             songs.map((song) => {
               const isAuthor = user?.username === song.authorName;
@@ -158,7 +158,7 @@ const Home: NextPage = () => {
 
         <Divider />
 
-        <Section loading={usersLoading} name="Users">
+        <Section loading={usersLoading} title="Users">
           {users && users.length > 0 ? (
             users.map((user) => {
               return (

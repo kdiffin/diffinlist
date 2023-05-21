@@ -67,7 +67,7 @@ function Profile({ profileName }: { profileName: string }) {
         <div className="flex flex-col  gap-12 p-10 py-10">
           {/* playlists should get filtered when clicked on view more */}
           {/* the reason i didnt reuse the .map function is because I lose typesafety. as different APIS return different objects */}
-          <Section loading={playlistsLoading} name="Playlists">
+          <Section loading={playlistsLoading} title="Playlists">
             {playlists && playlists.length > 0 ? (
               playlists.map((playlist) => {
                 const isAuthor = user?.username === playlist.authorName;
@@ -75,14 +75,16 @@ function Profile({ profileName }: { profileName: string }) {
 
                 return (
                   <SectionCard
-                    isAuthor={isAuthor}
-                    isSignedIn={signedIn}
-                    type="playlist"
-                    href={`/${playlist.authorName}/${playlist.name}`}
+                  isAuthor={isAuthor}
+                  isSignedIn={signedIn}
+                  type="playlist"
+                  href={`/${playlist.authorName}/${playlist.name}`}
                     data={{
                       pictureUrl: playlist.pictureUrl,
                       title: playlist.name,
                     }}
+                    
+                  addFunction={() =>}
                     deleteFunction={() =>
                       playlistDelete({
                         playlistName: playlist.name,
@@ -101,7 +103,7 @@ function Profile({ profileName }: { profileName: string }) {
 
           <Divider />
 
-          <Section loading={songsLoading} name="Songs">
+          <Section loading={songsLoading} title="Songs">
             {songs && songs.length > 0 ? (
               songs.map((song) => {
                 const isAuthor = user?.username === song.authorName;
@@ -147,7 +149,7 @@ function Profile({ profileName }: { profileName: string }) {
       <Head>
         {/* Primary Meta Tags  */}
         <title>{`${userData.username} `}</title>
-        <meta name="title" content={`${userData.username} | ${profileName}`} />
+        <meta title="title" content={`${userData.username} | ${profileName}`} />
         <link rel="icon" href={userData.profileImageUrl} />
 
         {/* <!-- Open Graph / Facebook --> */}

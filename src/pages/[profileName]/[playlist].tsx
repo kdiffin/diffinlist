@@ -21,6 +21,7 @@ import { ssgHelper } from "~/server/helpers/generateSSGHelper";
 import { api } from "~/utils/api";
 import useDelete from "~/hooks/useDelete";
 import { toast } from "react-hot-toast";
+import Divider from "~/components/ui/Divider";
 
 // ui is very similar to profileName, so I copy pasted that component.
 // I could have made the ui a component and the data fetching parts hooks, but I dont like abstracting such large files.
@@ -59,6 +60,15 @@ function Profile({
       : "",
     { keys: ["name"] }
   );
+
+  function filterSongs(value: string) {
+    const url = {
+      pathname: router.route,
+      query: { ...router.query, search: value },
+    };
+
+    router.replace(url, undefined, { shallow: true });
+  }
 
   return (
     <>
@@ -106,7 +116,23 @@ function Profile({
 
         {/* this is the body */}
         <div className="flex flex-col  gap-12 p-10 py-10">
-          <Section hideShowMore={true} loading={songsLoading} name="Songs">
+          <Section
+            hideShowMore={true}
+            loading={songsLoading}
+            title={
+              <>
+                <p>Songs</p>
+                <Input
+                  icon={<MdSearch color=" #A3A3A3" />}
+                  placeholder="Search song"
+                  type="text"
+                  value={router.query?.search as string}
+                  className=" w-full max-w-lg !px-6 !py-3 !text-sm   xl:max-w-md "
+                  setValue={(value: string) => filterSongs(value)}
+                />
+              </>
+            }
+          >
             <>
               {songs && songs.length > 0
                 ? songs.map((song) => {

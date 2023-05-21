@@ -42,7 +42,7 @@ function CreateSong() {
   const { mutate, isLoading } = api.song.createSong.useMutation({
     onSuccess: () => {
       removeChanges();
-      ctx.song.getSongs.invalidate().then(() => createCreateSong());
+      ctx.song.getSongs.invalidate().then(() => closeCreateSong());
     },
 
     onError: (e) => {
@@ -89,7 +89,7 @@ function CreateSong() {
     },
   });
 
-  function createCreateSong() {
+  function closeCreateSong() {
     delete router.query?.showCreateSong;
     router.replace(router, undefined, { shallow: true });
   }
@@ -128,7 +128,7 @@ function CreateSong() {
 
   return (
     // https://www.radix-ui.com/docs/primitives/components/dialog#dialog
-    <Dialog.Root open={isOpen} onOpenChange={createCreateSong}>
+    <Dialog.Root open={isOpen} onOpenChange={closeCreateSong}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0  bg-neutral-900/40 data-[state=open]:animate-overlayShow" />
         <Dialog.Content className="modal !max-h-[93vh]  ">

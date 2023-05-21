@@ -15,13 +15,13 @@ import useCardDropdown from "~/hooks/useCardDropdown";
 // but way more modular is a good comprimise.
 
 export function Section({
-  name,
+  title,
   children,
   hideShowMore,
   loading,
   showMoreHref,
 }: {
-  name: string;
+  title: ReactNode;
   loading: boolean;
   showMoreHref?: string;
   hideShowMore?: boolean;
@@ -33,10 +33,9 @@ export function Section({
   });
 
   return (
-    //id is for routing to it
-    <div id={name} className="relative">
-      <div className=" mb-12 flex flex-col items-center justify-between gap-10 text-center  xl:mb-10  xl:flex-row ">
-        <p className="text-2xl">{name}</p>
+    <div className="relative">
+      <div className=" mb-12 flex flex-col items-center justify-between gap-10 text-center text-2xl  xl:mb-10  xl:flex-row ">
+        {title}
       </div>
 
       <div className="flex flex-wrap justify-center  gap-5 overflow-hidden xl:justify-normal ">
@@ -56,26 +55,27 @@ export function Section({
   );
 }
 
-// "moved the delete function up to the parent component. Noticing a trend of moving stuff to
+// moved the delete function up to the parent component. Noticing a trend of moving stuff to
 // the parent becoming the norm here, this will aid me with typesafety and not make the child components
-// bloated with a bunch of tsignores and conditionals."
-
+// bloated with a bunch of tsignores and conditionals.
 function SectionCardNoMemo({
   href,
   shallow,
   deleteFunction,
   data,
+  addFunction,
   isAuthor,
   isSignedIn,
   type,
 }: {
   shallow?: boolean;
-  data: SectionCardData;
-  deleteFunction: VoidFunction;
   isAuthor: boolean;
   isSignedIn: boolean;
+  addFunction: VoidFunction;
+  deleteFunction: VoidFunction;
   type: "playlist" | "song" | "profile";
   href: Url;
+  data: SectionCardData;
 }) {
   function ImageChecker() {
     if (!data.pictureUrl) {
@@ -158,6 +158,7 @@ function SectionCardNoMemo({
           </Link>
 
           <Dropdown
+            addFunction={addFunction}
             deleteFunction={deleteFunction}
             ShareLink={linkHref}
             isSignedIn={isSignedIn}
@@ -166,6 +167,7 @@ function SectionCardNoMemo({
           />
 
           <RightClickDropdown
+            addFunction={addFunction}
             deleteFunction={deleteFunction}
             ShareLink={linkHref}
             isSignedIn={isSignedIn}
@@ -191,12 +193,14 @@ const Dropdown = ({
   ShareLink,
   isSignedIn,
   deleteFunction,
+  addFunction,
 }: {
   type: "playlist" | "song" | "profile";
   ShareLink: string;
   isAuthor: boolean;
   isSignedIn: boolean;
   deleteFunction: VoidFunction;
+  addFunction: VoidFunction;
 }) => {
   const { deleteItem, handleCopy, textRef } = useCardDropdown({
     type: type,
@@ -261,12 +265,14 @@ const RightClickDropdown = ({
   isSignedIn,
   ShareLink,
   deleteFunction,
+  addFunction,
 }: {
   type: "playlist" | "song" | "profile";
   isAuthor: boolean;
   ShareLink: Url;
   isSignedIn: boolean;
   deleteFunction: VoidFunction;
+  addFunction: VoidFunction;
 }) => {
   const { deleteItem, handleCopy, textRef } = useCardDropdown({
     type: type,
