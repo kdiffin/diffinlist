@@ -11,6 +11,7 @@ import { ssgHelper } from "~/server/helpers/generateSSGHelper";
 import { api } from "~/utils/api";
 import useDelete from "~/hooks/useDelete";
 import { toast } from "react-hot-toast";
+import useAdd from "~/hooks/useAdd";
 
 function Profile({ profileName }: { profileName: string }) {
   //the usequery will never hit loading because of ssg
@@ -19,6 +20,7 @@ function Profile({ profileName }: { profileName: string }) {
   const { data: userData } = api.profile.getProfileByProfileName.useQuery({
     profileName: profileName,
   });
+  const username = user && user.username ? user.username : "";
 
   const { data: playlists, isLoading: playlistsLoading } =
     api.playlist.getPlaylists.useQuery({
@@ -36,6 +38,8 @@ function Profile({ profileName }: { profileName: string }) {
     songDelete,
     songDeleteLoading,
   } = useDelete();
+
+  const { addPlaylist, addSong } = useAdd();
 
   if (!userData) throw new Error("Data not found");
 
@@ -75,16 +79,22 @@ function Profile({ profileName }: { profileName: string }) {
 
                 return (
                   <SectionCard
-                  isAuthor={isAuthor}
-                  isSignedIn={signedIn}
-                  type="playlist"
-                  href={`/${playlist.authorName}/${playlist.name}`}
+                    isAuthor={isAuthor}
+                    isSignedIn={signedIn}
+                    type="playlist"
+                    href={`/${playlist.authorName}/${playlist.name}`}
                     data={{
                       pictureUrl: playlist.pictureUrl,
                       title: playlist.name,
                     }}
-                    
-                  addFunction={() =>}
+                    addFunction={() => {
+                      addPlaylist({
+                        genre: playlist.genre,
+                        name: playlist.name,
+                        picture: playlist.pictureUrl,
+                        authorName: username,
+                      });
+                    }}
                     deleteFunction={() =>
                       playlistDelete({
                         playlistName: playlist.name,

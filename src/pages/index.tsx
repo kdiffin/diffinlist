@@ -163,6 +163,7 @@ const Home: NextPage = () => {
             users.map((user) => {
               return (
                 <SectionCard
+                  addFunction={() => null}
                   data={{
                     pictureUrl: user.profileImageUrl,
 

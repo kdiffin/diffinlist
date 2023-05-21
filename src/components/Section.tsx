@@ -202,9 +202,10 @@ const Dropdown = ({
   deleteFunction: VoidFunction;
   addFunction: VoidFunction;
 }) => {
-  const { deleteItem, handleCopy, textRef } = useCardDropdown({
+  const { deleteItem, handleCopy, textRef, addItem } = useCardDropdown({
     type: type,
     deleteFunction,
+    addFunction: addFunction,
   });
 
   return (
@@ -229,6 +230,7 @@ const Dropdown = ({
           <DropdownMenu.Item
             disabled={!isSignedIn}
             className="dropdown-item group"
+            onSelect={addItem}
           >
             <MdAdd size={20} className="text-zinc-500" /> Add{" "}
             {type === "playlist" ? "playlist to profile" : "song to playlist"}
@@ -274,9 +276,10 @@ const RightClickDropdown = ({
   deleteFunction: VoidFunction;
   addFunction: VoidFunction;
 }) => {
-  const { deleteItem, handleCopy, textRef } = useCardDropdown({
+  const { deleteItem, handleCopy, textRef, addItem } = useCardDropdown({
     type: type,
     deleteFunction: deleteFunction,
+    addFunction: addFunction,
   });
 
   return (
@@ -299,6 +302,7 @@ const RightClickDropdown = ({
         <>
           <ContextMenu.Item
             disabled={!isSignedIn}
+            onSelect={addItem}
             className="dropdown-item group"
           >
             <MdAdd size={20} className="text-zinc-500" /> Add{" "}

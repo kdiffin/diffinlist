@@ -67,6 +67,10 @@ export const playlistRouter = createTRPCRouter({
           z.string().max(0),
         ]),
         genre: z.string().max(30),
+
+        //this is for when ur not creating the playlist, but moving one playlist to another.
+        // go to how this is used in useAdd.tsx, its used to add a playlist to ur own profile from another users profile
+        authorName: z.string().optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -83,7 +87,7 @@ export const playlistRouter = createTRPCRouter({
       const playlist = await ctx.prisma.playlist.create({
         data: {
           name: input.name,
-          authorName: authorName,
+          authorName: input.authorName || authorName,
           genre: input.genre,
           pictureUrl: input.picture,
         },

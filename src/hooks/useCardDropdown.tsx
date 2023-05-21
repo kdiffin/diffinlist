@@ -7,9 +7,11 @@ import { api } from "~/utils/api";
 function useCardDropdown({
   type,
   deleteFunction,
+  addFunction,
 }: {
   type: "playlist" | "song" | "profile";
   deleteFunction: VoidFunction;
+  addFunction: VoidFunction;
 }) {
   //for the copy button
   const textRef = useRef<HTMLInputElement>(null);
@@ -42,9 +44,12 @@ function useCardDropdown({
     });
   }
 
-  //for the edit playlist/song button
+  //for the add playlist/song to profile/plalyist button
+  function addItem() {
+    addFunction();
+  }
 
-  return { textRef, handleCopy, deleteItem };
+  return { textRef, handleCopy, deleteItem, addItem };
 }
 
 export default useCardDropdown;
