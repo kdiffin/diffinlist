@@ -1,4 +1,5 @@
 import React from "react";
+import * as RadioGroup from "@radix-ui/react-radio-group";
 
 //not to be confused with createsong this moves a song from one playlist to another
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
@@ -7,6 +8,10 @@ import { atom, useAtom } from "jotai";
 import { addSongToPlaylist, showPlaylists } from "~/state/atoms";
 import { api } from "~/utils/api";
 import { useUser } from "@clerk/nextjs";
+import { MdAdd } from "react-icons/md";
+import { Playlist } from "@prisma/client";
+import Loading, { LoadingSpinner } from "../ui/Loading";
+import { DialogOverlay } from "@radix-ui/react-dialog";
 
 // similar pattern to delete.tsx
 function AddSongToPlaylist() {
@@ -27,33 +32,79 @@ function AddSongToPlaylist() {
         <AlertDialog.Overlay className="fixed inset-0  bg-neutral-900/40 data-[state=open]:animate-overlayShow" />
 
         <AlertDialog.Content
-          className="fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-[500px] translate-x-[-50%] translate-y-[-50%]
-       rounded-sm bg-zinc-900 p-6 shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none data-[state=open]:animate-contentShow"
+          className="fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%]
+       rounded-sm bg-zinc-900 p-6  focus:outline-none data-[state=open]:animate-contentShow"
         >
-          <AlertDialog.Title className="text-mauve12 m-0 text-[17px] font-medium">
+          <AlertDialog.Title className="text-mauve12 m-0 text-lg font-medium">
             Playlists
           </AlertDialog.Title>
-          <AlertDialog.Description className="text-mauve11 mb-5 mt-4 text-[15px] leading-normal">
+          <AlertDialog.Description className="text-mauve11  mt-4  leading-normal">
             Choose which playlist you want the song added to.
           </AlertDialog.Description>
 
-          <div className="flex justify-end gap-[25px]">
-            <AlertDialog.Cancel asChild>
-              <Button className="text-sm ">Cancel</Button>
-            </AlertDialog.Cancel>
+          <Playlists loading={isLoading} playlists={playlists} />
 
-            <AlertDialog.Action asChild>
-              <Button
-                onClick={addSongToPlaylistParams.deleteFunction}
-                className=" !bg-red-500 text-sm hover:!bg-red-400 focus:!bg-red-400 focus:!shadow-red-800 "
-              >
-                <p className="">Add to </p>
-              </Button>
-            </AlertDialog.Action>
-          </div>
+          <AlertDialog.Cancel asChild>
+            <button className="fixed right-2 top-1 p-1 text-sm">X</button>
+          </AlertDialog.Cancel>
+
+          <AlertDialog.Action className="mt-1 text-xs" asChild>
+            <Button onClick={addSongToPlaylistParams.addFunction}>
+              <MdAdd className="mr-1 " /> Add
+            </Button>
+          </AlertDialog.Action>
         </AlertDialog.Content>
       </AlertDialog.Portal>
     </AlertDialog.Root>
+  );
+}
+
+function Playlists({
+  playlists,
+  loading,
+}: {
+  playlists: Playlist[] | undefined;
+  loading: boolean;
+}) {
+  if (loading) {
+    return (
+      <div className="flex h-[150px] w-full items-center justify-center ">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  return (
+    <form>
+      <RadioGroup.Root
+        required
+        className="my-5 flex flex-col gap-2.5"
+        defaultValue="default"
+        aria-label="Playlists to add your song to"
+      >
+        {playlists?.map((playlist) => {
+          return (
+            <div className="flex items-center">
+              <RadioGroup.Item
+                className="h-6 w-6 cursor-pointer rounded-sm bg-zinc-700
+           shadow-[0_2px_10px] shadow-neutral-800 outline-none hover:bg-zinc-600 focus:shadow-[0_0_0_2px] focus:shadow-neutral-600"
+                value={playlist.name}
+                id={playlist.name}
+              >
+                <RadioGroup.Indicator className="relative flex h-full w-full items-center justify-center after:block after:text-lg after:font-black after:text-neutral-300 after:content-['✓']" />
+              </RadioGroup.Item>
+
+              <label
+                className="pl-4 text-lg leading-none text-white"
+                htmlFor={playlist.name}
+              >
+                {playlist.name}
+              </label>
+            </div>
+          );
+        })}
+      </RadioGroup.Root>
+    </form>
   );
 }
 

@@ -125,7 +125,6 @@ function Profile({ profileName }: { profileName: string }) {
                       addSong({
                         genre: song.genre,
                         authorName: username,
-
                         name: song.name,
                         pictureUrl: song.pictureUrl,
                         songUrl: song.songUrl,

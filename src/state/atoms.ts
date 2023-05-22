@@ -13,7 +13,7 @@ export const deleteParamsAtom = atom<DeleteParams>({
 });
 
 export const addSongToPlaylist = atom({
-  deleteFunction: () => null,
+  addFunction: () => null,
 });
 
 type DeleteParams = {
