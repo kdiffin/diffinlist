@@ -12,11 +12,15 @@ export const deleteParamsAtom = atom<DeleteParams>({
   deleteFunction: () => null,
 });
 
-export const addSongToPlaylist = atom({
-  addFunction: () => null,
+export const addSongToPlaylist = atom<AddFunction>({
+  addFunction: (playlistName: string) => null,
 });
 
 type DeleteParams = {
   type: "playlist" | "song" | "profile";
   deleteFunction: VoidFunction;
+};
+
+type AddFunction = {
+  addFunction: (playlistName: string) => void;
 };

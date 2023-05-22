@@ -204,7 +204,7 @@ const Dropdown = ({
 }) => {
   const { deleteItem, handleCopy, textRef, addItem } = useCardDropdown({
     type: type,
-    deleteFunction,
+    deleteFunction: deleteFunction,
     addFunction: addFunction,
   });
 

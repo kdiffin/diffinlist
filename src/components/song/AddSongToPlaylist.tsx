@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, useState } from "react";
 import * as RadioGroup from "@radix-ui/react-radio-group";
 
 //not to be confused with createsong this moves a song from one playlist to another
@@ -16,12 +16,15 @@ import { DialogOverlay } from "@radix-ui/react-dialog";
 // similar pattern to delete.tsx
 function AddSongToPlaylist() {
   const [showPlaylistsToAdd, setShowPlaylistsToAdd] = useAtom(showPlaylists);
-  const { user } = useUser();
+  const [selectedPlaylist, setSelectedPlaylist] = useState("");
   const [addSongToPlaylistParams] = useAtom(addSongToPlaylist);
+  const { user } = useUser();
   const { data: playlists, isLoading } = api.playlist.getPlaylists.useQuery({
     profileName: user && user.username ? user.username : "",
     takeLimit: 12312313,
   });
+
+  console.log(addSongToPlaylistParams);
 
   return (
     <AlertDialog.Root
@@ -42,14 +45,22 @@ function AddSongToPlaylist() {
             Choose which playlist you want the song added to.
           </AlertDialog.Description>
 
-          <Playlists loading={isLoading} playlists={playlists} />
+          <Playlists
+            loading={isLoading}
+            playlists={playlists}
+            setSelectedPlaylist={setSelectedPlaylist}
+          />
 
           <AlertDialog.Cancel asChild>
             <button className="fixed right-2 top-1 p-1 text-sm">X</button>
           </AlertDialog.Cancel>
 
           <AlertDialog.Action className="mt-1 text-xs" asChild>
-            <Button onClick={addSongToPlaylistParams.addFunction}>
+            <Button
+              onClick={() =>
+                addSongToPlaylistParams.addFunction(selectedPlaylist)
+              }
+            >
               <MdAdd className="mr-1 " /> Add
             </Button>
           </AlertDialog.Action>
@@ -62,9 +73,11 @@ function AddSongToPlaylist() {
 function Playlists({
   playlists,
   loading,
+  setSelectedPlaylist,
 }: {
   playlists: Playlist[] | undefined;
   loading: boolean;
+  setSelectedPlaylist: Dispatch<React.SetStateAction<string>>;
 }) {
   if (loading) {
     return (
@@ -78,6 +91,7 @@ function Playlists({
     <form>
       <RadioGroup.Root
         required
+        onValueChange={(value) => setSelectedPlaylist(value)}
         className="my-5 flex flex-col gap-2.5"
         defaultValue="default"
         aria-label="Playlists to add your song to"
