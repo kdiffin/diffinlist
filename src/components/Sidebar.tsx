@@ -166,7 +166,7 @@ function Sidebar() {
             {Logo} <p className="mb-[3px] ">diffinlist</p>
           </Link>
 
-          <Link href={`/${user?.username}`}>
+          <Link href={`/${user ? user.username : router.asPath}`}>
             <Avatar
               src={user?.profileImageUrl}
               loading={!isLoaded}
