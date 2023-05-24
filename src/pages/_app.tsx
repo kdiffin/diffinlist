@@ -14,6 +14,7 @@ import Song from "~/components/song/Song";
 import Delete from "~/components/Delete";
 import AddSongToPlaylist from "~/components/song/AddSongToPlaylist";
 import { atom, useAtom } from "jotai";
+import EditSong from "~/components/song/EditSong";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   //todo: search.tsx
@@ -50,6 +51,8 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         {/* all modals triggered by global state */}
         <AddSongToPlaylist />
         <Delete />
+
+        <EditSong />
       </div>
 
       <Head>

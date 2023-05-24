@@ -6,6 +6,8 @@ import { atom } from "jotai";
 
 export const showDeleteAtom = atom(false);
 export const showPlaylists = atom(false);
+export const showEditPlaylist = atom(false);
+export const showEditSong = atom(false);
 
 export const deleteParamsAtom = atom<DeleteParams>({
   type: "playlist",

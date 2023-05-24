@@ -202,11 +202,12 @@ const Dropdown = ({
   deleteFunction: VoidFunction;
   addFunction: (playlistName: string) => void;
 }) => {
-  const { deleteItem, handleCopy, textRef, addItem } = useCardDropdown({
-    type: type,
-    deleteFunction: deleteFunction,
-    addFunction: addFunction,
-  });
+  const { deleteItem, handleCopy, textRef, addItem, editItem } =
+    useCardDropdown({
+      type: type,
+      deleteFunction: deleteFunction,
+      addFunction: addFunction,
+    });
 
   return (
     <DropdownMenu.Content
@@ -239,6 +240,7 @@ const Dropdown = ({
           <DropdownMenu.Item
             disabled={!isAuthor}
             className="dropdown-item group "
+            onSelect={editItem}
           >
             <MdEdit size={20} className="text-zinc-500" /> Edit {type}
           </DropdownMenu.Item>
@@ -276,11 +278,12 @@ const RightClickDropdown = ({
   deleteFunction: VoidFunction;
   addFunction: (playlistName: string) => void;
 }) => {
-  const { deleteItem, handleCopy, textRef, addItem } = useCardDropdown({
-    type: type,
-    deleteFunction: deleteFunction,
-    addFunction: addFunction,
-  });
+  const { deleteItem, handleCopy, textRef, addItem, editItem } =
+    useCardDropdown({
+      type: type,
+      deleteFunction: deleteFunction,
+      addFunction: addFunction,
+    });
 
   return (
     <ContextMenu.Content
@@ -312,6 +315,7 @@ const RightClickDropdown = ({
           <ContextMenu.Item
             disabled={!isAuthor}
             className="dropdown-item group "
+            onSelect={editItem}
           >
             <MdEdit size={20} className="text-zinc-500" /> Edit {type}
           </ContextMenu.Item>

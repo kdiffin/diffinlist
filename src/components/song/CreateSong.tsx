@@ -23,7 +23,6 @@ import {
 } from "react-icons/md";
 import { toast } from "react-hot-toast";
 
-//UI is basically a copy paste of the settings one
 function CreateSong() {
   const router = useRouter();
   const isOpen = router.query?.showCreateSong === "true";

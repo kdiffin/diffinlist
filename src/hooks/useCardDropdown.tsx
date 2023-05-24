@@ -5,6 +5,8 @@ import {
   addSongToPlaylist,
   deleteParamsAtom,
   showDeleteAtom,
+  showEditPlaylist,
+  showEditSong,
   showPlaylists,
 } from "~/state/atoms";
 import { api } from "~/utils/api";
@@ -40,6 +42,7 @@ function useCardDropdown({
   //for the delete playlist/song button
   const [deleteParams, setDeleteParams] = useAtom(deleteParamsAtom);
   const [showDelete, setShowDelete] = useAtom(showDeleteAtom);
+
   function deleteItem() {
     setShowDelete(true);
 
@@ -68,7 +71,15 @@ function useCardDropdown({
     });
   }
 
-  return { textRef, handleCopy, deleteItem, addItem };
+  //for the edit song/playlist button
+  const [toggleEditSong, setToggleEditSong] = useAtom(showEditSong);
+  const [toggleEditPlaylist, setToggleEditPlaylist] = useAtom(showEditPlaylist);
+
+  function editItem() {
+    type === "playlist" ? setToggleEditPlaylist(true) : setToggleEditSong(true);
+  }
+
+  return { textRef, handleCopy, editItem, deleteItem, addItem };
 }
 
 export default useCardDropdown;

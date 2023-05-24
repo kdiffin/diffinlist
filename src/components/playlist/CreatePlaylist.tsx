@@ -9,7 +9,6 @@ import { LoadingSpinner } from "../ui/Loading";
 import { ImageSkeleton } from "../ui/Skeletons";
 import { useClerk } from "@clerk/nextjs";
 
-//UI is basically a copy paste of the settings one
 function CreatePlaylist() {
   const router = useRouter();
   const [playlistPicUrl, setPlaylistPicUrl] = useState("");
