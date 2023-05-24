@@ -105,7 +105,7 @@ function Playlists({
                 value={playlist.name}
                 id={playlist.name}
               >
-                <RadioGroup.Indicator className="relative flex h-full w-full items-center justify-center after:block after:text-lg after:font-black after:text-neutral-300 after:content-['✓']" />
+                <RadioGroup.Indicator className="relative flex h-full w-full items-center justify-center after:block after:text-lg after:font-bold after:text-neutral-300 after:content-['✓']" />
               </RadioGroup.Item>
 
               <label

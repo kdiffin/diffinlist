@@ -13,6 +13,7 @@ import { Toaster } from "react-hot-toast";
 import Song from "~/components/song/Song";
 import Delete from "~/components/Delete";
 import AddSongToPlaylist from "~/components/song/AddSongToPlaylist";
+import { atom, useAtom } from "jotai";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   //todo: deleteing songs and adding songs to ur playlist
@@ -63,6 +64,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
             "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpre00.deviantart.net%2F70ec%2Fth%2Fpre%2Fi%2F2016%2F164%2Fe%2F4%2Femoticon_cute_cat___facebook_by_thebether-da62hu8.png&f=1&nofb=1&ipt=aa1635971965336a0a75ac721bdadf2b12d7c1472679a7f8be7a76c0b75ff425&ipo=images"
           }
         />
+
         <meta
           name="description"
           content={
