@@ -16,9 +16,7 @@ import AddSongToPlaylist from "~/components/song/AddSongToPlaylist";
 import { atom, useAtom } from "jotai";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
-  //todo: deleteing songs and adding songs to ur playlist
   //todo: search.tsx
-  //todo: home feed, recent playlists, recent songs, recent users, popular songs
   //todo: favouriting playlists, editing songs
 
   return (

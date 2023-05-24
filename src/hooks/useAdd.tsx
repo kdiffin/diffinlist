@@ -14,6 +14,7 @@ function useAdd() {
     mutate: addPlaylist,
     isLoading: addPlaylistLoading,
     isSuccess: playlistSuccess,
+    isError: playlistError,
   } = api.playlist.createPlaylist.useMutation({
     onSuccess: () => {
       ctx.playlist.getPlaylists.invalidate().then(() => {
@@ -33,6 +34,7 @@ function useAdd() {
     mutate: addSong,
     isLoading: addSongLoading,
     isSuccess: songSuccess,
+    isError: songError,
   } = api.song.createSong.useMutation({
     onSuccess: () => {
       ctx.song.invalidate().then(() => {
@@ -47,6 +49,7 @@ function useAdd() {
 
   const loading = addSongLoading || addPlaylistLoading;
   const success = playlistSuccess || songSuccess;
+  const error = playlistError || songError;
 
   if (loading) {
     toast.loading("Loading...", {
@@ -54,7 +57,7 @@ function useAdd() {
     });
   }
 
-  if (success) {
+  if (success || error) {
     toast.dismiss("loading");
   }
 

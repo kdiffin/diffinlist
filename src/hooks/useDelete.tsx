@@ -10,6 +10,7 @@ function useDelete() {
     mutate: songDelete,
     isLoading: songDeleteLoading,
     isSuccess: playlistSuccess,
+    isError: playlistError,
   } = api.song.deleteSong.useMutation({
     onSuccess: () => {
       ctx.song.invalidate().then(() => {
@@ -26,6 +27,7 @@ function useDelete() {
     mutate: playlistDelete,
     isLoading: playlistDeleteLoading,
     isSuccess: songSuccess,
+    isError: songError,
   } = api.playlist.deletePlaylist.useMutation({
     onSuccess: () => {
       ctx.playlist.invalidate().then(() => {
@@ -40,6 +42,7 @@ function useDelete() {
 
   const loading = playlistDeleteLoading || songDeleteLoading;
   const success = playlistSuccess || songSuccess;
+  const error = playlistError || songError;
 
   if (loading) {
     toast.loading("Loading...", {
@@ -47,7 +50,7 @@ function useDelete() {
     });
   }
 
-  if (success) {
+  if (success || error) {
     toast.dismiss("loading");
   }
   return {
