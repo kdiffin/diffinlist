@@ -12,6 +12,7 @@ import {
   MdArrowForward,
   MdArrowLeft,
   MdArrowRightAlt,
+  MdEdit,
   MdFlipToBack,
   MdOutlineArrowLeft,
   MdOutlineArrowRight,
@@ -147,12 +148,12 @@ function EditSong() {
           </div>
 
           <Dialog.Title className="  text-2xl font-medium">
-            {!nextStep ? "Add Song" : "Optional fields"}
+            {!nextStep ? "Edit Song" : "Optional fields"}
           </Dialog.Title>
 
           <Dialog.Description className="text-mauve11 mb-5 mt-3 text-[15px] leading-normal">
             {!nextStep
-              ? "Create a playlist here. Click add playlist when you're done."
+              ? "Edit a song here. Click save changes when you're done."
               : "These fields are skippable. hi!!!!!!!"}
           </Dialog.Description>
 
@@ -172,7 +173,7 @@ function EditSong() {
                 )}
 
                 <div className="flex flex-col gap-3">
-                  <label htmlFor="Name" className=" cursor-text text-4xl">
+                  <div className=" cursor-text text-4xl">
                     {name ? (
                       <a href={songUrl} target="_blank">
                         {name}
@@ -185,12 +186,9 @@ function EditSong() {
                         enter in name
                       </label>
                     )}
-                  </label>
+                  </div>
 
-                  <label
-                    htmlFor="Aesthetic / genre"
-                    className=" cursor-text   text-neutral-500"
-                  >
+                  <div className=" cursor-text   text-neutral-500">
                     {genre ? (
                       <p className="">Aesthetic / genre: {genre}</p>
                     ) : (
@@ -201,7 +199,7 @@ function EditSong() {
                         Enter genre
                       </label>
                     )}
-                  </label>
+                  </div>
                 </div>
               </>
             </div>
@@ -282,9 +280,9 @@ function EditSong() {
               )}
             </div>
 
-            <div className="mt-10  flex items-center justify-between">
+            <div className="mt-10 flex  items-center justify-between ">
               <Button type="submit" disabled={isLoading}>
-                + Add Song
+                <MdEdit /> Save changes
               </Button>
 
               {isLoading ? (

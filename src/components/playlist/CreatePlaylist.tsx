@@ -115,34 +115,31 @@ function CreatePlaylist() {
                   )}
 
                   <div className="flex flex-col gap-3">
-                    <label htmlFor="name" className=" cursor-text text-4xl">
+                    <div className=" cursor-text text-4xl">
                       {name ? (
                         name
                       ) : (
                         <label
-                          htmlFor="name"
+                          htmlFor="Name"
                           className="cursor-text text-2xl italic text-neutral-500 "
                         >
                           enter in name
                         </label>
                       )}
-                    </label>
+                    </div>
 
-                    <label
-                      htmlFor="name"
-                      className=" cursor-text   text-neutral-500"
-                    >
+                    <div className=" cursor-text   text-neutral-500">
                       {genre ? (
                         <p className="">Aesthetic / genre: {genre}</p>
                       ) : (
                         <label
-                          htmlFor="genre"
+                          htmlFor="Aesthetic / genre"
                           className="cursor-text italic text-neutral-500 "
                         >
                           Enter genre
                         </label>
                       )}
-                    </label>
+                    </div>
                   </div>
                 </>
               </div>
@@ -161,7 +158,7 @@ function CreatePlaylist() {
                   setValue={setName}
                   type="text"
                   placeholder="Enter new name"
-                  name="Name "
+                  name="Name"
                   value={name}
                 />
 
@@ -170,7 +167,7 @@ function CreatePlaylist() {
                   value={playlistPicUrl}
                   setValue={setPlaylistPicUrl}
                   placeholder="Enter playlist picture URL"
-                  name="Picture "
+                  name="Picture"
                 />
 
                 <InputField
@@ -178,7 +175,7 @@ function CreatePlaylist() {
                   value={genre}
                   placeholder="Enter the genre of your playlist"
                   setValue={setGenre}
-                  name="Aesthetic / genre "
+                  name="Aesthetic / genre"
                 />
               </div>
 

@@ -150,7 +150,7 @@ function CreateSong() {
 
           <Dialog.Description className="text-mauve11 mb-5 mt-3 text-[15px] leading-normal">
             {!nextStep
-              ? "Create a playlist here. Click add playlist when you're done."
+              ? "Create a song here. Click add song when you're done."
               : "These fields are skippable. hi!!!!!!!"}
           </Dialog.Description>
 
@@ -170,7 +170,7 @@ function CreateSong() {
                 )}
 
                 <div className="flex flex-col gap-3">
-                  <label htmlFor="Name" className=" cursor-text text-4xl">
+                  <div className=" cursor-text text-4xl">
                     {name ? (
                       <a href={songUrl} target="_blank">
                         {name}
@@ -183,12 +183,9 @@ function CreateSong() {
                         enter in name
                       </label>
                     )}
-                  </label>
+                  </div>
 
-                  <label
-                    htmlFor="Aesthetic / genre"
-                    className=" cursor-text   text-neutral-500"
-                  >
+                  <div className=" cursor-text   text-neutral-500">
                     {genre ? (
                       <p className="">Aesthetic / genre: {genre}</p>
                     ) : (
@@ -199,7 +196,7 @@ function CreateSong() {
                         Enter genre
                       </label>
                     )}
-                  </label>
+                  </div>
                 </div>
               </>
             </div>

@@ -15,6 +15,7 @@ import Delete from "~/components/Delete";
 import AddSongToPlaylist from "~/components/song/AddSongToPlaylist";
 import { atom, useAtom } from "jotai";
 import EditSong from "~/components/song/EditSong";
+import EditPlaylist from "~/components/playlist/EditPlaylist";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   //todo: search.tsx
@@ -53,6 +54,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         <Delete />
 
         <EditSong />
+        <EditPlaylist />
       </div>
 
       <Head>

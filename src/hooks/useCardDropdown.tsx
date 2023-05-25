@@ -76,6 +76,7 @@ function useCardDropdown({
   const [toggleEditPlaylist, setToggleEditPlaylist] = useAtom(showEditPlaylist);
 
   function editItem() {
+    console.log(type);
     type === "playlist" ? setToggleEditPlaylist(true) : setToggleEditSong(true);
   }
 
