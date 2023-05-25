@@ -10,6 +10,7 @@ import {
   withAuthProcedure,
 } from "~/server/api/trpc";
 import { isImage } from "~/server/helpers/ImageChecker";
+import { playlistValidate } from "~/server/helpers/zodTypes";
 
 export const playlistRouter = createTRPCRouter({
   /* QUERIES */
@@ -53,26 +54,9 @@ export const playlistRouter = createTRPCRouter({
 
   /* MUTATIONS */
   //withAuthProcedure gives the context the username and user info of the logged in user
+
   createPlaylist: withAuthProcedure
-    .input(
-      z.object({
-        name: z
-          .string()
-          .min(1, { message: "Please enter in playlist name" })
-          .max(70, { message: "Playlist name too long" }),
-
-        //it can either be an empty string or a url
-        picture: z.union([
-          z.string().url("Please enter in valid picture URL!").trim(),
-          z.string().max(0),
-        ]),
-        genre: z.string().max(30),
-
-        //this is for when ur not creating the playlist, but moving one playlist to another.
-        // go to how this is used in useAdd.tsx, its used to add a playlist to ur own profile from another users profile
-        authorName: z.string().optional(),
-      })
-    )
+    .input(playlistValidate)
     .mutation(async ({ ctx, input }) => {
       const authorName = ctx.username;
       const isImageValid = isImage(input.picture);
@@ -87,7 +71,7 @@ export const playlistRouter = createTRPCRouter({
       const playlist = await ctx.prisma.playlist.create({
         data: {
           name: input.name,
-          authorName: input.authorName || authorName,
+          authorName: authorName,
           genre: input.genre,
           pictureUrl: input.picture,
         },
@@ -109,6 +93,29 @@ export const playlistRouter = createTRPCRouter({
             authorName: ctx.username,
             name: input.playlistName,
           },
+        },
+      });
+    }),
+
+  updatePlaylist: withAuthProcedure
+    .input(
+      z.object({
+        newValues: playlistValidate,
+        currentName: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.playlist.update({
+        where: {
+          name_authorName: {
+            authorName: ctx.username,
+            name: input.currentName,
+          },
+        },
+        data: {
+          genre: input.newValues.genre,
+          name: input.newValues.name,
+          pictureUrl: input.newValues.picture,
         },
       });
     }),

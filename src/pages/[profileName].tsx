@@ -92,7 +92,6 @@ function Profile({ profileName }: { profileName: string }) {
                         genre: playlist.genre,
                         name: playlist.name,
                         picture: playlist.pictureUrl,
-                        authorName: username,
                       });
                     }}
                     deleteFunction={() =>
@@ -124,7 +123,6 @@ function Profile({ profileName }: { profileName: string }) {
                     addFunction={(playlistName: string) =>
                       addSong({
                         genre: song.genre,
-                        authorName: username,
                         name: song.name,
                         pictureUrl: song.pictureUrl,
                         songUrl: song.songUrl,

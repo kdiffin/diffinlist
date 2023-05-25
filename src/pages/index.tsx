@@ -105,7 +105,6 @@ const Home: NextPage = () => {
                       genre: playlist.genre,
                       name: playlist.name,
                       picture: playlist.pictureUrl,
-                      authorName: username,
                     });
                   }}
                   deleteFunction={() =>
@@ -137,7 +136,6 @@ const Home: NextPage = () => {
                   addFunction={(playlistName) => {
                     addSong({
                       genre: song.genre,
-                      authorName: username,
                       name: song.name,
                       playlistName: playlistName,
                       pictureUrl: song.pictureUrl,

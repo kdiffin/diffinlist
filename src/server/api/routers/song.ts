@@ -2,6 +2,7 @@ import { nullable, z } from "zod";
 import { createTRPCRouter, publicProcedure, withAuthProcedure } from "../trpc";
 import { isImage } from "~/server/helpers/ImageChecker";
 import { TRPCError } from "@trpc/server";
+import { songValidate } from "~/server/helpers/zodTypes";
 
 export const songRouter = createTRPCRouter({
   /* QUERIES */
@@ -57,39 +58,7 @@ export const songRouter = createTRPCRouter({
 
   /* MUTATIONS */
   createSong: withAuthProcedure
-    .input(
-      z.object({
-        name: z
-          .string()
-          .min(1, { message: "Please enter in a name for the song" }),
-        pictureUrl: z.union([
-          z.string().url("Please enter in valid picture URL!").trim(),
-          z.string().max(0),
-        ]),
-        songUrl: z
-          .string()
-          .min(1, {
-            message:
-              "Please enter in a link for the song, (youtube, spotify, soundcloud etc.)",
-          })
-          .url(),
-        genre: z
-          .string()
-          .min(1, { message: "Please enter in a genre for the song" }),
-        playlistName: z.string().min(1),
-
-        albumName: z.string().nullable().optional(),
-        artistName: z.string().nullable().optional(),
-        description: z.string().max(400).nullable().optional(),
-        rating: z
-          .number()
-          .min(0, { message: "Please enter a number above 0" })
-          .max(10, { message: "Please enter a number below 10" })
-          .nullable()
-          .optional(),
-        authorName: z.string().optional(),
-      })
-    )
+    .input(songValidate)
     .mutation(async ({ ctx, input }) => {
       const isImageValid = isImage(input.pictureUrl);
 
@@ -107,7 +76,7 @@ export const songRouter = createTRPCRouter({
           songUrl: input.songUrl,
           genre: input.genre,
           playlistName: input.playlistName,
-          authorName: input.authorName || ctx.username,
+          authorName: ctx.username,
 
           album: input.albumName,
           artist: input.artistName,
@@ -132,6 +101,42 @@ export const songRouter = createTRPCRouter({
             name: input.name,
             playlistName: input.playlistName,
           },
+        },
+      });
+    }),
+
+  //newValeus are the values to be udpated, the rest are the old values which are needed to see which song we should upate.
+  //takes the songValidate function and removes the playlistname as a changable factor as that needs to be unchanged.
+  updateSong: withAuthProcedure
+    .input(
+      z.object({
+        newValues: songValidate.omit({
+          playlistName: true,
+        }),
+        currentName: z.string().min(1),
+        currentPlaylistName: z.string().min(1),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.song.update({
+        where: {
+          name_playlistName_authorName: {
+            authorName: ctx.username,
+            name: input.currentName,
+            playlistName: input.currentPlaylistName,
+          },
+        },
+
+        data: {
+          name: input.newValues.name,
+          pictureUrl: input.newValues.pictureUrl,
+          songUrl: input.newValues.songUrl,
+          genre: input.newValues.genre,
+
+          album: input.newValues.albumName,
+          artist: input.newValues.artistName,
+          description: input.newValues.description,
+          rating: input.newValues.rating,
         },
       });
     }),

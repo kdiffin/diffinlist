@@ -81,7 +81,7 @@ function EditPlaylist() {
                       name
                     ) : (
                       <label
-                        htmlFor="name"
+                        htmlFor="Name"
                         className="cursor-text text-2xl italic text-neutral-500 "
                       >
                         enter in name
@@ -94,7 +94,7 @@ function EditPlaylist() {
                       <p className="">Aesthetic / genre: {genre}</p>
                     ) : (
                       <label
-                        htmlFor="genre"
+                        htmlFor="Aesthetic / genre"
                         className="cursor-text italic text-neutral-500 "
                       >
                         Enter genre
