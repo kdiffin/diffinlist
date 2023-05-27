@@ -18,7 +18,11 @@ export const addSongToPlaylist = atom<AddFunction>({
   addFunction: (playlistName: string) => null,
 });
 
-export const editPlaylistDefaultValues = atom({});
+export const defaultValues = atom({
+  pictureUrl: "",
+  name: "",
+  genre: "",
+});
 
 type DeleteParams = {
   type: "playlist" | "song" | "profile";

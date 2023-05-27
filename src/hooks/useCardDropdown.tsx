@@ -3,6 +3,7 @@ import React, { useRef } from "react";
 import { toast } from "react-hot-toast";
 import {
   addSongToPlaylist,
+  defaultValues,
   deleteParamsAtom,
   showDeleteAtom,
   showEditPlaylist,
@@ -74,10 +75,17 @@ function useCardDropdown({
   //for the edit song/playlist button
   const [toggleEditSong, setToggleEditSong] = useAtom(showEditSong);
   const [toggleEditPlaylist, setToggleEditPlaylist] = useAtom(showEditPlaylist);
+  const [itemDefaultValues, setDefaultValues] = useAtom(defaultValues);
 
   function editItem() {
-    console.log(type);
     type === "playlist" ? setToggleEditPlaylist(true) : setToggleEditSong(true);
+
+    setDefaultValues({
+      genre: "yeeeeeeeeeeeeeee",
+      name: "aaaaaaaaaa",
+      pictureUrl:
+        "http://localhost:3000/_next/image?url=https%3A%2F%2Fimages.clerk.dev%2Foauth_github%2Fimg_2OYTYxi9oD6jNuZT0akcgcZXTNW.jpeg&w=256&q=75",
+    });
   }
 
   return { textRef, handleCopy, editItem, deleteItem, addItem };

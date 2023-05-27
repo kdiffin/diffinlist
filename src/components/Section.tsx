@@ -28,7 +28,7 @@ export function Section({
   hideShowMore?: boolean;
   children: ReactNode;
 }) {
-  const skeletonArray: string[] = new Array(8).fill("") as string[];
+  const skeletonArray = new Array(8).fill("");
   const SectionCardSkeleton = skeletonArray.map((abc, index) => {
     return <SkeletonCard key={index} />;
   });
@@ -131,6 +131,7 @@ function SectionCardNoMemo({
       return;
     }
 
+    //if the type isnt playlist the songname exists guaranteed anyways
     songDelete({
       name: data.songName!,
       playlistName: data.playlistName,

@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import { InputField, RefInput, RefInputField } from "../ui/Input";
+import { InputField, RefInput } from "../ui/Input";
 import { api } from "~/utils/api";
 import Button from "../ui/Button";
 import { LoadingSpinner } from "../ui/Loading";
@@ -24,16 +24,35 @@ import {
 } from "react-icons/md";
 import { toast } from "react-hot-toast";
 import { useAtom } from "jotai";
-import { showEditPlaylist, showEditSong, showPlaylists } from "~/state/atoms";
+import {
+  defaultValues,
+  showEditPlaylist,
+  showEditSong,
+  showPlaylists,
+} from "~/state/atoms";
 import { useClerk } from "@clerk/nextjs";
+import { Input } from "postcss";
 
 //UI is basically a copy paste of the settings one
 function EditPlaylist() {
   const router = useRouter();
+  const [itemDefaultValues] = useAtom(defaultValues);
   const [playlistPicUrl, setPlaylistPicUrl] = useState("");
   const [genre, setGenre] = useState("");
-  const [name, setName] = useState("");
+  const [name, setName] = useState(itemDefaultValues.name);
   const [toggleEditPlaylist, setToggleEditPlaylist] = useAtom(showEditPlaylist);
+
+  console.log(itemDefaultValues.name);
+
+  useEffect(() => {
+    setPlaylistPicUrl(itemDefaultValues.pictureUrl);
+    setName(itemDefaultValues.name);
+    setGenre(itemDefaultValues.genre);
+  }, [
+    itemDefaultValues.name,
+    itemDefaultValues.genre,
+    itemDefaultValues.pictureUrl,
+  ]);
 
   const isLoading = false;
 

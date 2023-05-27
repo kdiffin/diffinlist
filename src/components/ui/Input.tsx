@@ -20,6 +20,7 @@ function Input(props: InputProps) {
         value={props.value || ""}
         type={props.type}
         onChange={(e) => props.setValue(e.target.value)}
+        defaultValue={props.defaultValue}
         autoComplete="off"
         id={props.id}
         spellCheck="false"
@@ -39,6 +40,7 @@ export function InputField({
   value,
   type,
   className,
+  defaultValue,
   name,
   placeholder,
 }: InputFieldProps) {
@@ -52,6 +54,7 @@ export function InputField({
         setValue={setValue}
         type={type}
         name={name}
+        defaultValue={"bru"}
         id={name}
         value={value}
         placeholder={placeholder}
@@ -71,6 +74,7 @@ export const RefInput = forwardRef(
       value,
       type,
       setValue,
+      defaultValue,
       id,
       name,
       max,
@@ -92,6 +96,7 @@ export const RefInput = forwardRef(
           type={type}
           onChange={(e) => setValue && setValue(e.target.value)}
           autoComplete="off"
+          defaultValue={defaultValue}
           id={id}
           maxLength={maxLength}
           max={max}
@@ -109,7 +114,15 @@ export const RefInput = forwardRef(
 
 export const RefInputField = forwardRef(
   (
-    { className, value, type, setValue, name, placeholder }: RefInputProps,
+    {
+      className,
+      value,
+      type,
+      setValue,
+      name,
+      placeholder,
+      defaultValue,
+    }: RefInputProps,
     ref: React.Ref<HTMLInputElement>
   ) => {
     return (
@@ -124,6 +137,7 @@ export const RefInputField = forwardRef(
           ref={ref}
           name={name}
           id={name}
+          defaultValue={defaultValue}
           value={value}
           placeholder={placeholder}
         />
