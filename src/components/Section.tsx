@@ -138,6 +138,12 @@ function SectionCardNoMemo({
     });
   }
 
+  const defaultValues = {
+    genre: data.genre,
+    pictureUrl: data.pictureUrl,
+    name: title,
+  };
+
   function openDropdown(e: any) {
     // stops the parent card from redirecting
     e.stopPropagation();
@@ -181,6 +187,7 @@ function SectionCardNoMemo({
           </Link>
 
           <Dropdown
+            defaultValues={defaultValues}
             addFunction={addFunction}
             deleteFunction={deleteFunction}
             ShareLink={linkHref}
@@ -191,6 +198,7 @@ function SectionCardNoMemo({
 
           <RightClickDropdown
             addFunction={addFunction}
+            defaultValues={defaultValues}
             deleteFunction={deleteFunction}
             ShareLink={linkHref}
             isSignedIn={isSignedIn}
@@ -211,11 +219,17 @@ const Dropdown = ({
   ShareLink,
   isSignedIn,
   deleteFunction,
+  defaultValues,
   addFunction,
 }: {
   type: "playlist" | "song" | "profile";
   ShareLink: string;
   isAuthor: boolean;
+  defaultValues: {
+    genre: string;
+    name: string;
+    pictureUrl: string;
+  };
   isSignedIn: boolean;
   deleteFunction: VoidFunction;
   addFunction: (playlistName: string) => void;
@@ -225,6 +239,7 @@ const Dropdown = ({
       type: type,
       deleteFunction: deleteFunction,
       addFunction: addFunction,
+      defaultValues: defaultValues,
     });
 
   return (
@@ -288,9 +303,15 @@ const RightClickDropdown = ({
   ShareLink,
   deleteFunction,
   addFunction,
+  defaultValues,
 }: {
   type: "playlist" | "song" | "profile";
   isAuthor: boolean;
+  defaultValues: {
+    genre: string;
+    name: string;
+    pictureUrl: string;
+  };
   ShareLink: Url;
   isSignedIn: boolean;
   deleteFunction: VoidFunction;
@@ -301,6 +322,7 @@ const RightClickDropdown = ({
       type: type,
       deleteFunction: deleteFunction,
       addFunction: addFunction,
+      defaultValues: defaultValues,
     });
 
   return (

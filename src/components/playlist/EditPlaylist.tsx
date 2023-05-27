@@ -39,10 +39,8 @@ function EditPlaylist() {
   const [itemDefaultValues] = useAtom(defaultValues);
   const [playlistPicUrl, setPlaylistPicUrl] = useState("");
   const [genre, setGenre] = useState("");
-  const [name, setName] = useState(itemDefaultValues.name);
+  const [name, setName] = useState("");
   const [toggleEditPlaylist, setToggleEditPlaylist] = useAtom(showEditPlaylist);
-
-  console.log(itemDefaultValues.name);
 
   useEffect(() => {
     setPlaylistPicUrl(itemDefaultValues.pictureUrl);

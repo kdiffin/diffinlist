@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { InputField, RefInput, RefInputField } from "../ui/Input";
 import { api } from "~/utils/api";
@@ -24,13 +24,18 @@ import {
 } from "react-icons/md";
 import { toast } from "react-hot-toast";
 import { useAtom } from "jotai";
-import { showEditPlaylist, showEditSong, showPlaylists } from "~/state/atoms";
+import {
+  defaultValues,
+  showEditPlaylist,
+  showEditSong,
+  showPlaylists,
+} from "~/state/atoms";
 
 //UI is basically a copy paste of the settings one
 function EditSong() {
   const router = useRouter();
   const [toggleEditSong, setToggleEditSong] = useAtom(showEditSong);
-
+  const [itemDefaultValues] = useAtom(defaultValues);
   const [name, setName] = useState("");
   const [pictureUrl, setPictureUrl] = useState("");
   const [genre, setGenre] = useState("");
@@ -91,6 +96,16 @@ function EditSong() {
       }
     },
   });
+
+  useEffect(() => {
+    setPictureUrl(itemDefaultValues.pictureUrl);
+    setName(itemDefaultValues.name);
+    setGenre(itemDefaultValues.genre);
+  }, [
+    itemDefaultValues.name,
+    itemDefaultValues.genre,
+    itemDefaultValues.pictureUrl,
+  ]);
 
   function closeCreateSong() {
     setToggleEditSong(false);
