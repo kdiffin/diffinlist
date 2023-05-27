@@ -109,11 +109,6 @@ const Home: NextPage = () => {
                       picture: playlist.pictureUrl,
                     });
                   }}
-                  deleteFunction={() =>
-                    playlistDelete({
-                      playlistName: playlist.name,
-                    })
-                  }
                   key={playlist.id}
                 />
               );
@@ -148,12 +143,6 @@ const Home: NextPage = () => {
                       rating: song.rating,
                     });
                   }}
-                  deleteFunction={() =>
-                    songDelete({
-                      name: song.name,
-                      playlistName: song.playlistName,
-                    })
-                  }
                   data={{
                     pictureUrl: song.pictureUrl,
                     authorName: song.authorName,
@@ -207,7 +196,6 @@ const Home: NextPage = () => {
                     // this is basically the title of the  card
                     songName: user.username,
                   }}
-                  deleteFunction={() => null}
                 />
               );
             })

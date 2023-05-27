@@ -96,11 +96,6 @@ function Profile({ profileName }: { profileName: string }) {
                         picture: playlist.pictureUrl,
                       });
                     }}
-                    deleteFunction={() =>
-                      playlistDelete({
-                        playlistName: playlist.name,
-                      })
-                    }
                     key={playlist.id}
                   />
                 );
@@ -133,12 +128,6 @@ function Profile({ profileName }: { profileName: string }) {
                         playlistName: playlistName,
                         description: song.description,
                         rating: song.rating,
-                      })
-                    }
-                    deleteFunction={() =>
-                      songDelete({
-                        name: song.name,
-                        playlistName: song.playlistName,
                       })
                     }
                     data={{

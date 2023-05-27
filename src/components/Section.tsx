@@ -9,6 +9,7 @@ import React from "react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import * as ContextMenu from "@radix-ui/react-context-menu";
 import useCardDropdown from "~/hooks/useCardDropdown";
+import useDelete from "~/hooks/useDelete";
 
 // im making the code more wet but wayyyy more readable and understandable with this commit
 // having way too many conditionals and ternaries just suck and making the code SLIGHTLY non DRY,
@@ -61,7 +62,6 @@ export function Section({
 function SectionCardNoMemo({
   href,
   shallow,
-  deleteFunction,
   data,
   addFunction,
   isAuthor,
@@ -73,18 +73,16 @@ function SectionCardNoMemo({
   isSignedIn: boolean;
   addFunction: (playlistName: string) => void;
   data: CardValues;
-  deleteFunction: VoidFunction;
   type: "playlist" | "song" | "profile";
   href: Url;
 }) {
   const title = data.songName ? data.songName : data.playlistName;
-
   function ImageChecker() {
     if (!data.pictureUrl) {
       return (
         <>
           <ImageSkeleton className="h-[148px] w-[148px]" />
-          <p className="">{title}</p>
+          <p>{title}</p>
         </>
       );
     }
@@ -115,6 +113,22 @@ function SectionCardNoMemo({
         </p>
       </>
     );
+  }
+
+  const { playlistDelete, songDelete } = useDelete();
+  function deleteFunction() {
+    if (type === "playlist") {
+      playlistDelete({
+        playlistName: data.playlistName,
+      });
+
+      return;
+    }
+
+    songDelete({
+      name: data.songName!,
+      playlistName: data.playlistName,
+    });
   }
 
   function openDropdown(e: any) {
