@@ -44,13 +44,17 @@ export function Section({
       </div>
 
       {!hideShowMore && (
-        <Link
-          href={showMoreHref ? showMoreHref : ""}
-          className="mt-12 flex w-full items-center justify-center
-           gap-2 text-center  font-semibold  text-neutral-600 "
+        <div
+          className="mt-12 flex  justify-center
+           gap-2 font-semibold  text-neutral-600 "
         >
-          Show more <MdAdd className="mt-1 " />
-        </Link>
+          <Link
+            href={showMoreHref ? showMoreHref : ""}
+            className="flex max-w-prose items-center gap-1 text-center"
+          >
+            Show more <MdAdd className="mt-1 " />
+          </Link>
+        </div>
       )}
     </div>
   );
