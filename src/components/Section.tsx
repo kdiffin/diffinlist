@@ -86,7 +86,9 @@ function SectionCardNoMemo({
       return (
         <>
           <ImageSkeleton className="h-[148px] w-[148px]" />
-          <p>{title}</p>
+          <p className=" max-h-[23px] max-w-[150px] overflow-clip text-ellipsis">
+            {title}
+          </p>
         </>
       );
     }

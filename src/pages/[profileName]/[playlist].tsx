@@ -19,7 +19,6 @@ import { Section, SectionCard } from "~/components/Section";
 import { ImageSkeleton } from "~/components/ui/Skeletons";
 import { ssgHelper } from "~/server/helpers/generateSSGHelper";
 import { api } from "~/utils/api";
-import useDelete from "~/hooks/useDelete";
 import { toast } from "react-hot-toast";
 import Divider from "~/components/ui/Divider";
 import useAdd from "~/hooks/useAdd";
@@ -50,7 +49,6 @@ function Profile({
     playlistName: playlistName,
   });
 
-  const { songDelete } = useDelete();
   const { addSong } = useAdd();
   if (!playlist) throw new Error("couldnt find playlist");
 
@@ -150,7 +148,6 @@ function Profile({
                             pictureUrl: song.pictureUrl,
                             albumName: song.album,
                             songUrl: song.songUrl,
-                            authorName: username,
                             artistName: song.artist,
                             playlistName: playlistName,
                             description: song.description,
@@ -159,17 +156,14 @@ function Profile({
                         }
                         data={{
                           pictureUrl: song.pictureUrl,
-                          title: song.name,
+                          authorName: song.authorName,
+                          genre: song.genre,
+                          playlistName: song.playlistName,
+                          songName: song.name,
                         }}
                         href={{
                           query: { ...router.query, song: song.name },
                         }}
-                        deleteFunction={() =>
-                          songDelete({
-                            name: song.name,
-                            playlistName: song.playlistName,
-                          })
-                        }
                         isAuthor={isAuthor}
                         isSignedIn={signedIn}
                         type="song"

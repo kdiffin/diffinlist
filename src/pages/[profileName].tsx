@@ -9,7 +9,6 @@ import Divider from "~/components/ui/Divider";
 import { Section, SectionCard } from "~/components/Section";
 import { ssgHelper } from "~/server/helpers/generateSSGHelper";
 import { api } from "~/utils/api";
-import useDelete from "~/hooks/useDelete";
 import { toast } from "react-hot-toast";
 import useAdd from "~/hooks/useAdd";
 
@@ -31,13 +30,6 @@ function Profile({ profileName }: { profileName: string }) {
   const { data: songs, isLoading: songsLoading } = api.song.getSongs.useQuery({
     profileName: profileName,
   });
-
-  const {
-    playlistDelete,
-    playlistDeleteLoading,
-    songDelete,
-    songDeleteLoading,
-  } = useDelete();
 
   const { addPlaylist, addSong } = useAdd();
 

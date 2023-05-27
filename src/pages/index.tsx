@@ -13,7 +13,6 @@ import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import defaultProfilePic from "../public/defaultuser.png";
-import useDelete from "~/hooks/useDelete";
 import useAdd from "~/hooks/useAdd";
 
 const Home: NextPage = () => {
@@ -29,12 +28,6 @@ const Home: NextPage = () => {
   const { data: songs, isLoading: songsLoading } =
     api.song.getAllSongs.useQuery();
 
-  const {
-    playlistDelete,
-    playlistDeleteLoading,
-    songDelete,
-    songDeleteLoading,
-  } = useDelete();
   const { addPlaylist, addSong } = useAdd();
 
   return (
