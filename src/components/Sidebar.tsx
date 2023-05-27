@@ -332,7 +332,7 @@ function PlaylistsCollapsible({
       <Collapsible.Content className="mt-4 px-2">
         {/* chaotic if else incoming */}
         {/* if is loading is false, check if playlists and playlists.length is bigger than 0 */}
-        {/* if so, then render out the playlists, if playlists.length is small make say no playlists found */}
+        {/* if so, then render out the playlists, if playlists.length is 0 say no playlists found */}
         {/* otherwise, if loading then display loading spinner */}
 
         {!isLoading ? (

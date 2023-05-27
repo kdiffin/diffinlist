@@ -72,17 +72,19 @@ function SectionCardNoMemo({
   isAuthor: boolean;
   isSignedIn: boolean;
   addFunction: (playlistName: string) => void;
+  data: CardValues;
   deleteFunction: VoidFunction;
   type: "playlist" | "song" | "profile";
   href: Url;
-  data: SectionCardData;
 }) {
+  const title = data.songName ? data.songName : data.playlistName;
+
   function ImageChecker() {
     if (!data.pictureUrl) {
       return (
         <>
           <ImageSkeleton className="h-[148px] w-[148px]" />
-          <p className="">{data.title}</p>
+          <p className="">{title}</p>
         </>
       );
     }
@@ -101,7 +103,7 @@ function SectionCardNoMemo({
             <img
               width={140}
               height={140}
-              alt={data.title + "'s image"}
+              alt={title + "'s image"}
               loading="lazy"
               className=" h-full  w-full object-cover"
               src={data.pictureUrl!}
@@ -109,7 +111,7 @@ function SectionCardNoMemo({
           )}
         </div>
         <p className=" max-h-[23px] max-w-[150px] overflow-clip text-ellipsis">
-          {data.title}
+          {title}
         </p>
       </>
     );
@@ -181,11 +183,6 @@ function SectionCardNoMemo({
 }
 
 export const SectionCard = memo(SectionCardNoMemo);
-
-interface SectionCardData {
-  pictureUrl: string;
-  title: string;
-}
 
 const Dropdown = ({
   type,
@@ -334,3 +331,11 @@ const RightClickDropdown = ({
     </ContextMenu.Content>
   );
 };
+
+interface CardValues {
+  songName?: string;
+  playlistName: string;
+  genre: string;
+  pictureUrl: string;
+  authorName: string;
+}

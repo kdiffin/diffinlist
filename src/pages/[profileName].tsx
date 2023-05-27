@@ -85,7 +85,9 @@ function Profile({ profileName }: { profileName: string }) {
                     href={`/${playlist.authorName}/${playlist.name}`}
                     data={{
                       pictureUrl: playlist.pictureUrl,
-                      title: playlist.name,
+                      authorName: playlist.authorName,
+                      genre: playlist.genre,
+                      playlistName: playlist.name,
                     }}
                     addFunction={() => {
                       addPlaylist({
@@ -141,7 +143,10 @@ function Profile({ profileName }: { profileName: string }) {
                     }
                     data={{
                       pictureUrl: song.pictureUrl,
-                      title: song.name,
+                      authorName: song.authorName,
+                      genre: song.genre,
+                      playlistName: song.playlistName,
+                      songName: song.name,
                     }}
                     href={{
                       pathname: router.route,

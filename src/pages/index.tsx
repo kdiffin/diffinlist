@@ -98,7 +98,9 @@ const Home: NextPage = () => {
                   href={`/${playlist.authorName}/${playlist.name}`}
                   data={{
                     pictureUrl: playlist.pictureUrl,
-                    title: playlist.name,
+                    authorName: playlist.authorName,
+                    genre: playlist.genre,
+                    playlistName: playlist.name,
                   }}
                   addFunction={() => {
                     addPlaylist({
@@ -154,7 +156,10 @@ const Home: NextPage = () => {
                   }
                   data={{
                     pictureUrl: song.pictureUrl,
-                    title: song.name,
+                    authorName: song.authorName,
+                    genre: song.genre,
+                    playlistName: song.playlistName,
+                    songName: song.name,
                   }}
                   href={{
                     pathname: router.route,
@@ -186,18 +191,23 @@ const Home: NextPage = () => {
             users.map((user) => {
               return (
                 <SectionCard
-                  addFunction={() => null}
-                  data={{
-                    pictureUrl: user.profileImageUrl,
-
-                    title: user.username,
-                  }}
-                  deleteFunction={() => null}
-                  isAuthor={false}
-                  isSignedIn={false}
                   type="profile"
                   href={`/${user.username}`}
                   key={user.username}
+                  //none of these below matter because the user doesnt have a dropdown like the others do
+                  isAuthor={false}
+                  isSignedIn={false}
+                  addFunction={() => null}
+                  data={{
+                    pictureUrl: user.profileImageUrl,
+                    authorName: "",
+                    genre: "",
+                    playlistName: "",
+
+                    // this is basically the title of the  card
+                    songName: user.username,
+                  }}
+                  deleteFunction={() => null}
                 />
               );
             })
