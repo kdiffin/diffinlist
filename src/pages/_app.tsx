@@ -19,7 +19,6 @@ import EditPlaylist from "~/components/playlist/EditPlaylist";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   //todo: search.tsx
-  //todo: favouriting playlists, editing songs
 
   return (
     <ClerkProvider {...pageProps}>

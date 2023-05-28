@@ -30,7 +30,7 @@ import {
   showEditSong,
   showPlaylists,
 } from "~/state/atoms";
-import { removeEmptyStrings } from "~/utils/utils";
+import { removeEmptyStrings } from "~/server/helpers/removeEmptyStrings";
 
 //UI is basically a copy paste of the settings one
 function EditSong() {
@@ -130,7 +130,7 @@ function EditSong() {
   function editSong(e: { preventDefault: () => void }) {
     e.preventDefault();
 
-    //check the documentation for this function in utils/utils.ts
+    //check the documentation for this function in server/helpers/removeemptystrings.ts
     const newValues = removeEmptyStrings({
       name: name,
       pictureUrl: pictureUrl,

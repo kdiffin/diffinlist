@@ -16,7 +16,6 @@ import Image from "next/image";
 import Avatar from "./ui/Avatar";
 import CreatePlaylist from "./playlist/CreatePlaylist";
 import * as Dialog from "@radix-ui/react-dialog";
-
 import { api } from "~/utils/api";
 import { Playlist } from "@prisma/client";
 import Loading, { LoadingSpinner } from "./ui/Loading";
@@ -278,8 +277,6 @@ function SidebarItem({
   const router = useRouter();
   const isActive = router.asPath === href;
 
-  console.log(href);
-
   return (
     <Link
       href={href}
@@ -361,10 +358,15 @@ function PlaylistItem({
   pictureSrc?: string;
   href: string;
 }) {
+  const router = useRouter();
+  const isActive = router.asPath === href;
+
   return (
     <Link
       href={href}
-      className=" text-md mt-3 flex items-center gap-2 break-all  text-neutral-400"
+      className={`${
+        isActive ? "!text-neutral-200" : ""
+      } text-md mt-3 flex items-center gap-2 break-all  text-neutral-400`}
     >
       {pictureSrc ? (
         //convert this to Image

@@ -32,7 +32,7 @@ import {
 } from "~/state/atoms";
 import { useClerk } from "@clerk/nextjs";
 import { Input } from "postcss";
-import { removeEmptyStrings } from "~/utils/utils";
+import { removeEmptyStrings } from "~/server/helpers/removeEmptyStrings";
 
 //UI is basically a copy paste of the settings one
 function EditPlaylist() {
