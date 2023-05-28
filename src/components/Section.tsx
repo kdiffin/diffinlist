@@ -141,7 +141,8 @@ function SectionCardNoMemo({
   const defaultValues = {
     genre: data.genre,
     pictureUrl: data.pictureUrl,
-    name: title,
+    playlistName: data.playlistName,
+    songName: data.songName ? data.songName : "",
   };
 
   function openDropdown(e: any) {
@@ -225,11 +226,7 @@ const Dropdown = ({
   type: "playlist" | "song" | "profile";
   ShareLink: string;
   isAuthor: boolean;
-  defaultValues: {
-    genre: string;
-    name: string;
-    pictureUrl: string;
-  };
+  defaultValues: EditDefaultValues;
   isSignedIn: boolean;
   deleteFunction: VoidFunction;
   addFunction: (playlistName: string) => void;
@@ -307,11 +304,7 @@ const RightClickDropdown = ({
 }: {
   type: "playlist" | "song" | "profile";
   isAuthor: boolean;
-  defaultValues: {
-    genre: string;
-    name: string;
-    pictureUrl: string;
-  };
+  defaultValues: EditDefaultValues;
   ShareLink: Url;
   isSignedIn: boolean;
   deleteFunction: VoidFunction;
@@ -332,6 +325,7 @@ const RightClickDropdown = ({
     >
       <ContextMenu.Item onSelect={handleCopy} className="dropdown-item group ">
         <MdLink size={20} className="text-zinc-500" /> Share {type}
+        {/* thsi input is needed for the copy url code */}
         <input
           readOnly
           type="text"
@@ -375,10 +369,17 @@ const RightClickDropdown = ({
   );
 };
 
-interface CardValues {
+export interface CardValues {
   songName?: string;
   playlistName: string;
   genre: string;
   pictureUrl: string;
   authorName: string;
+}
+
+export interface EditDefaultValues {
+  genre: string;
+  playlistName: string;
+  songName?: string;
+  pictureUrl: string;
 }

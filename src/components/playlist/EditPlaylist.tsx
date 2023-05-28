@@ -44,10 +44,10 @@ function EditPlaylist() {
 
   useEffect(() => {
     setPlaylistPicUrl(itemDefaultValues.pictureUrl);
-    setName(itemDefaultValues.name);
+    setName(itemDefaultValues.playlistName);
     setGenre(itemDefaultValues.genre);
   }, [
-    itemDefaultValues.name,
+    itemDefaultValues.playlistName,
     itemDefaultValues.genre,
     itemDefaultValues.pictureUrl,
   ]);

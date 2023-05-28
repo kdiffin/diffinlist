@@ -101,15 +101,24 @@ export const playlistRouter = createTRPCRouter({
     .input(
       z.object({
         newValues: playlistValidate,
-        currentName: z.string(),
+        currentPlaylistName: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
+      const isImageValid = isImage(input.newValues.picture);
+
+      if (isImageValid === false) {
+        throw new TRPCError({
+          code: "PARSE_ERROR",
+          message: "Please make sure your URL is a picture URL.",
+        });
+      }
+
       await ctx.prisma.playlist.update({
         where: {
           name_authorName: {
             authorName: ctx.username,
-            name: input.currentName,
+            name: input.currentPlaylistName,
           },
         },
         data: {

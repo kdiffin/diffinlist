@@ -20,7 +20,9 @@ export const addSongToPlaylist = atom<AddFunction>({
 
 export const defaultValues = atom({
   pictureUrl: "",
-  name: "",
+  playlistName: "",
+  songName: "",
+
   genre: "",
 });
 

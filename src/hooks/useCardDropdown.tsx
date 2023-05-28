@@ -1,6 +1,7 @@
 import { useAtom } from "jotai";
 import React, { useRef } from "react";
 import { toast } from "react-hot-toast";
+import { EditDefaultValues } from "~/components/Section";
 import {
   addSongToPlaylist,
   defaultValues as defaultValuesAtom,
@@ -19,11 +20,7 @@ function useCardDropdown({
   addFunction,
 }: {
   type: "playlist" | "song" | "profile";
-  defaultValues: {
-    genre: string;
-    name: string;
-    pictureUrl: string;
-  };
+  defaultValues: EditDefaultValues;
   deleteFunction: VoidFunction;
   addFunction: (playlistName: string) => void;
 }) {
@@ -86,7 +83,11 @@ function useCardDropdown({
   function editItem() {
     type === "playlist" ? setToggleEditPlaylist(true) : setToggleEditSong(true);
 
-    setDefaultValues(defaultValues);
+    // since songName can be undefined sometimes I had to destructure this object
+    setDefaultValues({
+      ...defaultValues,
+      songName: defaultValues.songName ? defaultValues.songName : "",
+    });
   }
 
   return { textRef, handleCopy, editItem, deleteItem, addItem };

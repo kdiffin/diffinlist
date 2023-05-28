@@ -113,16 +113,25 @@ export const songRouter = createTRPCRouter({
         newValues: songValidate.omit({
           playlistName: true,
         }),
-        currentName: z.string().min(1),
+        currentSongName: z.string().min(1),
         currentPlaylistName: z.string().min(1),
       })
     )
     .mutation(async ({ ctx, input }) => {
+      const isImageValid = isImage(input.newValues.pictureUrl);
+
+      if (isImageValid === false) {
+        throw new TRPCError({
+          code: "PARSE_ERROR",
+          message: "Please make sure your URL is a picture URL.",
+        });
+      }
+
       await ctx.prisma.song.update({
         where: {
           name_playlistName_authorName: {
             authorName: ctx.username,
-            name: input.currentName,
+            name: input.currentSongName,
             playlistName: input.currentPlaylistName,
           },
         },

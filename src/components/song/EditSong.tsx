@@ -47,7 +47,7 @@ function EditSong() {
   const [nextStep, setNextStep] = useState(false);
 
   const ctx = api.useContext();
-  const { mutate, isLoading } = api.song.createSong.useMutation({
+  const { mutate, isLoading } = api.song.updateSong.useMutation({
     onSuccess: () => {
       removeChanges();
       ctx.song.getSongs.invalidate().then(() => closeCreateSong());
@@ -99,10 +99,10 @@ function EditSong() {
 
   useEffect(() => {
     setPictureUrl(itemDefaultValues.pictureUrl);
-    setName(itemDefaultValues.name);
+    setName(itemDefaultValues.songName);
     setGenre(itemDefaultValues.genre);
   }, [
-    itemDefaultValues.name,
+    itemDefaultValues.songName,
     itemDefaultValues.genre,
     itemDefaultValues.pictureUrl,
   ]);
@@ -128,18 +128,24 @@ function EditSong() {
     // add mutate fiunction
 
     mutate({
-      name: name,
-      pictureUrl: pictureUrl,
-      songUrl: songUrl,
-      genre: genre,
-      playlistName:
-        typeof router.query.playlist === "string" ? router.query.playlist : "",
+      newValues: {
+        name: name,
+        pictureUrl: pictureUrl,
+        songUrl: songUrl,
+        genre: genre,
 
-      albumName: albumRef.current?.value,
-      artistName: artistRef.current?.value,
-      description: descriptionRef.current?.value,
+        albumName: albumRef.current?.value,
+        artistName: artistRef.current?.value,
+        description: descriptionRef.current?.value,
 
-      rating: ratingRef.current ? parseInt(ratingRef.current.value) : undefined,
+        rating: ratingRef.current
+          ? parseInt(ratingRef.current.value)
+          : undefined,
+      },
+      currentSongName: itemDefaultValues.songName
+        ? itemDefaultValues.songName
+        : "",
+      currentPlaylistName: itemDefaultValues.playlistName,
     });
   }
 
