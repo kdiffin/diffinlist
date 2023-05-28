@@ -206,7 +206,7 @@ function Sidebar() {
                     <p>Profile</p>
                   </SidebarItem>
                 ) : (
-                  <SidebarItem href="/">
+                  <SidebarItem href={{}}>
                     <SignInButton>
                       <button className=" flex items-center gap-2">
                         {" "}
