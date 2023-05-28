@@ -304,19 +304,19 @@ function PlaylistsCollapsible({
 
   return (
     <Collapsible.Root open={open} className="w-full" onOpenChange={setOpen}>
-      <div
-        className={` ${
-          open ? "text-neutral-300" : "text-neutral-400"
-        } sticky top-0 flex w-full items-center justify-between bg-neutral-900 py-2  text-lg `}
-      >
-        <p>Playlists</p>
-        <Collapsible.Trigger asChild>
+      <Collapsible.Trigger asChild>
+        <div
+          className={` ${
+            open ? "text-neutral-300" : "text-neutral-400"
+          } sticky top-0 flex w-full items-center justify-between bg-neutral-900 py-2  text-lg `}
+        >
+          <p>Playlists</p>
           <button className=" ">
             {" "}
             {open ? <MdOutlineExpandLess /> : <MdOutlineExpandMore />}
           </button>
-        </Collapsible.Trigger>
-      </div>
+        </div>
+      </Collapsible.Trigger>
 
       <Collapsible.Content className="mt-4 px-2">
         {/* chaotic if else incoming */}
@@ -359,7 +359,7 @@ function PlaylistItem({
   href: string;
 }) {
   const router = useRouter();
-  const isActive = router.asPath === href;
+  const isActive = router.asPath === encodeURI(href);
 
   return (
     <Link
