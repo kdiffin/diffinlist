@@ -35,20 +35,19 @@ const Home: NextPage = () => {
       {/* this is the header */}
       <div className=" neutral-lowkey-bg flex   items-center justify-center  px-8 py-14 sm:justify-normal lg:px-14 ">
         <div className="flex flex-col items-center  sm:flex-row sm:gap-8">
-          {isSignedIn ? (
+          {isLoaded ? (
             <Avatar
               className="p-1"
               loading={!isLoaded}
               width_height={160}
-              src={user?.profileImageUrl}
+              src={user ? user.profileImageUrl : defaultProfilePic}
             />
           ) : (
-            <Image
-              alt="default avatar"
-              src={defaultProfilePic}
-              width={160}
-              className="rounded-full p-1"
-              height={160}
+            <Avatar
+              className=" h-[160px] w-[160px]"
+              loading={true}
+              width_height={160}
+              src={""}
             />
           )}
 

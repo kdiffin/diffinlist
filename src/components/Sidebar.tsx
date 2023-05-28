@@ -20,6 +20,7 @@ import { api } from "~/utils/api";
 import { Playlist } from "@prisma/client";
 import Loading, { LoadingSpinner } from "./ui/Loading";
 import { Url } from "next/dist/shared/lib/router/router";
+import defaultProfilePic from "../public/defaultuser.png";
 
 function Sidebar() {
   const router = useRouter();
@@ -98,7 +99,7 @@ function Sidebar() {
               <p>Profile</p>
             </SidebarItem>
           ) : (
-            <SidebarItem href="/">
+            <SidebarItem href="?">
               <SignInButton>
                 <button className=" flex items-center gap-2">
                   {" "}
@@ -163,7 +164,7 @@ function Sidebar() {
 
           <Link href={`/${user ? user.username : router.asPath}`}>
             <Avatar
-              src={user?.profileImageUrl}
+              src={user ? user.profileImageUrl : defaultProfilePic}
               loading={!isLoaded}
               width_height={26}
             />
@@ -192,7 +193,7 @@ function Sidebar() {
                   <MdHome /> <p>Home</p>
                 </SidebarItem>
 
-                <SidebarItem href="/search">
+                <SidebarItem href="search">
                   <MdSearch /> <p>Search</p>
                 </SidebarItem>
 
@@ -206,7 +207,7 @@ function Sidebar() {
                     <p>Profile</p>
                   </SidebarItem>
                 ) : (
-                  <SidebarItem href={{}}>
+                  <SidebarItem href="?signin">
                     <SignInButton>
                       <button className=" flex items-center gap-2">
                         {" "}
@@ -276,6 +277,7 @@ function SidebarItem({
 }) {
   const router = useRouter();
   const isActive = router.asPath === href;
+  console.log(isActive);
 
   return (
     <Link

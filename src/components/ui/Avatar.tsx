@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import React from "react";
 import { LoadingSpinner } from "./Loading";
 
@@ -10,7 +10,7 @@ function Avatar({
 }: {
   className?: string;
   width_height: number;
-  src: string | undefined;
+  src: string | StaticImageData | undefined;
   loading: boolean;
 }) {
   return (
