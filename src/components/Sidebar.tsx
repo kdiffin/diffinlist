@@ -81,19 +81,16 @@ function Sidebar() {
         <div className="mt-5 w-full border-t border-t-neutral-700 "> </div>
 
         <div className="  subtle-scrollbar  max-h-[80vh]   w-full overflow-y-scroll px-5  [&>a]:mt-4 ">
-          <SidebarItem currentRoute={router.asPath} href="/">
+          <SidebarItem href="/">
             <MdHome /> <p>Home</p>
           </SidebarItem>
 
-          <SidebarItem currentRoute={router.asPath} href="/search">
+          <SidebarItem href="/search">
             <MdSearch /> <p>Search</p>
           </SidebarItem>
 
           {user ? (
-            <SidebarItem
-              currentRoute={router.asPath}
-              href={`/${user!.username}`}
-            >
+            <SidebarItem href={`/${user!.username}`}>
               <Avatar
                 loading={!isLoaded}
                 width_height={22}
@@ -102,7 +99,7 @@ function Sidebar() {
               <p>Profile</p>
             </SidebarItem>
           ) : (
-            <SidebarItem currentRoute="asdasdkasdkj" href="/">
+            <SidebarItem href="/">
               <SignInButton>
                 <button className=" flex items-center gap-2">
                   {" "}
@@ -113,7 +110,6 @@ function Sidebar() {
           )}
 
           <SidebarItem
-            currentRoute={router.asPath}
             shallow={true}
             href={{
               pathname: router.basePath,
@@ -193,19 +189,16 @@ function Sidebar() {
               </div>
 
               <div className="  subtle-scrollbar  max-h-[80vh]   w-full overflow-y-scroll px-5  [&>a]:mt-4 ">
-                <SidebarItem currentRoute={router.asPath} href="/">
+                <SidebarItem href="/">
                   <MdHome /> <p>Home</p>
                 </SidebarItem>
 
-                <SidebarItem currentRoute={router.asPath} href="/search">
+                <SidebarItem href="/search">
                   <MdSearch /> <p>Search</p>
                 </SidebarItem>
 
                 {user ? (
-                  <SidebarItem
-                    currentRoute={router.asPath}
-                    href={`/${user!.username}`}
-                  >
+                  <SidebarItem href={`/${user!.username}`}>
                     <Avatar
                       loading={!isLoaded}
                       width_height={22}
@@ -214,7 +207,7 @@ function Sidebar() {
                     <p>Profile</p>
                   </SidebarItem>
                 ) : (
-                  <SidebarItem currentRoute="asdasdkasdkj" href="/">
+                  <SidebarItem href="/">
                     <SignInButton>
                       <button className=" flex items-center gap-2">
                         {" "}
@@ -225,7 +218,6 @@ function Sidebar() {
                 )}
 
                 <SidebarItem
-                  currentRoute={router.asPath}
                   shallow={true}
                   href={{
                     pathname: router.route,
@@ -277,16 +269,16 @@ function SidebarItem({
   className,
   children,
   shallow,
-  currentRoute,
 }: {
   href: Url;
   className?: string;
   children: ReactNode;
   shallow?: boolean;
-
-  currentRoute: string;
 }) {
-  const isActive = currentRoute === href;
+  const router = useRouter();
+  const isActive = router.asPath === href;
+
+  console.log(href);
 
   return (
     <Link
@@ -294,7 +286,7 @@ function SidebarItem({
       shallow={shallow}
       className={` 
       flex w-full outline-none outline-neutral-900
-      ${isActive ? "text-neutral-100" : ""} ${className ? className : ""}  
+      ${isActive ? "!text-neutral-200" : ""} ${className ? className : ""}  
       items-center gap-2  text-lg text-neutral-400   hover:text-neutral-200 `}
     >
       {children}

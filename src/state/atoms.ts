@@ -22,7 +22,6 @@ export const defaultValues = atom({
   pictureUrl: "",
   playlistName: "",
   songName: "",
-
   genre: "",
 });
 

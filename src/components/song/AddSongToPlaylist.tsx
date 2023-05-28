@@ -24,8 +24,6 @@ function AddSongToPlaylist() {
     takeLimit: 12312313,
   });
 
-  console.log(addSongToPlaylistParams);
-
   return (
     <AlertDialog.Root
       open={showPlaylistsToAdd}
