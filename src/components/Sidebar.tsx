@@ -308,7 +308,7 @@ function PlaylistsCollapsible({
         <div
           className={` ${
             open ? "text-neutral-300" : "text-neutral-400"
-          } sticky top-0 flex w-full items-center justify-between bg-neutral-900 py-2  text-lg `}
+          } sticky top-0 flex w-full cursor-pointer items-center justify-between bg-neutral-900 py-2  text-lg `}
         >
           <p>Playlists</p>
           <button className=" ">
@@ -340,8 +340,8 @@ function PlaylistsCollapsible({
             <p className="text-neutral-500 ">No playlists found</p>
           )
         ) : (
-          <div className="flex h-[100px]  w-full items-center justify-center">
-            <LoadingSpinner />
+          <div className="flex h-[70px]   w-full items-center justify-center">
+            <LoadingSpinner width_height="w-[30px] h-[30px]" />
           </div>
         )}
       </Collapsible.Content>
