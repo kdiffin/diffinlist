@@ -86,7 +86,7 @@ function useCardDropdown({
     // since songName can be undefined sometimes I had to destructure this object
     setDefaultValues({
       ...defaultValues,
-      songName: defaultValues.songName ? defaultValues.songName : "",
+      songName: defaultValues.songName,
     });
   }
 

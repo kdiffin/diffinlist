@@ -100,12 +100,16 @@ export const playlistRouter = createTRPCRouter({
   updatePlaylist: withAuthProcedure
     .input(
       z.object({
-        newValues: playlistValidate,
+        // partial makes it so that all the values are optional,
+        // since its update and not create users can leave things they dont want changed undefined.
+        newValues: playlistValidate.partial(),
         currentPlaylistName: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const isImageValid = isImage(input.newValues.picture);
+      const isImageValid = isImage(
+        input.newValues.picture ? input.newValues.picture : ""
+      );
 
       if (isImageValid === false) {
         throw new TRPCError({

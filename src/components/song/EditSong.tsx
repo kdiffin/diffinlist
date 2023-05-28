@@ -30,6 +30,7 @@ import {
   showEditSong,
   showPlaylists,
 } from "~/state/atoms";
+import { removeEmptyStrings } from "~/utils/utils";
 
 //UI is basically a copy paste of the settings one
 function EditSong() {
@@ -123,28 +124,30 @@ function EditSong() {
     descriptionRef.current ? (descriptionRef.current!.value = "") : null;
   }
 
-  function addSong(e: { preventDefault: () => void }) {
+  function editSong(e: { preventDefault: () => void }) {
     e.preventDefault();
-    // add mutate fiunction
+
+    //check the documentation for this function in utils/utils.ts
+    const newValues = removeEmptyStrings({
+      name: name,
+      pictureUrl: pictureUrl,
+      songUrl: songUrl,
+      genre: genre,
+
+      albumName: albumRef.current?.value,
+      artistName: artistRef.current?.value,
+      description: descriptionRef.current?.value,
+    });
 
     mutate({
       newValues: {
-        name: name,
-        pictureUrl: pictureUrl,
-        songUrl: songUrl,
-        genre: genre,
-
-        albumName: albumRef.current?.value,
-        artistName: artistRef.current?.value,
-        description: descriptionRef.current?.value,
-
+        ...newValues,
         rating: ratingRef.current
           ? parseInt(ratingRef.current.value)
           : undefined,
       },
-      currentSongName: itemDefaultValues.songName
-        ? itemDefaultValues.songName
-        : "",
+
+      currentSongName: itemDefaultValues.songName,
       currentPlaylistName: itemDefaultValues.playlistName,
     });
   }
@@ -233,7 +236,7 @@ function EditSong() {
             </Button>
           </div>
 
-          <form onSubmit={(e) => addSong(e)}>
+          <form onSubmit={(e) => editSong(e)}>
             <div>
               {!nextStep ? (
                 <>

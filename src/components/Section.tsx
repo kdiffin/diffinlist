@@ -380,6 +380,6 @@ export interface CardValues {
 export interface EditDefaultValues {
   genre: string;
   playlistName: string;
-  songName?: string;
+  songName: string;
   pictureUrl: string;
 }

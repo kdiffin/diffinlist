@@ -110,15 +110,19 @@ export const songRouter = createTRPCRouter({
   updateSong: withAuthProcedure
     .input(
       z.object({
-        newValues: songValidate.omit({
-          playlistName: true,
-        }),
+        newValues: songValidate
+          .omit({
+            playlistName: true,
+          })
+          .partial(),
         currentSongName: z.string().min(1),
         currentPlaylistName: z.string().min(1),
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const isImageValid = isImage(input.newValues.pictureUrl);
+      const isImageValid = isImage(
+        input.newValues.pictureUrl ? input.newValues.pictureUrl : ""
+      );
 
       if (isImageValid === false) {
         throw new TRPCError({
