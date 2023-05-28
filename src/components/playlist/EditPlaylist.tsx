@@ -32,6 +32,7 @@ import {
 } from "~/state/atoms";
 import { useClerk } from "@clerk/nextjs";
 import { Input } from "postcss";
+import { removeEmptyStrings } from "~/utils/utils";
 
 //UI is basically a copy paste of the settings one
 function EditPlaylist() {
@@ -42,6 +43,65 @@ function EditPlaylist() {
   const [name, setName] = useState("");
   const [toggleEditPlaylist, setToggleEditPlaylist] = useAtom(showEditPlaylist);
 
+  const ctx = api.useContext();
+  const { mutate, isLoading, data, error } =
+    api.playlist.updatePlaylist.useMutation({
+      onSuccess: () => {
+        removeChanges();
+        setToggleEditPlaylist(false);
+        toast.success("Successfully updated playlist");
+
+        ctx.playlist.invalidate();
+      },
+
+      onError: (e) => {
+        const errorMessagePicture = e.data?.zodError?.fieldErrors.picture;
+        const errorMessageName = e.data?.zodError?.fieldErrors.name;
+
+        if (e.message === "Please make sure your URL is a picture URL.") {
+          toast.error(e.message);
+          setPlaylistPicUrl("");
+
+          return;
+        }
+
+        // okay another crazy if else lets get to explaining
+        // first it checks if the playlists name already exists on your profile
+        // if not, then it checks both the picture and the name's error fields
+        // and finally if the manual checks fail but theres still an error it shows a default toast.
+
+        if (e.data?.stack?.includes("invocation:\n\n\nUnique constraint")) {
+          toast.error("You can't have 2 playlists with the same name");
+          setName("");
+        } else {
+          if (errorMessageName && errorMessageName[0]) {
+            toast.error(errorMessageName[0]);
+            setName("");
+          }
+          if (errorMessagePicture && errorMessagePicture[0]) {
+            toast.error(errorMessagePicture[0]);
+            setPlaylistPicUrl("");
+          } else {
+            toast.error("Failed to post! Please try again later.");
+          }
+        }
+      },
+    });
+
+  function addPlaylist(e: { preventDefault: () => void }) {
+    e.preventDefault();
+    const newValues = removeEmptyStrings({
+      name: name,
+      genre: genre,
+      picture: playlistPicUrl,
+    });
+
+    mutate({
+      newValues: newValues,
+      currentPlaylistName: itemDefaultValues.playlistName,
+    });
+  }
+
   useEffect(() => {
     setPlaylistPicUrl(itemDefaultValues.pictureUrl);
     setName(itemDefaultValues.playlistName);
@@ -51,8 +111,6 @@ function EditPlaylist() {
     itemDefaultValues.genre,
     itemDefaultValues.pictureUrl,
   ]);
-
-  const isLoading = false;
 
   function removeChanges() {
     setGenre("");
@@ -130,7 +188,7 @@ function EditPlaylist() {
             </Button>
           </div>
 
-          <form onSubmit={(e) => e.preventDefault()}>
+          <form onSubmit={(e) => addPlaylist(e)}>
             <div>
               <InputField
                 setValue={setName}

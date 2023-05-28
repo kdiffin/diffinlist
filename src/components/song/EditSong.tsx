@@ -51,7 +51,10 @@ function EditSong() {
   const { mutate, isLoading } = api.song.updateSong.useMutation({
     onSuccess: () => {
       removeChanges();
-      ctx.song.getSongs.invalidate().then(() => closeCreateSong());
+      closeCreateSong();
+      toast.success("Successfully updated song");
+
+      ctx.song.invalidate();
     },
 
     onError: (e) => {
