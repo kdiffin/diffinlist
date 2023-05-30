@@ -77,6 +77,9 @@ function search() {
   const inputValue =
     inputType === "authorname" ? router.query.authorName : router.query.name;
 
+  const inputPlaceholder =
+    inputType === "authorname" ? "author's name" : "name";
+
   return (
     <div>
       {/* this is the search params */}
@@ -94,7 +97,7 @@ function search() {
 
           <Input
             icon={<MdSearch color=" #A3A3A3" />}
-            placeholder={`Name `}
+            placeholder={"Search by" + " " + inputPlaceholder}
             type="text"
             value={inputValue as string}
             className=" w-full max-w-xl  !px-6 !py-3 !text-sm    "
@@ -225,31 +228,44 @@ const DropdownCards = ({
 }: {
   setValue: Dispatch<React.SetStateAction<CardDropdownEnum>>;
 }) => {
+  const router = useRouter();
+
+  function changeQueryParams(value: CardDropdownEnum) {
+    const url = {
+      pathname: router.route,
+      query: { ...router.query, results: value },
+    };
+
+    setValue(value);
+
+    router.replace(url, undefined, { shallow: true });
+  }
+
   return (
     <DropdownMenu.Content className="dropdown " sideOffset={-15}>
       <DropdownMenu.Item
-        onSelect={() => setValue("all")}
+        onSelect={() => changeQueryParams("all")}
         className="dropdown-item group"
       >
         <MdAllInclusive /> All
       </DropdownMenu.Item>
 
       <DropdownMenu.Item
-        onSelect={() => setValue("songs")}
+        onSelect={() => changeQueryParams("songs")}
         className="dropdown-item group"
       >
         <MdMusicNote /> Songs
       </DropdownMenu.Item>
 
       <DropdownMenu.Item
-        onSelect={() => setValue("playlists")}
+        onSelect={() => changeQueryParams("playlists")}
         className="dropdown-item group "
       >
         <MdVolumeUp /> Playlists
       </DropdownMenu.Item>
 
       <DropdownMenu.Item
-        onSelect={() => setValue("users")}
+        onSelect={() => changeQueryParams("users")}
         className="dropdown-item group "
       >
         <MdPerson /> Users
