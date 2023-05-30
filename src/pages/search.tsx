@@ -1,7 +1,7 @@
 import { useUser } from "@clerk/nextjs";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { Dispatch, useState } from "react";
 import {
   MdAllInclusive,
   MdFilterAlt,
@@ -21,34 +21,57 @@ function search() {
   const { user, isLoaded } = useUser();
   const [open, setOpen] = useState(false);
   const [openCardsDropdown, setOpenCardsDropdown] = useState(false);
-  const [inputType, setInputType] = useState("name");
-  const [cardType, setCardType] = useState("all");
+  const [inputType, setInputType] = useState<InputTypeEnum>("name");
+  const [cardType, setCardType] = useState<CardDropdownEnum>("all");
 
   function CardDropdownButton() {
-    if (cardType === "all") {
+    if (cardType === "playlists") {
       return (
         <>
-          <MdAllInclusive /> All
+          <MdVolumeUp /> Playlists
         </>
       );
     }
 
-    // if(inputType === "all") {
-    //   return <>
-    //   <MdAllInclusive /> All
+    if (cardType === "songs") {
+      return (
+        <>
+          <MdMusicNote /> Songs
+        </>
+      );
+    }
 
-    //   </>
+    if (cardType === "users") {
+      return (
+        <>
+          <MdPerson /> Users
+        </>
+      );
+    }
 
-    // }
-    return <></>;
+    return (
+      <>
+        <MdAllInclusive /> All
+      </>
+    );
   }
 
   function filterSongs(value: string) {
-    const url = {
-      pathname: router.route,
-      query: { ...router.query, search: value },
-    };
-    router.replace(url, undefined, { shallow: true });
+    function url() {
+      if (inputType === "authorname") {
+        return {
+          pathname: router.route,
+          query: { ...router.query, authorName: value },
+        };
+      }
+
+      return {
+        pathname: router.route,
+        query: { ...router.query, name: value },
+      };
+    }
+
+    router.replace(url(), undefined, { shallow: true });
   }
 
   return (
@@ -82,19 +105,19 @@ function search() {
           <DropdownMenu.Trigger asChild>
             <Button
               onClick={() => setOpenCardsDropdown(!openCardsDropdown)}
-              className="w-24 py-3"
+              className="w-24  px-1 py-3"
             >
               <CardDropdownButton />
             </Button>
           </DropdownMenu.Trigger>
 
-          <DropdownCards />
+          <DropdownCards setValue={setCardType} />
         </DropdownMenu.Root>
 
         <DropdownMenu.Root onOpenChange={() => setOpen(!open)} open={open}>
           <DropdownMenu.Trigger asChild>
-            <Button onClick={() => setOpen(!open)} className="w-26 py-3">
-              <MdFilterAlt /> Filter
+            <Button onClick={() => setOpen(!open)} className="w-24 px-0 py-3">
+              <MdFilterAlt /> Filters
             </Button>
           </DropdownMenu.Trigger>
 
@@ -105,14 +128,24 @@ function search() {
   );
 }
 
-const Dropdown = ({}: {}) => {
+const Dropdown = ({
+  setValue,
+}: {
+  setValue: Dispatch<React.SetStateAction<InputTypeEnum>>;
+}) => {
   return (
     <DropdownMenu.Content className="dropdown " sideOffset={-15}>
-      <DropdownMenu.Item className="dropdown-item group">
+      <DropdownMenu.Item
+        onSelect={() => setValue("name")}
+        className="dropdown-item group"
+      >
         <MdMusicNote /> Name
       </DropdownMenu.Item>
 
-      <DropdownMenu.Item className="dropdown-item group ">
+      <DropdownMenu.Item
+        onSelect={() => setValue("authorname")}
+        className="dropdown-item group "
+      >
         <MdPerson /> Author's name
       </DropdownMenu.Item>
 
@@ -127,26 +160,45 @@ const Dropdown = ({}: {}) => {
   );
 };
 
-const DropdownCards = ({}: {}) => {
+const DropdownCards = ({
+  setValue,
+}: {
+  setValue: Dispatch<React.SetStateAction<CardDropdownEnum>>;
+}) => {
   return (
     <DropdownMenu.Content className="dropdown " sideOffset={-15}>
-      <DropdownMenu.Item className="dropdown-item group">
+      <DropdownMenu.Item
+        onSelect={() => setValue("all")}
+        className="dropdown-item group"
+      >
         <MdAllInclusive /> All
       </DropdownMenu.Item>
 
-      <DropdownMenu.Item className="dropdown-item group">
+      <DropdownMenu.Item
+        onSelect={() => setValue("songs")}
+        className="dropdown-item group"
+      >
         <MdMusicNote /> Songs
       </DropdownMenu.Item>
 
-      <DropdownMenu.Item className="dropdown-item group ">
+      <DropdownMenu.Item
+        onSelect={() => setValue("playlists")}
+        className="dropdown-item group "
+      >
         <MdVolumeUp /> Playlists
       </DropdownMenu.Item>
 
-      <DropdownMenu.Item className="dropdown-item group ">
+      <DropdownMenu.Item
+        onSelect={() => setValue("users")}
+        className="dropdown-item group "
+      >
         <MdPerson /> Users
       </DropdownMenu.Item>
     </DropdownMenu.Content>
   );
 };
+
+type CardDropdownEnum = "all" | "songs" | "playlists" | "users";
+type InputTypeEnum = "name" | "authorname";
 
 export default search;
