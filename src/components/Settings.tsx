@@ -1,12 +1,10 @@
-import { useRouter } from "next/router";
-import React, { useState } from "react";
-import * as Dialog from "@radix-ui/react-dialog";
-import Input from "./ui/Input";
-import { api } from "~/utils/api";
 import { useClerk, useUser } from "@clerk/nextjs";
+import * as Dialog from "@radix-ui/react-dialog";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import Avatar from "./ui/Avatar";
 import Button from "./ui/Button";
-import Avatar, { AvatarSkeleton } from "./ui/Avatar";
-import { MdDelete, MdRemove } from "react-icons/md";
+import Input from "./ui/Input";
 
 function Settings() {
   const router = useRouter();

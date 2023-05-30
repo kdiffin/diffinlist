@@ -3,14 +3,12 @@ import { TRPCError } from "@trpc/server";
 import { GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React from "react";
+import { Section, SectionCard } from "~/components/Section";
 import Avatar from "~/components/ui/Avatar";
 import Divider from "~/components/ui/Divider";
-import { Section, SectionCard } from "~/components/Section";
+import useAdd from "~/hooks/useAdd";
 import { ssgHelper } from "~/server/helpers/generateSSGHelper";
 import { api } from "~/utils/api";
-import { toast } from "react-hot-toast";
-import useAdd from "~/hooks/useAdd";
 
 function Profile({ profileName }: { profileName: string }) {
   //the usequery will never hit loading because of ssg

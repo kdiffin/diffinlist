@@ -1,4 +1,11 @@
+import { SignInButton, useUser } from "@clerk/nextjs";
+import { Playlist } from "@prisma/client";
 import * as Collapsible from "@radix-ui/react-collapsible";
+import * as Dialog from "@radix-ui/react-dialog";
+import { Url } from "next/dist/shared/lib/router/router";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import React, { ReactNode, useState } from "react";
 import {
   MdHome,
   MdLogin,
@@ -8,19 +15,10 @@ import {
   MdSearch,
   MdSettings,
 } from "react-icons/md";
-import React, { PropsWithChildren, ReactNode, useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { SignInButton, useUser } from "@clerk/nextjs";
-import Image from "next/image";
-import Avatar from "./ui/Avatar";
-import CreatePlaylist from "./playlist/CreatePlaylist";
-import * as Dialog from "@radix-ui/react-dialog";
 import { api } from "~/utils/api";
-import { Playlist } from "@prisma/client";
-import Loading, { LoadingSpinner } from "./ui/Loading";
-import { Url } from "next/dist/shared/lib/router/router";
 import defaultProfilePic from "../public/defaultuser.png";
+import Avatar from "./ui/Avatar";
+import { LoadingSpinner } from "./ui/Loading";
 
 function Sidebar() {
   const router = useRouter();

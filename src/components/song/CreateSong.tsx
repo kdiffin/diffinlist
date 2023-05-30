@@ -1,27 +1,13 @@
-import { useRouter } from "next/router";
-import React, { useRef, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import { InputField, RefInput, RefInputField } from "../ui/Input";
+import { useRouter } from "next/router";
+import { useRef, useState } from "react";
+import { toast } from "react-hot-toast";
+import { MdOutlineArrowLeft, MdOutlineArrowRight } from "react-icons/md";
 import { api } from "~/utils/api";
 import Button from "../ui/Button";
+import { InputField, RefInputField } from "../ui/Input";
 import { LoadingSpinner } from "../ui/Loading";
 import { ImageSkeleton } from "../ui/Skeletons";
-import {
-  MdArrowBack,
-  MdArrowCircleLeft,
-  MdArrowForward,
-  MdArrowLeft,
-  MdArrowRightAlt,
-  MdFlipToBack,
-  MdOutlineArrowLeft,
-  MdOutlineArrowRight,
-  MdPanoramaFishEye,
-  MdRedo,
-  MdRotateLeft,
-  MdTurnLeft,
-  MdUndo,
-} from "react-icons/md";
-import { toast } from "react-hot-toast";
 
 function CreateSong() {
   const router = useRouter();

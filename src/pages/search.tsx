@@ -1,9 +1,9 @@
-import Link from "next/link";
+import { useUser } from "@clerk/nextjs";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   MdAllInclusive,
-  MdFilter,
   MdFilterAlt,
   MdHourglassBottom,
   MdHourglassTop,
@@ -15,8 +15,6 @@ import {
 import Avatar from "~/components/ui/Avatar";
 import Button from "~/components/ui/Button";
 import Input from "~/components/ui/Input";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import { useUser } from "@clerk/nextjs";
 
 function search() {
   const router = useRouter();

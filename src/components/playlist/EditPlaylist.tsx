@@ -1,38 +1,16 @@
-import { useRouter } from "next/router";
-import React, { useEffect, useRef, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import { InputField, RefInput } from "../ui/Input";
+import { useAtom } from "jotai";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
+import { MdEdit } from "react-icons/md";
+import { removeEmptyStrings } from "~/server/helpers/removeEmptyStrings";
+import { defaultValues, showEditPlaylist } from "~/state/atoms";
 import { api } from "~/utils/api";
 import Button from "../ui/Button";
+import { InputField } from "../ui/Input";
 import { LoadingSpinner } from "../ui/Loading";
 import { ImageSkeleton } from "../ui/Skeletons";
-import {
-  MdArrowBack,
-  MdArrowCircleLeft,
-  MdArrowForward,
-  MdArrowLeft,
-  MdArrowRightAlt,
-  MdEdit,
-  MdFlipToBack,
-  MdOutlineArrowLeft,
-  MdOutlineArrowRight,
-  MdPanoramaFishEye,
-  MdRedo,
-  MdRotateLeft,
-  MdTurnLeft,
-  MdUndo,
-} from "react-icons/md";
-import { toast } from "react-hot-toast";
-import { useAtom } from "jotai";
-import {
-  defaultValues,
-  showEditPlaylist,
-  showEditSong,
-  showPlaylists,
-} from "~/state/atoms";
-import { useClerk } from "@clerk/nextjs";
-import { Input } from "postcss";
-import { removeEmptyStrings } from "~/server/helpers/removeEmptyStrings";
 
 //UI is basically a copy paste of the settings one
 function EditPlaylist() {

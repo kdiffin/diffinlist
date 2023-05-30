@@ -1,5 +1,3 @@
-import { useAtom } from "jotai";
-import React from "react";
 import { toast } from "react-hot-toast";
 import { api } from "~/utils/api";
 

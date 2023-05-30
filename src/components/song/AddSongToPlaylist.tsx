@@ -1,17 +1,16 @@
-import React, { Dispatch, useState } from "react";
 import * as RadioGroup from "@radix-ui/react-radio-group";
+import React, { Dispatch, useState } from "react";
 
 //not to be confused with createsong this moves a song from one playlist to another
+import { useUser } from "@clerk/nextjs";
+import { Playlist } from "@prisma/client";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
-import Button from "../ui/Button";
-import { atom, useAtom } from "jotai";
+import { useAtom } from "jotai";
+import { MdAdd } from "react-icons/md";
 import { addSongToPlaylist, showPlaylists } from "~/state/atoms";
 import { api } from "~/utils/api";
-import { useUser } from "@clerk/nextjs";
-import { MdAdd } from "react-icons/md";
-import { Playlist } from "@prisma/client";
-import Loading, { LoadingSpinner } from "../ui/Loading";
-import { DialogOverlay } from "@radix-ui/react-dialog";
+import Button from "../ui/Button";
+import { LoadingSpinner } from "../ui/Loading";
 
 // similar pattern to delete.tsx
 function AddSongToPlaylist() {

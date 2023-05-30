@@ -1,6 +1,6 @@
 import { useUser } from "@clerk/nextjs";
 import { useAtom } from "jotai";
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { toast } from "react-hot-toast";
 import { EditDefaultValues } from "~/components/Section";
 import {
@@ -12,7 +12,6 @@ import {
   showEditSong,
   showPlaylists,
 } from "~/state/atoms";
-import { api } from "~/utils/api";
 
 function useCardDropdown({
   type,

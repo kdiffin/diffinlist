@@ -1,22 +1,17 @@
 import { useUser } from "@clerk/nextjs";
 import { type NextPage } from "next";
-import Head from "next/head";
-import Link from "next/link";
-import Sidebar from "~/components/Sidebar";
+import { FaGithub } from "react-icons/fa";
+import { Section, SectionCard } from "~/components/Section";
 import Avatar from "~/components/ui/Avatar";
 import Divider from "~/components/ui/Divider";
-import { Section, SectionCard } from "~/components/Section";
-import { SquareSkeleton } from "~/components/ui/Skeletons";
-import { FaGithub } from "react-icons/fa";
 
-import { api } from "~/utils/api";
 import { useRouter } from "next/router";
-import Image from "next/image";
-import defaultProfilePic from "../public/defaultuser.png";
 import useAdd from "~/hooks/useAdd";
+import { api } from "~/utils/api";
+import defaultProfilePic from "../public/defaultuser.png";
 
 const Home: NextPage = () => {
-  const { user, isLoaded, isSignedIn } = useUser();
+  const { user, isLoaded } = useUser();
   const router = useRouter();
   const { data: users, isLoading: usersLoading } =
     api.profile.getAllUsers.useQuery();

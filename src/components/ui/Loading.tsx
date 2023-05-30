@@ -1,5 +1,3 @@
-import React from "react";
-
 function Loading({ className }: { className: string }) {
   return (
     <div className={`${className} h-full w-full`}>

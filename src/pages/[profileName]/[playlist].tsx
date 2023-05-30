@@ -1,27 +1,18 @@
 import { useUser } from "@clerk/nextjs";
-import { createServerSideHelpers } from "@trpc/react-query/server";
 import { TRPCError } from "@trpc/server";
 import { matchSorter } from "match-sorter";
-import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
+import { GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { ReactNode, useState } from "react";
-import { MdAdd, MdArrowDownward, MdSearch } from "react-icons/md";
-import CreateSong from "~/components/song/CreateSong";
-import CustomError from "~/components/CustomError";
-import Avatar from "~/components/ui/Avatar";
-import Button from "~/components/ui/Button";
-import Input from "~/components/ui/Input";
-import Loading, { LoadingSpinner } from "~/components/ui/Loading";
+import { MdAdd, MdSearch } from "react-icons/md";
 import { Section, SectionCard } from "~/components/Section";
+import CreateSong from "~/components/song/CreateSong";
+import Input from "~/components/ui/Input";
 import { ImageSkeleton } from "~/components/ui/Skeletons";
+import useAdd from "~/hooks/useAdd";
 import { ssgHelper } from "~/server/helpers/generateSSGHelper";
 import { api } from "~/utils/api";
-import { toast } from "react-hot-toast";
-import Divider from "~/components/ui/Divider";
-import useAdd from "~/hooks/useAdd";
 
 // ui is very similar to profileName, so I copy pasted that component.
 // I could have made the ui a component and the data fetching parts hooks, but I dont like abstracting such large files.
@@ -34,7 +25,7 @@ function Profile({
   playlistName: string;
 }) {
   const router = useRouter();
-  const { user, isSignedIn } = useUser();
+  const { user } = useUser();
 
   //the usequery will never hit loading because of ssg
   //also trpc uses react query under the hood

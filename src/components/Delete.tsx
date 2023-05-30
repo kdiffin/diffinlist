@@ -1,8 +1,7 @@
-import React from "react";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
-import Button from "./ui/Button";
-import { atom, useAtom } from "jotai";
+import { useAtom } from "jotai";
 import { deleteParamsAtom, showDeleteAtom } from "~/state/atoms";
+import Button from "./ui/Button";
 
 //these two were similar enough that I decided to reuse the UI and seperate the function logic
 //this is a dumb component, the actual deletion logic is in the useDelete hook.

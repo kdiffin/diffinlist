@@ -1,21 +1,20 @@
-import { type AppType } from "next/app";
-import { api } from "~/utils/api";
-import "~/styles/globals.css";
-import Sidebar from "~/components/Sidebar";
 import { ClerkProvider } from "@clerk/nextjs";
+import { type AppType } from "next/app";
 import Head from "next/head";
+import Sidebar from "~/components/Sidebar";
+import "~/styles/globals.css";
+import { api } from "~/utils/api";
 
 //https://www.npmjs.com/package/@approximant/next-progress
 import NextProgress from "@approximant/next-progress";
+import { Toaster } from "react-hot-toast";
+import Delete from "~/components/Delete";
 import Settings from "~/components/Settings";
 import CreatePlaylist from "~/components/playlist/CreatePlaylist";
-import { Toaster } from "react-hot-toast";
-import Song from "~/components/song/Song";
-import Delete from "~/components/Delete";
-import AddSongToPlaylist from "~/components/song/AddSongToPlaylist";
-import { atom, useAtom } from "jotai";
-import EditSong from "~/components/song/EditSong";
 import EditPlaylist from "~/components/playlist/EditPlaylist";
+import AddSongToPlaylist from "~/components/song/AddSongToPlaylist";
+import EditSong from "~/components/song/EditSong";
+import Song from "~/components/song/Song";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   //todo: search.tsx

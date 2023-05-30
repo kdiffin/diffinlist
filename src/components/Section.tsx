@@ -1,16 +1,13 @@
-import Link from "next/link";
-import { ReactNode } from "react";
-import { MdAdd, MdDelete, MdEdit, MdLink, MdMoreHoriz } from "react-icons/md";
-import { memo } from "react";
-import { ImageSkeleton, SkeletonCard } from "./ui/Skeletons";
-import { Url } from "next/dist/shared/lib/router/router";
-import Avatar from "./ui/Avatar";
-import React from "react";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import * as ContextMenu from "@radix-ui/react-context-menu";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import { Url } from "next/dist/shared/lib/router/router";
+import Link from "next/link";
+import { ReactNode, memo } from "react";
+import { MdAdd, MdDelete, MdEdit, MdLink, MdMoreHoriz } from "react-icons/md";
 import useCardDropdown from "~/hooks/useCardDropdown";
 import useDelete from "~/hooks/useDelete";
-import { useUser } from "@clerk/nextjs";
+import Avatar from "./ui/Avatar";
+import { ImageSkeleton, SkeletonCard } from "./ui/Skeletons";
 
 // im making the code more wet but wayyyy more readable and understandable with this commit
 // having way too many conditionals and ternaries just suck and making the code SLIGHTLY non DRY,
