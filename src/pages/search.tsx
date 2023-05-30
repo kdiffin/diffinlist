@@ -110,7 +110,7 @@ function search() {
             <DropdownMenu.Trigger asChild>
               <Button
                 onClick={() => setOpenCardsDropdown(!openCardsDropdown)}
-                className="w-24  px-1 py-3"
+                className="w-24 !px-1   py-3"
               >
                 <CardDropdownButton />
               </Button>
@@ -121,7 +121,10 @@ function search() {
 
           <DropdownMenu.Root onOpenChange={() => setOpen(!open)} open={open}>
             <DropdownMenu.Trigger asChild>
-              <Button onClick={() => setOpen(!open)} className="w-24 px-0 py-3">
+              <Button
+                onClick={() => setOpen(!open)}
+                className="w-24 !px-0 py-3"
+              >
                 <MdFilterAlt /> Filters
               </Button>
             </DropdownMenu.Trigger>
@@ -144,6 +147,15 @@ const Dropdown = ({
   const router = useRouter();
   const nameValue = router.query.name;
   const authorNameValue = router.query.authorName;
+
+  function sortBy(value: string) {
+    const url = {
+      pathname: router.route,
+      query: { ...router.query, sortBy: value },
+    };
+
+    router.replace(url, undefined, { shallow: true });
+  }
 
   return (
     <DropdownMenu.Content
@@ -191,11 +203,17 @@ const Dropdown = ({
         )}
       </DropdownMenu.Item>
 
-      <DropdownMenu.Item className="dropdown-item group ">
+      <DropdownMenu.Item
+        onSelect={() => sortBy("latest")}
+        className="dropdown-item group "
+      >
         <MdHourglassTop /> Latest
       </DropdownMenu.Item>
 
-      <DropdownMenu.Item className="dropdown-item group ">
+      <DropdownMenu.Item
+        onSelect={() => sortBy("oldest")}
+        className="dropdown-item group "
+      >
         <MdHourglassBottom /> Oldest
       </DropdownMenu.Item>
     </DropdownMenu.Content>
