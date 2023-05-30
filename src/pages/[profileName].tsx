@@ -19,7 +19,6 @@ function Profile({ profileName }: { profileName: string }) {
   const { data: userData } = api.profile.getProfileByProfileName.useQuery({
     profileName: profileName,
   });
-  const username = user && user.username ? user.username : "";
 
   const { data: playlists, isLoading: playlistsLoading } =
     api.playlist.getPlaylists.useQuery({
@@ -50,7 +49,7 @@ function Profile({ profileName }: { profileName: string }) {
             />
 
             <div className="flex flex-col  gap-2">
-              <p className="text-4xl  ">{userData.username}</p>
+              <h1 className="text-4xl  ">{userData.username}</h1>
               <p className=" text-neutral-400">
                 This user has {playlists ? playlists.length : "no"} playlist
                 {playlists && playlists.length !== 1 ? "s" : ""}
@@ -66,13 +65,8 @@ function Profile({ profileName }: { profileName: string }) {
           <Section loading={playlistsLoading} title="Playlists">
             {playlists && playlists.length > 0 ? (
               playlists.map((playlist) => {
-                const isAuthor = user?.username === playlist.authorName;
-                const signedIn = isSignedIn ? isSignedIn : false;
-
                 return (
                   <SectionCard
-                    isAuthor={isAuthor}
-                    isSignedIn={signedIn}
                     type="playlist"
                     href={`/${playlist.authorName}/${playlist.name}`}
                     data={{
@@ -104,9 +98,6 @@ function Profile({ profileName }: { profileName: string }) {
           <Section loading={songsLoading} title="Songs">
             {songs && songs.length > 0 ? (
               songs.map((song) => {
-                const isAuthor = user?.username === song.authorName;
-                const signedIn = isSignedIn ? isSignedIn : false;
-
                 return (
                   <SectionCard
                     addFunction={(playlistName: string) =>
@@ -139,8 +130,6 @@ function Profile({ profileName }: { profileName: string }) {
                     }}
                     type="song"
                     shallow
-                    isAuthor={isAuthor}
-                    isSignedIn={signedIn}
                     key={song.id}
                   />
                 );

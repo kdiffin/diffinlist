@@ -10,6 +10,7 @@ import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import * as ContextMenu from "@radix-ui/react-context-menu";
 import useCardDropdown from "~/hooks/useCardDropdown";
 import useDelete from "~/hooks/useDelete";
+import { useUser } from "@clerk/nextjs";
 
 // im making the code more wet but wayyyy more readable and understandable with this commit
 // having way too many conditionals and ternaries just suck and making the code SLIGHTLY non DRY,
@@ -68,13 +69,9 @@ function SectionCardNoMemo({
   shallow,
   data,
   addFunction,
-  isAuthor,
-  isSignedIn,
   type,
 }: {
   shallow?: boolean;
-  isAuthor: boolean;
-  isSignedIn: boolean;
   addFunction: (playlistName: string) => void;
   data: CardValues;
   type: "playlist" | "song" | "profile";
@@ -192,18 +189,16 @@ function SectionCardNoMemo({
             addFunction={addFunction}
             deleteFunction={deleteFunction}
             ShareLink={linkHref}
-            isSignedIn={isSignedIn}
-            isAuthor={isAuthor}
+            authorName={data.authorName}
             type={type}
           />
 
           <RightClickDropdown
+            authorName={data.authorName}
             addFunction={addFunction}
             defaultValues={defaultValues}
             deleteFunction={deleteFunction}
             ShareLink={linkHref}
-            isSignedIn={isSignedIn}
-            isAuthor={isAuthor}
             type={type}
           />
         </ContextMenu.Trigger>
@@ -216,28 +211,34 @@ export const SectionCard = memo(SectionCardNoMemo);
 
 const Dropdown = ({
   type,
-  isAuthor,
   ShareLink,
-  isSignedIn,
   deleteFunction,
   defaultValues,
+  authorName,
   addFunction,
 }: {
   type: "playlist" | "song" | "profile";
   ShareLink: string;
-  isAuthor: boolean;
+  authorName: string;
   defaultValues: EditDefaultValues;
-  isSignedIn: boolean;
   deleteFunction: VoidFunction;
   addFunction: (playlistName: string) => void;
 }) => {
-  const { deleteItem, handleCopy, textRef, addItem, editItem } =
-    useCardDropdown({
-      type: type,
-      deleteFunction: deleteFunction,
-      addFunction: addFunction,
-      defaultValues: defaultValues,
-    });
+  const {
+    deleteItem,
+    handleCopy,
+    textRef,
+    addItem,
+    editItem,
+    isAuthor,
+    isSignedIn,
+  } = useCardDropdown({
+    type: type,
+    authorName: authorName,
+    deleteFunction: deleteFunction,
+    addFunction: addFunction,
+    defaultValues: defaultValues,
+  });
 
   return (
     <DropdownMenu.Content
@@ -295,28 +296,35 @@ const Dropdown = ({
 // copy pasted the same thing from dropdown
 const RightClickDropdown = ({
   type,
-  isAuthor,
-  isSignedIn,
+  authorName,
+
   ShareLink,
   deleteFunction,
   addFunction,
   defaultValues,
 }: {
   type: "playlist" | "song" | "profile";
-  isAuthor: boolean;
   defaultValues: EditDefaultValues;
+  authorName: string;
   ShareLink: Url;
-  isSignedIn: boolean;
   deleteFunction: VoidFunction;
   addFunction: (playlistName: string) => void;
 }) => {
-  const { deleteItem, handleCopy, textRef, addItem, editItem } =
-    useCardDropdown({
-      type: type,
-      deleteFunction: deleteFunction,
-      addFunction: addFunction,
-      defaultValues: defaultValues,
-    });
+  const {
+    deleteItem,
+    handleCopy,
+    textRef,
+    addItem,
+    editItem,
+    isAuthor,
+    isSignedIn,
+  } = useCardDropdown({
+    type: type,
+    deleteFunction: deleteFunction,
+    authorName: authorName,
+    addFunction: addFunction,
+    defaultValues: defaultValues,
+  });
 
   return (
     <ContextMenu.Content

@@ -20,7 +20,6 @@ const Home: NextPage = () => {
   const router = useRouter();
   const { data: users, isLoading: usersLoading } =
     api.profile.getAllUsers.useQuery();
-  const username = user && user.username ? user.username : "";
 
   const { data: playlists, isLoading: playlistsLoading } =
     api.playlist.getAllPlaylists.useQuery();
@@ -79,13 +78,8 @@ const Home: NextPage = () => {
         <Section loading={playlistsLoading} title="Playlists">
           {playlists && playlists.length > 0 ? (
             playlists.map((playlist) => {
-              const isAuthor = user?.username === playlist.authorName;
-              const signedIn = isSignedIn ? isSignedIn : false;
-
               return (
                 <SectionCard
-                  isAuthor={isAuthor}
-                  isSignedIn={signedIn}
                   type="playlist"
                   href={`/${playlist.authorName}/${playlist.name}`}
                   data={{
@@ -117,9 +111,6 @@ const Home: NextPage = () => {
         <Section loading={songsLoading} title="Songs">
           {songs && songs.length > 0 ? (
             songs.map((song) => {
-              const isAuthor = user?.username === song.authorName;
-              const signedIn = isSignedIn ? isSignedIn : false;
-
               return (
                 <SectionCard
                   addFunction={(playlistName) => {
@@ -152,8 +143,6 @@ const Home: NextPage = () => {
                   }}
                   type="song"
                   shallow
-                  isAuthor={isAuthor}
-                  isSignedIn={signedIn}
                   key={song.id}
                 />
               );
@@ -176,8 +165,6 @@ const Home: NextPage = () => {
                   href={`/${user.username}`}
                   key={user.username}
                   //none of these below matter because the user doesnt have a dropdown like the others do
-                  isAuthor={false}
-                  isSignedIn={false}
                   addFunction={() => null}
                   data={{
                     pictureUrl: user.profileImageUrl,

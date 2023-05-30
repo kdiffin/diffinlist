@@ -35,7 +35,6 @@ function Profile({
 }) {
   const router = useRouter();
   const { user, isSignedIn } = useUser();
-  const username = user && user.username ? user.username : "";
 
   //the usequery will never hit loading because of ssg
   //also trpc uses react query under the hood
@@ -91,7 +90,7 @@ function Profile({
             )}
 
             <div className="flex flex-col gap-2  ">
-              <p className="text-4xl">{playlistName}</p>
+              <h1 className="text-4xl">{playlistName}</h1>
               <div className="text-sm">
                 {playlist.genre ? (
                   <p className=" text-neutral-400">
@@ -136,9 +135,6 @@ function Profile({
             <>
               {songs && songs.length > 0
                 ? songs.map((song) => {
-                    const isAuthor = user?.username === song.authorName;
-                    const signedIn = isSignedIn ? isSignedIn : false;
-
                     return (
                       <SectionCard
                         addFunction={(playlistName: string) =>
@@ -164,8 +160,6 @@ function Profile({
                         href={{
                           query: { ...router.query, song: song.name },
                         }}
-                        isAuthor={isAuthor}
-                        isSignedIn={signedIn}
                         type="song"
                         shallow
                         key={song.id}

@@ -23,6 +23,27 @@ function search() {
   const { user, isLoaded } = useUser();
   const [open, setOpen] = useState(false);
   const [openCardsDropdown, setOpenCardsDropdown] = useState(false);
+  const [inputType, setInputType] = useState("name");
+  const [cardType, setCardType] = useState("all");
+
+  function CardDropdownButton() {
+    if (cardType === "all") {
+      return (
+        <>
+          <MdAllInclusive /> All
+        </>
+      );
+    }
+
+    // if(inputType === "all") {
+    //   return <>
+    //   <MdAllInclusive /> All
+
+    //   </>
+
+    // }
+    return <></>;
+  }
 
   function filterSongs(value: string) {
     const url = {
@@ -65,7 +86,7 @@ function search() {
               onClick={() => setOpenCardsDropdown(!openCardsDropdown)}
               className="w-24 py-3"
             >
-              <MdAllInclusive /> All
+              <CardDropdownButton />
             </Button>
           </DropdownMenu.Trigger>
 

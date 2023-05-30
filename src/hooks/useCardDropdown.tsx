@@ -1,3 +1,4 @@
+import { useUser } from "@clerk/nextjs";
 import { useAtom } from "jotai";
 import React, { useRef } from "react";
 import { toast } from "react-hot-toast";
@@ -16,16 +17,20 @@ import { api } from "~/utils/api";
 function useCardDropdown({
   type,
   defaultValues,
+  authorName,
   deleteFunction,
   addFunction,
 }: {
   type: "playlist" | "song" | "profile";
   defaultValues: EditDefaultValues;
+  authorName: string;
   deleteFunction: VoidFunction;
   addFunction: (playlistName: string) => void;
 }) {
   //for the copy button
   const textRef = useRef<HTMLInputElement>(null);
+  const { isSignedIn, user } = useUser();
+  const isAuthor = user?.username === authorName;
 
   function handleCopy() {
     if (textRef.current) {
@@ -90,7 +95,15 @@ function useCardDropdown({
     });
   }
 
-  return { textRef, handleCopy, editItem, deleteItem, addItem };
+  return {
+    textRef,
+    handleCopy,
+    editItem,
+    isAuthor,
+    isSignedIn,
+    deleteItem,
+    addItem,
+  };
 }
 
 export default useCardDropdown;
