@@ -29,14 +29,15 @@ a:active {
 
   .dropdown {
     @apply z-20 min-w-[220px] rounded-sm
-    bg-zinc-800  p-2
-     shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),_0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)]  will-change-[opacity,transform] data-[side=bottom]:animate-slideUpAndFade
-     data-[side=left]:animate-slideRightAndFade data-[side=right]:animate-slideLeftAndFade data-[side=top]:animate-slideDownAndFade;
+    bg-zinc-800  p-2 shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),_0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)]
+      will-change-[opacity,transform] data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade 
+      data-[side=right]:animate-slideLeftAndFade data-[side=top]:animate-slideDownAndFade;
   }
 
   .dropdown-item {
-    @apply relative flex   h-10  select-none items-center gap-2 rounded-sm px-4  text-sm 
+    @apply relative flex h-10 max-w-[220px] select-none    items-center gap-2  rounded-sm px-4  text-sm 
  leading-none outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-zinc-700  data-[disabled]:text-zinc-500;
+    white-space: nowrap;
   }
 
   .dropdown-button:focus-visible {
