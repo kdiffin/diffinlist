@@ -277,7 +277,6 @@ function SidebarItem({
 }) {
   const router = useRouter();
   const isActive = router.asPath === href;
-  console.log(isActive);
 
   return (
     <Link

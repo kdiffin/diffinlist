@@ -5,7 +5,7 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export function ButtonNoRef(
-  { children, type, className, disabled, onClick }: Props,
+  { children, type, className, disabled, onClick, tabIndex }: Props,
   ref: React.Ref<HTMLButtonElement>
 ) {
   return (
