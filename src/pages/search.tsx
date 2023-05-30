@@ -74,6 +74,9 @@ function search() {
     router.replace(url(), undefined, { shallow: true });
   }
 
+  const inputValue =
+    inputType === "authorname" ? router.query.authorName : router.query.name;
+
   return (
     <div className="flex h-full flex-col gap-6 px-8  py-16 text-center sm:px-12 md:px-20 lg:flex-row  lg:justify-between  ">
       <div className="mb-2 flex flex-col  items-center gap-8   lg:flex-1 lg:items-start    ">
@@ -91,7 +94,7 @@ function search() {
           icon={<MdSearch color=" #A3A3A3" />}
           placeholder={`Name `}
           type="text"
-          value={router.query?.name as string}
+          value={inputValue as string}
           className=" w-full max-w-xl  !px-6 !py-3 !text-sm    "
           setValue={(value: string) => filterSongs(value)}
         />
@@ -121,7 +124,7 @@ function search() {
             </Button>
           </DropdownMenu.Trigger>
 
-          <Dropdown />
+          <Dropdown setValue={setInputType} />
         </DropdownMenu.Root>
       </div>
     </div>
