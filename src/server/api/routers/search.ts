@@ -20,6 +20,10 @@ export const searchRouter = createTRPCRouter({
       })
     )
     .query(async ({ ctx, input }) => {
+      const clerkOrderBy =
+        input.orderBy === "desc" ? "-created_at" : "+created_at";
+
+      // I did all of these returns with reused code because If I didnt then the server would have to process all the other requests too before returning, in the end making the if statements pointless.
       if (input.cardType === "songs") {
         const nameFilteredSongs = await ctx.prisma.song.findMany({
           where: {
@@ -55,6 +59,61 @@ export const searchRouter = createTRPCRouter({
         return songs;
       }
 
+      if (input.cardType === "playlists") {
+        const nameFilteredPlaylists = await ctx.prisma.playlist.findMany({
+          where: {
+            name: { contains: input.name },
+          },
+          orderBy: [{ createdAt: input.orderBy }],
+        });
+
+        const playlists: FilterItem[] = nameFilteredPlaylists.map(
+          (playlist) => {
+            return {
+              id: playlist.id,
+              data: {
+                authorName: playlist.authorName,
+                genre: playlist.genre,
+                pictureUrl: playlist.pictureUrl,
+                playlistName: playlist.name,
+              },
+
+              href: `/${playlist.authorName}/${playlist.name}`,
+              type: "playlist",
+            };
+          }
+        );
+
+        return playlists;
+      }
+
+      if (input.cardType === "users") {
+        const nameFilteredUsers = await clerkClient.users.getUserList({
+          query: input.name,
+          orderBy: clerkOrderBy,
+        });
+
+        const users: FilterItem[] = nameFilteredUsers.map((user) => {
+          const username = user && user.username ? user.username : "";
+
+          return {
+            id: user.id,
+            data: {
+              authorName: username,
+              genre: "",
+              pictureUrl: user.profileImageUrl,
+              //ignore this playlistName just means its username
+              playlistName: username,
+            },
+
+            href: `/${username}`,
+            type: "profile",
+          };
+        });
+
+        return users;
+      }
+
       const nameFilteredSongs = await ctx.prisma.song.findMany({
         where: {
           name: { contains: input.name },
@@ -69,8 +128,6 @@ export const searchRouter = createTRPCRouter({
         orderBy: [{ createdAt: input.orderBy }],
       });
 
-      const clerkOrderBy =
-        input.orderBy === "desc" ? "-created_at" : "+created_at";
       const nameFilteredUsers = await clerkClient.users.getUserList({
         query: input.name,
         orderBy: clerkOrderBy,
