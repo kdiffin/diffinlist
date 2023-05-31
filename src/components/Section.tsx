@@ -63,18 +63,18 @@ export function Section({
 // bloated with a bunch of tsignores and conditionals.
 function SectionCardNoMemo({
   href,
-  shallow,
   data,
   addFunction,
   type,
 }: {
-  shallow?: boolean;
   addFunction: (playlistName: string) => void;
   data: CardValues;
   type: "playlist" | "song" | "profile";
   href: Url;
 }) {
   const title = data.songName ? data.songName : data.playlistName;
+  const shallow = type === "song" ? true : false;
+
   function ImageChecker() {
     if (!data.pictureUrl) {
       return (

@@ -137,7 +137,6 @@ const Home: NextPage = () => {
                     },
                   }}
                   type="song"
-                  shallow
                   key={song.id}
                 />
               );

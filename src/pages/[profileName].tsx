@@ -127,7 +127,6 @@ function Profile({ profileName }: { profileName: string }) {
                       },
                     }}
                     type="song"
-                    shallow
                     key={song.id}
                   />
                 );

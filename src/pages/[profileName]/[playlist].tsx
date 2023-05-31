@@ -152,7 +152,6 @@ function Profile({
                           query: { ...router.query, song: song.name },
                         }}
                         type="song"
-                        shallow
                         key={song.id}
                       />
                     );

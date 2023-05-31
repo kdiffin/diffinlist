@@ -28,6 +28,7 @@ function search() {
   const [cardType, setCardType] = useState<CardDropdownEnum>("all");
   const { data, isLoading, isError } = api.search.getFilteredItems.useQuery({
     name: router.query.name as string,
+    query: router.query,
   });
 
   function CardDropdownButton() {
@@ -144,22 +145,21 @@ function search() {
       </div>
 
       {/* this is where the cards are displayed */}
-      <div className=" mt-10 flex flex-1  flex-wrap justify-center gap-5 overflow-hidden">
+      <div className=" mt-10 flex flex-1  flex-wrap justify-center gap-5 ">
         {data && data.length > 0 ? (
-          [...data, ...data, ...data].map((data) => {
+          [...data, ...data, ...data].map((item) => {
             return (
               <SectionCard
                 addFunction={() => null}
                 data={{
-                  authorName: " ",
-                  genre: " ",
-                  playlistName: "yo ",
-                  songName: "true!",
-                  pictureUrl:
-                    "http://localhost:3000/_next/image?url=https%3A%2F%2Fimages.clerk.dev%2Foauth_github%2Fimg_2OYTYxi9oD6jNuZT0akcgcZXTNW.jpeg&w=32&q=75",
+                  authorName: item.data.authorName,
+                  genre: item.data.genre,
+                  playlistName: item.data.playlistName,
+                  songName: item.data.songName,
+                  pictureUrl: item.data.pictureUrl,
                 }}
-                href={""}
-                type="song"
+                href={item.href}
+                type={item.type}
               />
             );
           })
