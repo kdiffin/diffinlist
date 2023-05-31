@@ -12,9 +12,12 @@ import {
   MdSearch,
   MdVolumeUp,
 } from "react-icons/md";
+import { SectionCard } from "~/components/Section";
 import Avatar from "~/components/ui/Avatar";
 import Button from "~/components/ui/Button";
 import Input from "~/components/ui/Input";
+import Loading from "~/components/ui/Loading";
+import { api } from "~/utils/api";
 
 function search() {
   const router = useRouter();
@@ -23,6 +26,9 @@ function search() {
   const [openCardsDropdown, setOpenCardsDropdown] = useState(false);
   const [inputType, setInputType] = useState<InputTypeEnum>("name");
   const [cardType, setCardType] = useState<CardDropdownEnum>("all");
+  const { data, isLoading, isError } = api.search.getFilteredItems.useQuery({
+    name: router.query.name as string,
+  });
 
   function CardDropdownButton() {
     if (cardType === "playlists") {
@@ -81,9 +87,9 @@ function search() {
     inputType === "authorname" ? "author's name" : "name";
 
   return (
-    <div>
+    <div className="flex flex-col py-16 sm:px-12 md:px-20 ">
       {/* this is the search params */}
-      <div className="flex h-full flex-col gap-6 px-8  py-16 text-center sm:px-12 md:px-20 lg:flex-row  lg:justify-between  ">
+      <div className="flex flex-col gap-6 px-8  text-center lg:flex-row  lg:justify-between  ">
         <div className="mb-2 flex flex-col  items-center gap-8   lg:flex-1 lg:items-start    ">
           {/* i put the avatar here cuz it felt really fkin empty and I felt like I had to put something ther */}
           <div className="flex items-center gap-3">
@@ -138,6 +144,29 @@ function search() {
       </div>
 
       {/* this is where the cards are displayed */}
+      <div className=" mt-10 flex flex-1  flex-wrap justify-center gap-5 overflow-hidden">
+        {data && data.length > 0 ? (
+          [...data, ...data, ...data].map((data) => {
+            return (
+              <SectionCard
+                addFunction={() => null}
+                data={{
+                  authorName: " ",
+                  genre: " ",
+                  playlistName: "yo ",
+                  songName: "true!",
+                  pictureUrl:
+                    "http://localhost:3000/_next/image?url=https%3A%2F%2Fimages.clerk.dev%2Foauth_github%2Fimg_2OYTYxi9oD6jNuZT0akcgcZXTNW.jpeg&w=32&q=75",
+                }}
+                href={""}
+                type="song"
+              />
+            );
+          })
+        ) : (
+          <Loading className="h-full w-full flex-1" />
+        )}
+      </div>
     </div>
   );
 }

@@ -22,6 +22,10 @@ export const searchRouter = createTRPCRouter({
         query: input.name,
       });
 
-      return { nameFilteredSongs, nameFilteredPlaylists, nameFilteredUsers };
+      return [
+        ...nameFilteredSongs,
+        ...nameFilteredPlaylists,
+        ...nameFilteredUsers,
+      ];
     }),
 });
