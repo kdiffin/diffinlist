@@ -12,6 +12,7 @@ import {
   MdSearch,
   MdVolumeUp,
 } from "react-icons/md";
+import CustomError from "~/components/CustomError";
 import { SectionCard } from "~/components/Section";
 import Avatar from "~/components/ui/Avatar";
 import Button from "~/components/ui/Button";
@@ -60,6 +61,48 @@ function search() {
       <>
         <MdAllInclusive /> All
       </>
+    );
+  }
+
+  function LoadingOrErrorOrData() {
+    if (data && data.length > 0) {
+      return (
+        <div className=" mt-10 flex flex-1  flex-wrap justify-center gap-5 ">
+          {data.map((item) => {
+            return (
+              <SectionCard
+                addFunction={() => null}
+                data={{
+                  authorName: item.data.authorName,
+                  genre: item.data.genre,
+                  playlistName: item.data.playlistName,
+                  songName: item.data.songName ? item.data.songName : "",
+                  pictureUrl: item.data.pictureUrl,
+                }}
+                href={item.href}
+                key={item.id}
+                type={item.type}
+              />
+            );
+          })}
+        </div>
+      );
+    }
+
+    if (isLoading) {
+      return (
+        <Loading className="flex h-full w-full flex-1 items-center justify-center" />
+      );
+    }
+
+    if (isError) {
+      <CustomError href="a" backToWhere="a" pageName="a" />;
+    }
+
+    return (
+      <div className="flex flex-1 items-center justify-center text-xl font-semibold text-neutral-500">
+        No items found
+      </div>
     );
   }
 
@@ -146,27 +189,7 @@ function search() {
 
       {/* this is where the cards are displayed */}
       <div className=" mt-10 flex flex-1  flex-wrap justify-center gap-5 ">
-        {data && data.length > 0 ? (
-          data.map((item) => {
-            return (
-              <SectionCard
-                addFunction={() => null}
-                data={{
-                  authorName: item.data.authorName,
-                  genre: item.data.genre,
-                  playlistName: item.data.playlistName,
-                  songName: item.data.songName ? item.data.songName : "",
-                  pictureUrl: item.data.pictureUrl,
-                }}
-                href={item.href}
-                key={item.id}
-                type={item.type}
-              />
-            );
-          })
-        ) : (
-          <Loading className="flex h-full w-full flex-1 items-center justify-center" />
-        )}
+        <LoadingOrErrorOrData />
       </div>
     </div>
   );
