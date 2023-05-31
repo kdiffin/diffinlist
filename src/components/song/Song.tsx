@@ -34,7 +34,18 @@ function Song() {
 
   function closeSettings() {
     // removes all queries because song modal in index for example triggers 3 queries
-    console.log(router.pathname);
+
+    if (router.pathname === "/search") {
+      delete router.query.song;
+      delete router.query.playlist;
+      delete router.query.profileName;
+
+      router.replace(router, undefined, {
+        shallow: true,
+      });
+
+      return;
+    }
 
     const pathWithoutQueries = router.asPath.split("?")[0];
 
