@@ -32,6 +32,7 @@ export const searchRouter = createTRPCRouter({
         const username = user && user.username ? user.username : "";
 
         return {
+          id: user.id,
           data: {
             authorName: username,
             genre: "",
@@ -47,6 +48,7 @@ export const searchRouter = createTRPCRouter({
 
       const playlists: FilterItem[] = nameFilteredPlaylists.map((playlist) => {
         return {
+          id: playlist.id,
           data: {
             authorName: playlist.authorName,
             genre: playlist.genre,
@@ -62,6 +64,8 @@ export const searchRouter = createTRPCRouter({
 
       const songs: FilterItem[] = nameFilteredSongs.map((song) => {
         return {
+          id: song.id,
+
           data: {
             authorName: song.authorName,
             genre: song.genre,
@@ -89,6 +93,7 @@ export const searchRouter = createTRPCRouter({
 
 type FilterItem = {
   data: CardValues;
+  id: string;
   type: "playlist" | "song" | "profile";
   href: Url;
 };

@@ -147,7 +147,7 @@ function search() {
       {/* this is where the cards are displayed */}
       <div className=" mt-10 flex flex-1  flex-wrap justify-center gap-5 ">
         {data && data.length > 0 ? (
-          [...data, ...data, ...data].map((item) => {
+          data.map((item) => {
             return (
               <SectionCard
                 addFunction={() => null}
@@ -155,16 +155,17 @@ function search() {
                   authorName: item.data.authorName,
                   genre: item.data.genre,
                   playlistName: item.data.playlistName,
-                  songName: item.data.songName,
+                  songName: item.data.songName ? item.data.songName : "",
                   pictureUrl: item.data.pictureUrl,
                 }}
                 href={item.href}
+                key={item.id}
                 type={item.type}
               />
             );
           })
         ) : (
-          <Loading className="h-full w-full flex-1" />
+          <Loading className="flex h-full w-full flex-1 items-center justify-center" />
         )}
       </div>
     </div>
