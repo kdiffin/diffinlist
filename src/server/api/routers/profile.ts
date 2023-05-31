@@ -1,16 +1,9 @@
-import type { User } from "@clerk/nextjs/dist/api";
 import { clerkClient } from "@clerk/nextjs/server";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-
-function filterProfileForClient(user: User) {
-  return {
-    username: user.username ? user.username : "",
-    profileImageUrl: user.profileImageUrl,
-  };
-}
+import { filterProfileForClient } from "~/server/helpers/filterUserForClient";
 
 export type UserClient = {
   username: string;
