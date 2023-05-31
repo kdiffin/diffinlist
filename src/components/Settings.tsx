@@ -3,8 +3,8 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Avatar from "./ui/Avatar";
+
 import Button from "./ui/Button";
-import Input from "./ui/Input";
 
 function Settings() {
   const router = useRouter();
@@ -31,83 +31,31 @@ function Settings() {
     <Dialog.Root open={isOpen} onOpenChange={closeSettings}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-neutral-900/40 data-[state=open]:animate-overlayShow" />
-        <Dialog.Content className="modal">
+        <Dialog.Content className="modal !max-w-lg ">
           <Dialog.Title className="  text-2xl font-medium">
             Settings
           </Dialog.Title>
 
           <Dialog.Description className="text-mauve11 mb-5 mt-3 text-[15px] leading-normal">
-            Make changes to your profile here. Click save when you're done.
+            Only reason this is here is to sign out for now.
           </Dialog.Description>
 
-          <div className="my-8 flex items-center justify-between ">
-            <div className="flex items-center gap-5">
-              <>
-                <Avatar
-                  loading={!isLoaded}
-                  width_height={110}
-                  src={user?.profileImageUrl}
-                />
-                <p className="text-4xl">{user?.username}</p>
-              </>
+          <div className="my-8 flex items-center  justify-between ">
+            <div className="my-5 flex items-center gap-5">
+              <Avatar
+                loading={!isLoaded}
+                width_height={110}
+                src={user ? user.profileImageUrl : ""}
+              />
+              <p className="text-4xl">{user?.username}</p>
             </div>
-
-            <Button className=" px-2 py-2  text-neutral-500">Discard</Button>
-          </div>
-
-          <div>
-            <fieldset className="mb-6 flex items-center gap-5">
-              <label
-                className=" w-[90px]  text-right text-[15px]"
-                htmlFor="username"
-              >
-                Username
-              </label>
-              <Input
-                type="text"
-                value={username}
-                placeholder="Enter new username"
-                setValue={setUsername}
-              />
-            </fieldset>
-
-            <fieldset className="mb-6 flex items-center gap-5">
-              <label
-                className=" w-[90px] text-right   text-[15px]"
-                htmlFor="profile picture"
-              >
-                Picture
-              </label>
-              <Input
-                type="url"
-                value={profilePicURL}
-                placeholder="Enter profile picture URL"
-                setValue={setProfilePicURL}
-                id="profile"
-              />
-            </fieldset>
-
-            <fieldset className="mb-6 flex items-center gap-5 ">
-              <label
-                className=" w-[90px] text-right   text-[15px]"
-                htmlFor="profile picture"
-              >
-                Description
-              </label>
-
-              <textarea
-                placeholder="Enter new description"
-                id="username"
-                className="max-h-[22vh] w-full bg-zinc-700 p-3 placeholder:text-sm  placeholder:italic focus:bg-zinc-600"
-              />
-            </fieldset>
           </div>
 
           <div className="mt-10  flex items-center justify-between">
             <Button onClick={logout}>Sign out</Button>
 
             <Dialog.Close asChild>
-              <Button>Save changes</Button>
+              <Button>Cancel</Button>
             </Dialog.Close>
           </div>
 

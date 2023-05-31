@@ -1,5 +1,6 @@
 import Image, { StaticImageData } from "next/image";
 import { LoadingSpinner } from "./Loading";
+//it wouldnt let me import from public
 
 function Avatar({
   className,
@@ -9,7 +10,7 @@ function Avatar({
 }: {
   className?: string;
   width_height: number;
-  src: string | StaticImageData | undefined;
+  src: string | StaticImageData;
   loading: boolean;
 }) {
   return (
@@ -20,7 +21,7 @@ function Avatar({
           height={width_height}
           priority
           width={width_height}
-          src={src!}
+          src={src}
           className={`${className && className} rounded-full`}
         />
       ) : (

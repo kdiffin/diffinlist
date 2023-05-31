@@ -10,7 +10,13 @@ import { createTRPCRouter, publicProcedure } from "../trpc";
 
 export const searchRouter = createTRPCRouter({
   getFilteredItems: publicProcedure
-    .input(z.object({ name: z.string(), query: z.any() }))
+    .input(
+      z.object({
+        name: z.string().min(1, { message: "No items with this name found" }),
+
+        query: z.any(),
+      })
+    )
     .query(async ({ ctx, input }) => {
       const nameFilteredSongs = await ctx.prisma.song.findMany({
         where: {
@@ -25,7 +31,7 @@ export const searchRouter = createTRPCRouter({
       });
 
       const nameFilteredUsers = await clerkClient.users.getUserList({
-        query: input.name,
+        username: [input.name],
       });
 
       const users: FilterItem[] = nameFilteredUsers.map((user) => {
@@ -53,7 +59,6 @@ export const searchRouter = createTRPCRouter({
             authorName: playlist.authorName,
             genre: playlist.genre,
             pictureUrl: playlist.pictureUrl,
-            //ignore this playlistName just means its username
             playlistName: playlist.name,
           },
 
@@ -70,7 +75,6 @@ export const searchRouter = createTRPCRouter({
             authorName: song.authorName,
             genre: song.genre,
             pictureUrl: song.pictureUrl,
-            //ignore this playlistName just means its username
             playlistName: song.playlistName,
             songName: song.name,
           },

@@ -12,13 +12,13 @@ import {
   MdSearch,
   MdVolumeUp,
 } from "react-icons/md";
-import CustomError from "~/components/CustomError";
 import { SectionCard } from "~/components/Section";
 import Avatar from "~/components/ui/Avatar";
 import Button from "~/components/ui/Button";
 import Input from "~/components/ui/Input";
 import Loading from "~/components/ui/Loading";
 import { api } from "~/utils/api";
+import defaultuser from "../public/defaultuser.png";
 
 function search() {
   const router = useRouter();
@@ -28,7 +28,10 @@ function search() {
   const [inputType, setInputType] = useState<InputTypeEnum>("name");
   const [cardType, setCardType] = useState<CardDropdownEnum>("all");
   const { data, isLoading, isError } = api.search.getFilteredItems.useQuery({
-    name: router.query.name as string,
+    name:
+      router.query.name && typeof router.query.name === "string"
+        ? router.query.name
+        : ";;",
     query: router.query,
   });
 
@@ -89,14 +92,17 @@ function search() {
       );
     }
 
-    if (isLoading) {
+    // if u picked name in the filter dropdown and router.query.name is nothing, then dont even bother showing loading and show no items found
+    if (
+      isLoading &&
+      !(
+        inputType === "name" &&
+        (router.query.name === "" || router.query.name === undefined)
+      )
+    ) {
       return (
         <Loading className="flex h-full w-full flex-1 items-center justify-center" />
       );
-    }
-
-    if (isError) {
-      <CustomError href="a" backToWhere="a" pageName="a" />;
     }
 
     return (
@@ -139,7 +145,7 @@ function search() {
           <div className="flex items-center gap-3">
             <Avatar
               loading={!isLoaded}
-              src={user?.profileImageUrl}
+              src={user ? user.profileImageUrl : defaultuser}
               width_height={30}
             />
             <h1 className="mb-1 text-left text-3xl">Search</h1>
