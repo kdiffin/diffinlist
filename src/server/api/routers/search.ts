@@ -12,7 +12,14 @@ export const searchRouter = createTRPCRouter({
   getFilteredItems: publicProcedure
     .input(
       z.object({
-        name: z.string().min(1, { message: "No items with this name found" }),
+        name: z
+          .string()
+          .min(1, { message: "No items with this name found" })
+          .optional(),
+        authorName: z
+          .string()
+          .min(1, { message: "No items with this name found" })
+          .optional(),
         inputType: z.enum(["authorname", "name"]),
         cardType: z.enum(["all", "songs", "playlists", "users"]),
         orderBy: z.enum(["desc", "asc"]),
@@ -23,11 +30,18 @@ export const searchRouter = createTRPCRouter({
       const clerkOrderBy =
         input.orderBy === "desc" ? "-created_at" : "+created_at";
 
+      if (!input.name && !input.authorName) {
+        return;
+      }
+
       // I did all of these returns with reused code because If I didnt then the server would have to process all the other requests too before returning, in the end making the if statements pointless.
       if (input.cardType === "songs") {
         const nameFilteredSongs = await ctx.prisma.song.findMany({
           where: {
-            name: { contains: input.name },
+            AND: [
+              { name: { contains: input.name } },
+              { authorName: { contains: input.authorName } },
+            ],
           },
           orderBy: [{ createdAt: input.orderBy }],
         });
@@ -62,7 +76,10 @@ export const searchRouter = createTRPCRouter({
       if (input.cardType === "playlists") {
         const nameFilteredPlaylists = await ctx.prisma.playlist.findMany({
           where: {
-            name: { contains: input.name },
+            AND: [
+              { name: { contains: input.name } },
+              { authorName: { contains: input.authorName } },
+            ],
           },
           orderBy: [{ createdAt: input.orderBy }],
         });
@@ -116,20 +133,26 @@ export const searchRouter = createTRPCRouter({
 
       const nameFilteredSongs = await ctx.prisma.song.findMany({
         where: {
-          name: { contains: input.name },
+          AND: [
+            { name: { contains: input.name } },
+            { authorName: { contains: input.authorName } },
+          ],
         },
         orderBy: [{ createdAt: input.orderBy }],
       });
 
       const nameFilteredPlaylists = await ctx.prisma.playlist.findMany({
         where: {
-          name: { contains: input.name },
+          AND: [
+            { name: { contains: input.name } },
+            { authorName: { contains: input.authorName } },
+          ],
         },
         orderBy: [{ createdAt: input.orderBy }],
       });
 
       const nameFilteredUsers = await clerkClient.users.getUserList({
-        query: input.name,
+        query: input.name ? input.name : input.authorName,
         orderBy: clerkOrderBy,
       });
 

@@ -34,8 +34,12 @@ function search() {
       router.query.name && typeof router.query.name === "string"
         ? router.query.name
         : //something that nobody will ever contain in there playlist
-          ";;afbn2b3mb42b3m256vvn6bm,dcgyp8934gbdc vnccxbgdfgjhgherjtgbmdg",
+          undefined,
 
+    authorName:
+      router.query.authorName && typeof router.query.authorName === "string"
+        ? router.query.authorName
+        : undefined,
     //i need to pass in the whole query for the song  to open  correctly
     query: router.query,
     inputType,
