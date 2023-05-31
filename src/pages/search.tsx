@@ -27,12 +27,20 @@ function search() {
   const [openCardsDropdown, setOpenCardsDropdown] = useState(false);
   const [inputType, setInputType] = useState<InputTypeEnum>("name");
   const [cardType, setCardType] = useState<CardDropdownEnum>("all");
+
+  const orderBy = router.query.sortBy === "oldest" ? "asc" : "desc";
   const { data, isLoading, isError } = api.search.getFilteredItems.useQuery({
     name:
       router.query.name && typeof router.query.name === "string"
         ? router.query.name
-        : ";;",
+        : //something that nobody will ever contain in there playlist
+          ";;afbn2b3mb42b3m256vvn6bm,dcgyp8934gbdc vnccxbgdfgjhgherjtgbmdg",
+
+    //i need to pass in the whole query for the song  to open  correctly
     query: router.query,
+    inputType,
+    cardType,
+    orderBy: orderBy,
   });
 
   function CardDropdownButton() {
@@ -335,5 +343,6 @@ const DropdownCards = ({
 
 type CardDropdownEnum = "all" | "songs" | "playlists" | "users";
 type InputTypeEnum = "name" | "authorname";
+type OrderByEnum = "desc" | "asc";
 
 export default search;

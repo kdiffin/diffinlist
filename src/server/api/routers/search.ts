@@ -13,25 +13,67 @@ export const searchRouter = createTRPCRouter({
     .input(
       z.object({
         name: z.string().min(1, { message: "No items with this name found" }),
-
+        inputType: z.enum(["authorname", "name"]),
+        cardType: z.enum(["all", "songs", "playlists", "users"]),
+        orderBy: z.enum(["desc", "asc"]),
         query: z.any(),
       })
     )
     .query(async ({ ctx, input }) => {
+      if (input.cardType === "songs") {
+        const nameFilteredSongs = await ctx.prisma.song.findMany({
+          where: {
+            name: { contains: input.name },
+          },
+          orderBy: [{ createdAt: input.orderBy }],
+        });
+
+        const songs: FilterItem[] = nameFilteredSongs.map((song) => {
+          return {
+            id: song.id,
+
+            data: {
+              authorName: song.authorName,
+              genre: song.genre,
+              pictureUrl: song.pictureUrl,
+              playlistName: song.playlistName,
+              songName: song.name,
+            },
+
+            href: {
+              query: {
+                ...input.query,
+                song: song.name,
+                playlist: song.playlistName,
+                profileName: song.authorName,
+              },
+            },
+            type: "song",
+          };
+        });
+
+        return songs;
+      }
+
       const nameFilteredSongs = await ctx.prisma.song.findMany({
         where: {
           name: { contains: input.name },
         },
+        orderBy: [{ createdAt: input.orderBy }],
       });
 
       const nameFilteredPlaylists = await ctx.prisma.playlist.findMany({
         where: {
           name: { contains: input.name },
         },
+        orderBy: [{ createdAt: input.orderBy }],
       });
 
+      const clerkOrderBy =
+        input.orderBy === "desc" ? "-created_at" : "+created_at";
       const nameFilteredUsers = await clerkClient.users.getUserList({
-        username: [input.name],
+        query: input.name,
+        orderBy: clerkOrderBy,
       });
 
       const users: FilterItem[] = nameFilteredUsers.map((user) => {
