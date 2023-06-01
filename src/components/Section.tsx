@@ -168,7 +168,7 @@ function SectionCardNoMemo({
           >
             <abbr
               title={title}
-              className="flex flex-col items-center  gap-3 pt-1"
+              className="flex flex-col items-center gap-3  pt-1 no-underline"
             >
               <ImageChecker />
 
