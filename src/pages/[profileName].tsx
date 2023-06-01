@@ -26,6 +26,7 @@ function Profile({ profileName }: { profileName: string }) {
 
   const { data: songs, isLoading: songsLoading } = api.song.getSongs.useQuery({
     profileName: profileName,
+    takeLimit: 8,
   });
 
   const { addPlaylist, addSong } = useAdd();

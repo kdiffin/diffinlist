@@ -1,8 +1,8 @@
-import { nullable, z } from "zod";
-import { createTRPCRouter, publicProcedure, withAuthProcedure } from "../trpc";
-import { isImage } from "~/server/helpers/ImageChecker";
 import { TRPCError } from "@trpc/server";
+import { z } from "zod";
+import { isImage } from "~/server/helpers/ImageChecker";
 import { songValidate } from "~/server/helpers/zodTypes";
+import { createTRPCRouter, publicProcedure, withAuthProcedure } from "../trpc";
 
 export const songRouter = createTRPCRouter({
   /* QUERIES */
@@ -36,6 +36,7 @@ export const songRouter = createTRPCRouter({
       z.object({
         profileName: z.string(),
         playlistName: z.string().optional(),
+        takeLimit: z.number(),
       })
     )
     .query(async ({ ctx, input }) => {
@@ -45,13 +46,16 @@ export const songRouter = createTRPCRouter({
           playlistName: input.playlistName,
         },
         orderBy: [{ createdAt: "desc" }],
+        take: input.takeLimit,
       });
 
       return songs;
     }),
 
   getAllSongs: publicProcedure.query(async ({ ctx }) => {
-    const songs = await ctx.prisma.song.findMany();
+    const songs = await ctx.prisma.song.findMany({
+      take: 8,
+    });
 
     return songs;
   }),

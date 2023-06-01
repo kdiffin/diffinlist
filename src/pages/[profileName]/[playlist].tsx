@@ -37,6 +37,8 @@ function Profile({
   const { data, isLoading: songsLoading } = api.song.getSongs.useQuery({
     profileName: profileName,
     playlistName: playlistName,
+    //this page shows all the songs anyways
+    takeLimit: 100000000000000,
   });
 
   const { addSong } = useAdd();

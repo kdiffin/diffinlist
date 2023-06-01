@@ -32,7 +32,9 @@ export const profileRouter = createTRPCRouter({
     }),
 
   getAllUsers: publicProcedure.query(async () => {
-    const unfilteredUsers = await clerkClient.users.getUserList();
+    const unfilteredUsers = await clerkClient.users.getUserList({
+      limit: 8,
+    });
     const users = unfilteredUsers.map((user) => filterProfileForClient(user));
 
     return users;
