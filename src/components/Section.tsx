@@ -22,7 +22,7 @@ export function Section({
 }: {
   title: ReactNode;
   loading: boolean;
-  showMoreHref?: string;
+  showMoreHref: Url;
   hideShowMore?: boolean;
   children: ReactNode;
 }) {
@@ -168,7 +168,7 @@ function SectionCardNoMemo({
           >
             <abbr
               title={title}
-              className="flex flex-col items-center gap-3  pt-1 no-underline"
+              className="flex flex-col items-center gap-3  pt-1 "
             >
               <ImageChecker />
 

@@ -20,33 +20,37 @@ import Loading from "~/components/ui/Loading";
 import { api } from "~/utils/api";
 import defaultuser from "../public/defaultuser.png";
 
+// I couldve probably done it so that it fetches all the playlists for example when u click on playlists and then it does the filtering client side
+// reduce percieved lag  and make less requests, but I did it with the server method to learn how to filter in the server.
+// this decision was purely for my educational purposes.
 function search() {
   const router = useRouter();
   const { user, isLoaded } = useUser();
   const [open, setOpen] = useState(false);
   const [openCardsDropdown, setOpenCardsDropdown] = useState(false);
   const [inputType, setInputType] = useState<InputTypeEnum>("name");
-  const [cardType, setCardType] = useState<CardDropdownEnum>("all");
 
   const orderBy = router.query.sortBy === "oldest" ? "asc" : "desc";
-  const { data, isLoading, isError } = api.search.getFilteredItems.useQuery({
-    name:
-      router.query.name && typeof router.query.name === "string"
-        ? router.query.name
-        : //something that nobody will ever contain in there playlist
-          undefined,
+  function validQuery(query: string | string[] | undefined) {
+    if (query && typeof query === "string") {
+      return query;
+    }
 
-    authorName:
-      router.query.authorName && typeof router.query.authorName === "string"
-        ? router.query.authorName
-        : undefined,
+    return undefined;
+  }
+
+  const { data, isLoading, isError } = api.search.getFilteredItems.useQuery({
+    name: validQuery(router.query.name),
+    authorName: validQuery(router.query.authorName),
+
     //i need to pass in the whole query for the song  to open  correctly
     query: router.query,
     inputType,
-    cardType,
+    cardType: validQuery(router.query.results),
     orderBy: orderBy,
   });
 
+  const cardType = router.query.results || "all";
   function CardDropdownButton() {
     if (cardType === "playlists") {
       return (
@@ -105,10 +109,13 @@ function search() {
     }
 
     // if u picked name in the filter dropdown and router.query.name is nothing, then dont even bother showing loading and show no items found
+    const whichCard = validQuery(router.query.results);
+    const renderLoading = whichCard === "all" || whichCard === undefined;
     if (
       isLoading &&
       !(
         inputType === "name" &&
+        renderLoading &&
         (router.query.name === "" || router.query.name === undefined)
       )
     ) {
@@ -187,7 +194,7 @@ function search() {
               </Button>
             </DropdownMenu.Trigger>
 
-            <DropdownCards setValue={setCardType} />
+            <DropdownCards />
           </DropdownMenu.Root>
 
           <DropdownMenu.Root onOpenChange={() => setOpen(!open)} open={open}>
@@ -294,11 +301,7 @@ const Dropdown = ({
   );
 };
 
-const DropdownCards = ({
-  setValue,
-}: {
-  setValue: Dispatch<React.SetStateAction<CardDropdownEnum>>;
-}) => {
+const DropdownCards = ({}: {}) => {
   const router = useRouter();
 
   function changeQueryParams(value: CardDropdownEnum) {
@@ -306,8 +309,6 @@ const DropdownCards = ({
       pathname: router.route,
       query: { ...router.query, results: value },
     };
-
-    setValue(value);
 
     router.replace(url, undefined, { shallow: true });
   }

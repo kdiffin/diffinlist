@@ -70,7 +70,16 @@ const Home: NextPage = () => {
       <div className="flex flex-col  gap-12 p-10 py-10">
         {/* playlists should get filtered when clicked on view more */}
         {/* the reason i didnt reuse the .map function is because I lose typesafety. as different APIS return different objects */}
-        <Section loading={playlistsLoading} title="Playlists">
+        <Section
+          showMoreHref={{
+            pathname: "/search",
+            query: {
+              results: "a",
+            },
+          }}
+          loading={playlistsLoading}
+          title="Playlists"
+        >
           {playlists && playlists.length > 0 ? (
             playlists.map((playlist) => {
               return (

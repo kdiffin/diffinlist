@@ -21,7 +21,7 @@ export const searchRouter = createTRPCRouter({
           .min(1, { message: "No items with this name found" })
           .optional(),
         inputType: z.enum(["authorname", "name"]),
-        cardType: z.enum(["all", "songs", "playlists", "users"]),
+        cardType: z.string().optional(),
         orderBy: z.enum(["desc", "asc"]),
         query: z.any(),
       })
@@ -30,7 +30,7 @@ export const searchRouter = createTRPCRouter({
       const clerkOrderBy =
         input.orderBy === "desc" ? "-created_at" : "+created_at";
 
-      if (!input.name && !input.authorName) {
+      if (!input.name && !input.authorName && input.cardType === "all") {
         return;
       }
 

@@ -34,6 +34,10 @@ a:active {
       data-[side=right]:animate-slideLeftAndFade data-[side=top]:animate-slideDownAndFade;
   }
 
+  abbr {
+    @apply no-underline;
+  }
+
   .dropdown-item {
     @apply relative flex h-10 max-w-[220px] select-none    items-center gap-2  rounded-sm px-4  text-sm 
  leading-none outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-zinc-700  data-[disabled]:text-zinc-500;
