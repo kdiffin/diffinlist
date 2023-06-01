@@ -166,7 +166,10 @@ function SectionCardNoMemo({
              card neutral-lowkey-bg group  relative  flex flex-col items-center gap-2 p-4
           focus-within:bg-neutral-700/50 hover:bg-neutral-700/50 focus-visible:bg-neutral-700/50`}
           >
-            <div className="flex flex-col items-center  gap-3 pt-1">
+            <abbr
+              title={title}
+              className="flex flex-col items-center  gap-3 pt-1"
+            >
               <ImageChecker />
 
               <DropdownMenu.Trigger asChild>
@@ -178,7 +181,7 @@ function SectionCardNoMemo({
                   <MdMoreHoriz size={26} />
                 </button>
               </DropdownMenu.Trigger>
-            </div>
+            </abbr>
           </Link>
 
           <Dropdown
