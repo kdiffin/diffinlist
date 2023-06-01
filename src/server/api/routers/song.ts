@@ -55,6 +55,7 @@ export const songRouter = createTRPCRouter({
   getAllSongs: publicProcedure.query(async ({ ctx }) => {
     const songs = await ctx.prisma.song.findMany({
       take: 8,
+      orderBy: [{ createdAt: "desc" }],
     });
 
     return songs;
