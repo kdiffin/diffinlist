@@ -109,6 +109,7 @@ function Profile({
         {/* this is the body */}
         <div className="flex flex-col  gap-12 p-10 py-10">
           <Section
+            showMoreHref={undefined}
             hideShowMore={true}
             loading={songsLoading}
             title={

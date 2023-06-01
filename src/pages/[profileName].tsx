@@ -17,6 +17,7 @@ function Profile({ profileName }: { profileName: string }) {
   const { data: userData } = api.profile.getProfileByProfileName.useQuery({
     profileName: profileName,
   });
+  const username = userData ? userData.username : "";
 
   const { data: playlists, isLoading: playlistsLoading } =
     api.playlist.getPlaylists.useQuery({
@@ -61,7 +62,17 @@ function Profile({ profileName }: { profileName: string }) {
         <div className="flex flex-col  gap-12 p-10 py-10">
           {/* playlists should get filtered when clicked on view more */}
           {/* the reason i didnt reuse the .map function is because I lose typesafety. as different APIS return different objects */}
-          <Section loading={playlistsLoading} title="Playlists">
+          <Section
+            showMoreHref={{
+              pathname: "/search",
+              query: {
+                results: "playlists",
+                authorName: username,
+              },
+            }}
+            loading={playlistsLoading}
+            title="Playlists"
+          >
             {playlists && playlists.length > 0 ? (
               playlists.map((playlist) => {
                 return (
@@ -94,7 +105,17 @@ function Profile({ profileName }: { profileName: string }) {
 
           <Divider />
 
-          <Section loading={songsLoading} title="Songs">
+          <Section
+            loading={songsLoading}
+            showMoreHref={{
+              pathname: "/search",
+              query: {
+                results: "songs",
+                authorName: username,
+              },
+            }}
+            title="Songs"
+          >
             {songs && songs.length > 0 ? (
               songs.map((song) => {
                 return (

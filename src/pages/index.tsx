@@ -74,7 +74,7 @@ const Home: NextPage = () => {
           showMoreHref={{
             pathname: "/search",
             query: {
-              results: "a",
+              results: "playlists",
             },
           }}
           loading={playlistsLoading}
@@ -112,7 +112,16 @@ const Home: NextPage = () => {
 
         <Divider />
 
-        <Section loading={songsLoading} title="Songs">
+        <Section
+          showMoreHref={{
+            pathname: "/search",
+            query: {
+              results: "songs",
+            },
+          }}
+          loading={songsLoading}
+          title="Songs"
+        >
           {songs && songs.length > 0 ? (
             songs.map((song) => {
               return (
@@ -159,7 +168,16 @@ const Home: NextPage = () => {
 
         <Divider />
 
-        <Section loading={usersLoading} title="Users">
+        <Section
+          loading={usersLoading}
+          showMoreHref={{
+            pathname: "/search",
+            query: {
+              results: "users",
+            },
+          }}
+          title="Users"
+        >
           {users && users.length > 0 ? (
             users.map((user) => {
               return (

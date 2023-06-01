@@ -30,7 +30,11 @@ export const searchRouter = createTRPCRouter({
       const clerkOrderBy =
         input.orderBy === "desc" ? "-created_at" : "+created_at";
 
-      if (!input.name && !input.authorName && input.cardType === "all") {
+      if (
+        !input.name &&
+        !input.authorName &&
+        (input.cardType === "all" || !input.cardType)
+      ) {
         return;
       }
 

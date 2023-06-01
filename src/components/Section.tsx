@@ -22,7 +22,7 @@ export function Section({
 }: {
   title: ReactNode;
   loading: boolean;
-  showMoreHref: Url;
+  showMoreHref: Url | undefined;
   hideShowMore?: boolean;
   children: ReactNode;
 }) {
