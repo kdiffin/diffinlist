@@ -1,6 +1,3 @@
-import { withAuth, type User } from "@clerk/nextjs/dist/api";
-import { clerkClient } from "@clerk/nextjs/server";
-import { Prisma } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
@@ -14,6 +11,9 @@ import { playlistValidate } from "~/server/helpers/zodTypes";
 
 export const playlistRouter = createTRPCRouter({
   /* QUERIES */
+
+  //the distinct is because u can add other ppls playlist to ur own, or copy a song from one playlist to another
+  // this creates duplicate playlists just witha different playlistname/authorname which ruins the ui.
   getPlaylists: publicProcedure
     .input(z.object({ profileName: z.string(), takeLimit: z.number() }))
     .query(async ({ input, ctx }) => {
@@ -23,10 +23,21 @@ export const playlistRouter = createTRPCRouter({
         },
         orderBy: [{ createdAt: "desc" }],
         take: input.takeLimit,
+        distinct: ["name", "genre", "pictureUrl"],
       });
 
       return playlists;
     }),
+
+  getAllPlaylists: publicProcedure.query(async ({ ctx }) => {
+    const playlists = await ctx.prisma.playlist.findMany({
+      orderBy: [{ createdAt: "desc" }],
+      take: 8,
+      distinct: ["name", "genre", "pictureUrl"],
+    });
+
+    return playlists;
+  }),
 
   getPlaylist: publicProcedure
     .input(z.object({ profileName: z.string(), playlistName: z.string() }))
@@ -42,15 +53,6 @@ export const playlistRouter = createTRPCRouter({
 
       return playlist;
     }),
-
-  getAllPlaylists: publicProcedure.query(async ({ ctx }) => {
-    const playlists = await ctx.prisma.playlist.findMany({
-      orderBy: [{ createdAt: "desc" }],
-      take: 8,
-    });
-
-    return playlists;
-  }),
 
   /* MUTATIONS */
   //withAuthProcedure gives the context the username and user info of the logged in user

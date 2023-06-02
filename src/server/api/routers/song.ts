@@ -31,6 +31,8 @@ export const songRouter = createTRPCRouter({
 
   //when fetching for [playlist] it gets it with playlistname and profilename
   //when fetching for [profileName] it gets it with profilename
+  //the distinct is because u can add other ppls playlist to ur own, or copy a song from one playlist to another
+  // this creates duplicate playlists just witha different playlistname/authorname which ruins the ui.
   getSongs: publicProcedure
     .input(
       z.object({
@@ -47,6 +49,14 @@ export const songRouter = createTRPCRouter({
         },
         orderBy: [{ createdAt: "desc" }],
         take: input.takeLimit,
+        distinct: [
+          "name",
+          "genre",
+          "pictureUrl",
+          "description",
+          "album",
+          "artist",
+        ],
       });
 
       return songs;
@@ -56,6 +66,14 @@ export const songRouter = createTRPCRouter({
     const songs = await ctx.prisma.song.findMany({
       take: 8,
       orderBy: [{ createdAt: "desc" }],
+      distinct: [
+        "name",
+        "genre",
+        "pictureUrl",
+        "description",
+        "album",
+        "artist",
+      ],
     });
 
     return songs;
