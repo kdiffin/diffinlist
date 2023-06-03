@@ -66,8 +66,6 @@ export const searchRouter = createTRPCRouter({
               query: {
                 ...input.query,
                 song: song.id,
-                playlist: song.playlistName,
-                profileName: song.authorName,
               },
             },
             type: "song",

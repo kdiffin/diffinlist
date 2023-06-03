@@ -10,7 +10,6 @@ import { Section, SectionCard } from "~/components/Section";
 import CreateSong from "~/components/song/CreateSong";
 import Input from "~/components/ui/Input";
 import { ImageSkeleton } from "~/components/ui/Skeletons";
-import useAdd from "~/hooks/useAdd";
 import { ssgHelper } from "~/server/helpers/generateSSGHelper";
 import { api } from "~/utils/api";
 
@@ -39,7 +38,6 @@ function Profile({
       playlistName: playlistName,
       profileName: profileName,
     });
-  const { addSong } = useAdd();
 
   if (!playlist) throw new Error("couldnt find playlist");
 
