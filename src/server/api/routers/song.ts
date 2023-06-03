@@ -10,19 +10,13 @@ export const songRouter = createTRPCRouter({
   getSong: publicProcedure
     .input(
       z.object({
-        profileName: z.string(),
-        playlistName: z.string(),
-        songName: z.string(),
+        songId: z.string().min(1),
       })
     )
     .query(async ({ ctx, input }) => {
       const song = await ctx.prisma.song.findUnique({
         where: {
-          name_authorName_playlistName: {
-            authorName: input.profileName,
-            name: input.songName,
-            playlistName: input.playlistName,
-          },
+          id: input.songId,
         },
       });
 
@@ -102,7 +96,7 @@ export const songRouter = createTRPCRouter({
   addSongToPlaylist: withAuthProcedure
     .input(
       z.object({
-        currentSongName: z.string().min(1),
+        currentSongId: z.string().min(1),
         currentPlaylistName: z.string().min(1),
         newPlaylistName: z.string().min(1),
       })
@@ -110,11 +104,7 @@ export const songRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       await ctx.prisma.song.update({
         where: {
-          name_authorName_playlistName: {
-            name: input.currentSongName,
-            authorName: ctx.username,
-            playlistName: input.currentPlaylistName,
-          },
+          id: input.currentSongId,
         },
 
         data: {
@@ -133,18 +123,13 @@ export const songRouter = createTRPCRouter({
   deleteSong: withAuthProcedure
     .input(
       z.object({
-        name: z.string().min(1),
-        playlistName: z.string().min(1),
+        currentSongId: z.string().min(1),
       })
     )
     .mutation(async ({ ctx, input }) => {
       await ctx.prisma.song.delete({
         where: {
-          name_authorName_playlistName: {
-            authorName: ctx.username,
-            name: input.name,
-            playlistName: input.playlistName,
-          },
+          id: input.currentSongId,
         },
       });
     }),
@@ -159,8 +144,7 @@ export const songRouter = createTRPCRouter({
             playlistName: true,
           })
           .partial(),
-        currentSongName: z.string().min(1),
-        currentPlaylistName: z.string().min(1),
+        currentSongId: z.string().min(1),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -177,11 +161,7 @@ export const songRouter = createTRPCRouter({
 
       await ctx.prisma.song.update({
         where: {
-          name_authorName_playlistName: {
-            name: input.currentSongName,
-            authorName: ctx.username,
-            playlistName: input.currentPlaylistName,
-          },
+          id: input.currentSongId,
         },
 
         data: {
