@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { validQuery } from "~/server/helpers/validateQuery";
 import { api } from "~/utils/api";
+import CustomError from "../CustomError";
 import Divider from "../ui/Divider";
 import { ImageSkeleton, SquareSkeleton } from "../ui/Skeletons";
 
@@ -137,12 +138,14 @@ function Song() {
   );
 
   const ErrorPage = (
-    // <CustomError
-    //   href={`${router.query.profileName}/${router.query.playlist}`}
-    //   pageName="song"
-    //   backToWhere="playlist"
-    // />
-    <></>
+    <CustomError
+      href={{
+        pathname: router.pathname,
+        query: {},
+      }}
+      pageName="song"
+      backToWhere="page"
+    />
   );
 
   return (

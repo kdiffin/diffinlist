@@ -1,3 +1,4 @@
+import { Url } from "next/dist/shared/lib/router/router";
 import Link from "next/link";
 import Button from "./ui/Button";
 
@@ -6,7 +7,7 @@ function CustomError({
   pageName,
   backToWhere,
 }: {
-  href: string;
+  href: Url;
   pageName: string;
   backToWhere: string;
 }) {
