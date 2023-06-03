@@ -34,12 +34,11 @@ function Profile({
     profileName: profileName,
   });
 
-  const { data, isLoading: songsLoading } = api.song.getSongs.useQuery({
-    profileName: profileName,
-    playlistName: playlistName,
-    //this page shows all the songs anyways
-    takeLimit: 100000000000000,
-  });
+  const { data, isLoading: songsLoading } =
+    api.playlist.getPlaylistWithSongs.useQuery({
+      playlistName: playlistName,
+      profileName: profileName,
+    });
 
   const { addSong } = useAdd();
   if (!playlist) throw new Error("couldnt find playlist");

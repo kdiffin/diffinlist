@@ -40,7 +40,12 @@ export const playlistRouter = createTRPCRouter({
   }),
 
   getPlaylist: publicProcedure
-    .input(z.object({ profileName: z.string(), playlistName: z.string() }))
+    .input(
+      z.object({
+        profileName: z.string(),
+        playlistName: z.string(),
+      })
+    )
     .query(async ({ input, ctx }) => {
       const playlist = await ctx.prisma.playlist.findUnique({
         where: {
@@ -52,6 +57,32 @@ export const playlistRouter = createTRPCRouter({
       });
 
       return playlist;
+    }),
+
+  getPlaylistWithSongs: publicProcedure
+    .input(
+      z.object({
+        profileName: z.string(),
+        playlistName: z.string(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      const playlist = await ctx.prisma.playlist.findUnique({
+        where: {
+          name_authorName: {
+            authorName: input.profileName,
+            name: input.playlistName,
+          },
+        },
+
+        include: {
+          songs: true,
+        },
+      });
+
+      const songs = playlist?.songs;
+
+      return songs;
     }),
 
   /* MUTATIONS */
