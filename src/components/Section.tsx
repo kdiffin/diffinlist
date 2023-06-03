@@ -2,6 +2,7 @@ import * as ContextMenu from "@radix-ui/react-context-menu";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { Url } from "next/dist/shared/lib/router/router";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { ReactNode, memo } from "react";
 import { MdAdd, MdDelete, MdEdit, MdLink, MdMoreHoriz } from "react-icons/md";
 import useAdd from "~/hooks/useAdd";
@@ -63,16 +64,81 @@ export function Section({
 // the parent becoming the norm here, this will aid me with typesafety and not make the child components
 // bloated with a bunch of tsignores and conditionals.
 function SectionCardNoMemo({
-  href,
   data,
   type,
 }: {
   data: CardValues;
   type: "playlist" | "song" | "profile";
-  href: Url;
 }) {
   const title = data.songName ? data.songName : data.playlistName;
   const shallow = type === "song" ? true : false;
+  const router = useRouter();
+
+  const { playlistDelete, songDelete } = useDelete();
+  function deleteFunction() {
+    if (type === "playlist") {
+      playlistDelete({
+        playlistName: data.playlistName,
+      });
+
+      return;
+    }
+
+    //if the type isnt playlist the songId exists guaranteed anyways
+    songDelete({
+      currentSongId: data.songId!,
+    });
+  }
+
+  const { addSong, addPlaylist } = useAdd();
+  function addFunction(playlistName: string) {
+    if (type === "playlist") {
+      addPlaylist({
+        name: data.playlistName,
+        genre: data.genre,
+        picture: data.pictureUrl,
+      });
+
+      return;
+    }
+
+    //if the type isnt playlist the songId exists guaranteed anyways
+    addSong({
+      currentSongId: data.songId!,
+      newPlaylistName: playlistName,
+    });
+  }
+
+  function openDropdown(e: any) {
+    // stops the parent card from redirecting
+    e.stopPropagation();
+    e.preventDefault();
+  }
+
+  function constructHref() {
+    if (type === "song") {
+      return {
+        pathname: router.route,
+        query: { ...router.query, song: data.songId },
+      };
+    }
+
+    if (type === "playlist") {
+      const playlistName = encodeURIComponent(data.playlistName);
+      return `/${data.authorName}/${playlistName}`;
+    }
+
+    return `/${data.playlistName}`;
+  }
+  const href = constructHref();
+
+  //check my previous commits i tried doing it with linkref.href but it didnt work bc of hydration errors
+  const unEncodedHref =
+    typeof href === "object" && typeof href.query === "object"
+      ? `https://diffinlist.vercel.app/?song=${href?.query!.song!} `
+      : `https://diffinlist.vercel.app${href}`;
+
+  const linkHref = encodeURI(unEncodedHref);
 
   function ImageChecker() {
     if (!data.pictureUrl) {
@@ -114,42 +180,6 @@ function SectionCardNoMemo({
     );
   }
 
-  const { playlistDelete, songDelete } = useDelete();
-  function deleteFunction() {
-    if (type === "playlist") {
-      playlistDelete({
-        playlistName: data.playlistName,
-      });
-
-      return;
-    }
-
-    //if the type isnt playlist the songId exists guaranteed anyways
-    songDelete({
-      currentSongId: data.songId!,
-    });
-  }
-
-  const { addSong, addPlaylist } = useAdd();
-
-  function addFunction(playlistName: string) {
-    if (type === "playlist") {
-      addPlaylist({
-        name: data.playlistName,
-        genre: data.genre,
-        picture: data.pictureUrl,
-      });
-
-      return;
-    }
-
-    //if the type isnt playlist the songId exists guaranteed anyways
-    addSong({
-      currentSongId: data.songId!,
-      newPlaylistName: playlistName,
-    });
-  }
-
   const defaultValues = {
     genre: data.genre,
     pictureUrl: data.pictureUrl,
@@ -157,20 +187,6 @@ function SectionCardNoMemo({
     songId: data.songId ? data.songId : "",
     songName: data.songName ? data.songName : "",
   };
-
-  function openDropdown(e: any) {
-    // stops the parent card from redirecting
-    e.stopPropagation();
-    e.preventDefault();
-  }
-
-  //check my previous commits i tried doing it with linkref.href but it didnt work bc of hydration errors
-  const unEncodedHref =
-    typeof href === "object" && typeof href.query === "object"
-      ? `https://diffinlist.vercel.app/?song=${href?.query!.song!} `
-      : `https://diffinlist.vercel.app${href}`;
-
-  const linkHref = encodeURI(unEncodedHref);
 
   return (
     <DropdownMenu.Root>

@@ -76,10 +76,11 @@ function Profile({ profileName }: { profileName: string }) {
           >
             {playlists && playlists.length > 0 ? (
               playlists.map((playlist) => {
+                const playlistName = encodeURIComponent(playlist.name);
+
                 return (
                   <SectionCard
                     type="playlist"
-                    href={`/${playlist.authorName}/${playlist.name}`}
                     data={{
                       pictureUrl: playlist.pictureUrl,
                       authorName: playlist.authorName,
@@ -121,13 +122,6 @@ function Profile({ profileName }: { profileName: string }) {
                       genre: song.genre,
                       playlistName: song.playlistName,
                       songName: song.name,
-                    }}
-                    href={{
-                      pathname: router.route,
-                      query: {
-                        ...router.query,
-                        song: song.id,
-                      },
                     }}
                     type="song"
                     key={song.id}

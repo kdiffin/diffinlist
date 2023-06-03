@@ -136,9 +136,6 @@ function Profile({
                           playlistName: song.playlistName,
                           songName: song.name,
                         }}
-                        href={{
-                          query: { ...router.query, song: song.id },
-                        }}
                         type="song"
                         key={song.id}
                       />

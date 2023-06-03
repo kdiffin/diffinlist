@@ -85,7 +85,6 @@ const Home: NextPage = () => {
               return (
                 <SectionCard
                   type="playlist"
-                  href={`/${playlist.authorName}/${playlist.name}`}
                   data={{
                     pictureUrl: playlist.pictureUrl,
                     authorName: playlist.authorName,
@@ -127,13 +126,6 @@ const Home: NextPage = () => {
                     playlistName: song.playlistName,
                     songName: song.name,
                   }}
-                  href={{
-                    pathname: router.route,
-                    query: {
-                      ...router.query,
-                      song: song.id,
-                    },
-                  }}
                   type="song"
                   key={song.id}
                 />
@@ -163,17 +155,15 @@ const Home: NextPage = () => {
               return (
                 <SectionCard
                   type="profile"
-                  href={`/${user.username}`}
                   key={user.username}
                   //none of these below matter because the user doesnt have a dropdown like the others do
                   data={{
                     pictureUrl: user.profileImageUrl,
                     authorName: "",
                     genre: "",
-                    playlistName: "",
 
                     // this is basically the title of the  card
-                    songName: user.username,
+                    playlistName: user.username,
                   }}
                 />
               );

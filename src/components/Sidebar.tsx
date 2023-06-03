@@ -326,10 +326,12 @@ function PlaylistsCollapsible({
         {!isLoading ? (
           playlists && playlists.length > 0 ? (
             playlists.map((playlist) => {
+              const playlistName = encodeURIComponent(playlist.name);
+
               return (
                 <PlaylistItem
                   name={playlist.name}
-                  href={`/${playlist.authorName}/${playlist.name}`}
+                  href={`/${playlist.authorName}/${playlistName}`}
                   pictureSrc={playlist.pictureUrl}
                   key={playlist.id}
                 />
