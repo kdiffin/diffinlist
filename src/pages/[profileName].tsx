@@ -86,13 +86,6 @@ function Profile({ profileName }: { profileName: string }) {
                       genre: playlist.genre,
                       playlistName: playlist.name,
                     }}
-                    addFunction={() => {
-                      addPlaylist({
-                        genre: playlist.genre,
-                        name: playlist.name,
-                        picture: playlist.pictureUrl,
-                      });
-                    }}
                     key={playlist.id}
                   />
                 );
@@ -121,15 +114,9 @@ function Profile({ profileName }: { profileName: string }) {
               songs.map((song) => {
                 return (
                   <SectionCard
-                    addFunction={(playlistName: string) =>
-                      addSong({
-                        currentPlaylistName: song.playlistName,
-                        currentSongName: song.name,
-                        newPlaylistName: playlistName,
-                      })
-                    }
                     data={{
                       pictureUrl: song.pictureUrl,
+                      songId: song.id,
                       authorName: song.authorName,
                       genre: song.genre,
                       playlistName: song.playlistName,
@@ -138,9 +125,8 @@ function Profile({ profileName }: { profileName: string }) {
                     href={{
                       pathname: router.route,
                       query: {
-                        song: song.name,
-                        playlist: song.playlistName,
-                        profileName: song.authorName,
+                        ...router.query,
+                        song: song.id,
                       },
                     }}
                     type="song"

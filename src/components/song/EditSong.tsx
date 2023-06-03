@@ -134,8 +134,7 @@ function EditSong() {
           : undefined,
       },
 
-      currentSongName: itemDefaultValues.songName,
-      currentPlaylistName: itemDefaultValues.playlistName,
+      currentSongId: itemDefaultValues.songId,
     });
   }
 

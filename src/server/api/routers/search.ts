@@ -53,19 +53,19 @@ export const searchRouter = createTRPCRouter({
         const songs: FilterItem[] = nameFilteredSongs.map((song) => {
           return {
             id: song.id,
-
             data: {
               authorName: song.authorName,
               genre: song.genre,
               pictureUrl: song.pictureUrl,
               playlistName: song.playlistName,
               songName: song.name,
+              songId: song.id,
             },
 
             href: {
               query: {
                 ...input.query,
-                song: song.name,
+                song: song.id,
                 playlist: song.playlistName,
                 profileName: song.authorName,
               },
@@ -202,15 +202,14 @@ export const searchRouter = createTRPCRouter({
             genre: song.genre,
             pictureUrl: song.pictureUrl,
             playlistName: song.playlistName,
+            songId: song.id,
             songName: song.name,
           },
 
           href: {
             query: {
               ...input.query,
-              song: song.name,
-              playlist: song.playlistName,
-              profileName: song.authorName,
+              song: song.id,
             },
           },
           type: "song",

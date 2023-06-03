@@ -97,7 +97,6 @@ export const songRouter = createTRPCRouter({
     .input(
       z.object({
         currentSongId: z.string().min(1),
-        currentPlaylistName: z.string().min(1),
         newPlaylistName: z.string().min(1),
       })
     )

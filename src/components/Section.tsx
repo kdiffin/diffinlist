@@ -4,6 +4,7 @@ import { Url } from "next/dist/shared/lib/router/router";
 import Link from "next/link";
 import { ReactNode, memo } from "react";
 import { MdAdd, MdDelete, MdEdit, MdLink, MdMoreHoriz } from "react-icons/md";
+import useAdd from "~/hooks/useAdd";
 import useCardDropdown from "~/hooks/useCardDropdown";
 import useDelete from "~/hooks/useDelete";
 import Avatar from "./ui/Avatar";
@@ -64,10 +65,8 @@ export function Section({
 function SectionCardNoMemo({
   href,
   data,
-  addFunction,
   type,
 }: {
-  addFunction: (playlistName: string) => void;
   data: CardValues;
   type: "playlist" | "song" | "profile";
   href: Url;
@@ -125,10 +124,29 @@ function SectionCardNoMemo({
       return;
     }
 
-    //if the type isnt playlist the songname exists guaranteed anyways
+    //if the type isnt playlist the songId exists guaranteed anyways
     songDelete({
-      name: data.songName!,
-      playlistName: data.playlistName,
+      currentSongId: data.songId!,
+    });
+  }
+
+  const { addSong, addPlaylist } = useAdd();
+
+  function addFunction(playlistName: string) {
+    if (type === "playlist") {
+      addPlaylist({
+        name: data.playlistName,
+        genre: data.genre,
+        picture: data.pictureUrl,
+      });
+
+      return;
+    }
+
+    //if the type isnt playlist the songId exists guaranteed anyways
+    addSong({
+      currentSongId: data.songId!,
+      newPlaylistName: playlistName,
     });
   }
 
@@ -136,6 +154,7 @@ function SectionCardNoMemo({
     genre: data.genre,
     pictureUrl: data.pictureUrl,
     playlistName: data.playlistName,
+    songId: data.songId ? data.songId : "",
     songName: data.songName ? data.songName : "",
   };
 
@@ -148,8 +167,7 @@ function SectionCardNoMemo({
   //check my previous commits i tried doing it with linkref.href but it didnt work bc of hydration errors
   const unEncodedHref =
     typeof href === "object" && typeof href.query === "object"
-      ? `https://diffinlist.vercel.app/${href?.query!
-          .profileName!}/${href?.query!.playlist!}?song=${href?.query!.song!} `
+      ? `https://diffinlist.vercel.app/?song=${href?.query!.song!} `
       : `https://diffinlist.vercel.app${href}`;
 
   const linkHref = encodeURI(unEncodedHref);
@@ -379,6 +397,7 @@ const RightClickDropdown = ({
 
 export interface CardValues {
   songName?: string;
+  songId?: string;
   playlistName: string;
   genre: string;
   pictureUrl: string;
@@ -389,5 +408,6 @@ export interface EditDefaultValues {
   genre: string;
   playlistName: string;
   songName: string;
+  songId: string;
   pictureUrl: string;
 }

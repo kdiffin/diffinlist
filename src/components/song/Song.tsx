@@ -1,14 +1,15 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { validQuery } from "~/server/helpers/validateQuery";
 import { api } from "~/utils/api";
-import CustomError from "../CustomError";
 import Divider from "../ui/Divider";
 import { ImageSkeleton, SquareSkeleton } from "../ui/Skeletons";
 
 function Song() {
   const router = useRouter();
   const isOpen = Boolean(router.query?.song);
+  const validSongQuery = validQuery(router.query.song);
 
   const {
     data: song,
@@ -16,15 +17,7 @@ function Song() {
     isError,
   } = api.song.getSong.useQuery(
     {
-      playlistName:
-        typeof router.query.playlist === "string" ? router.query.playlist : "",
-
-      songName: typeof router.query.song === "string" ? router.query.song : "",
-
-      profileName:
-        typeof router.query.profileName === "string"
-          ? router.query.profileName
-          : "",
+      songId: validSongQuery ? validSongQuery : "",
     },
 
     //enabled makes sure that song only fetches when the modal is actually open
@@ -34,22 +27,9 @@ function Song() {
 
   function closeSettings() {
     // removes all queries because song modal in index for example triggers 3 queries
+    delete router.query.song;
 
-    if (router.pathname === "/search") {
-      delete router.query.song;
-      delete router.query.playlist;
-      delete router.query.profileName;
-
-      router.replace(router, undefined, {
-        shallow: true,
-      });
-
-      return;
-    }
-
-    const pathWithoutQueries = router.asPath.split("?")[0];
-
-    router.replace(pathWithoutQueries!, undefined, {
+    router.replace(router, undefined, {
       shallow: true,
     });
   }
@@ -126,21 +106,23 @@ function Song() {
       </div>
 
       <div className=" -mb mt-12 flex   gap-3">
-        <Link
-          href={`/${router.query.profileName}/${router.query.playlist}`}
-          className="flex items-center gap-3"
-        >
-          {router.query.playlist}
-        </Link>
-
-        <Divider className=" mx-2    !w-[1px] [&>div]:h-[30px]    [&>div]:border-r-2" />
-
-        <Link
-          className="flex items-center gap-3"
-          href={`/${router.query.profileName}`}
-        >
-          {router.query.profileName}
-        </Link>
+        {song && (
+          <>
+            <Link
+              href={`/${song.authorName}/${song.playlistName}`}
+              className="flex items-center gap-3"
+            >
+              {song.playlistName}
+            </Link>
+            <Divider className=" mx-2    !w-[1px] [&>div]:h-[30px]    [&>div]:border-r-2" />
+            <Link
+              className="flex items-center gap-3"
+              href={`/${song.authorName}`}
+            >
+              {song.authorName}
+            </Link>
+          </>
+        )}
       </div>
 
       <Dialog.Close asChild>
@@ -155,11 +137,12 @@ function Song() {
   );
 
   const ErrorPage = (
-    <CustomError
-      href={`${router.query.profileName}/${router.query.playlist}`}
-      pageName="song"
-      backToWhere="playlist"
-    />
+    // <CustomError
+    //   href={`${router.query.profileName}/${router.query.playlist}`}
+    //   pageName="song"
+    //   backToWhere="playlist"
+    // />
+    <></>
   );
 
   return (

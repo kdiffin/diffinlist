@@ -24,7 +24,12 @@ function useAdd() {
     },
 
     onError: (e) => {
-      toast.error("Failed to post! Please try again later.");
+      if (e.data?.stack?.includes("invocation:\n\n\nUnique constraint")) {
+        toast.error("You can't have 2 playlists with the same name");
+        return;
+      }
+
+      toast.error("Failed to add playlist, please try again");
     },
   });
 
@@ -41,7 +46,12 @@ function useAdd() {
     },
 
     onError: (e) => {
-      toast.error("Failed to post! Please try again later.");
+      if (e.data?.stack?.includes("invocation:\n\n\nUnique constraint")) {
+        toast.error("You can't have 2 of the same songs in one playlist");
+        return;
+      }
+
+      toast.error("Failed to add songs, please try again");
     },
   });
 

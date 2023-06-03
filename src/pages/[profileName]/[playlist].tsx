@@ -130,22 +130,16 @@ function Profile({
                 ? songs.map((song) => {
                     return (
                       <SectionCard
-                        addFunction={(playlistName: string) =>
-                          addSong({
-                            currentPlaylistName: song.playlistName,
-                            currentSongName: song.name,
-                            newPlaylistName: playlistName,
-                          })
-                        }
                         data={{
                           pictureUrl: song.pictureUrl,
                           authorName: song.authorName,
                           genre: song.genre,
+                          songId: song.id,
                           playlistName: song.playlistName,
                           songName: song.name,
                         }}
                         href={{
-                          query: { ...router.query, song: song.name },
+                          query: { ...router.query, song: song.id },
                         }}
                         type="song"
                         key={song.id}

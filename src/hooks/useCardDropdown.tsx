@@ -91,6 +91,7 @@ function useCardDropdown({
     setDefaultValues({
       ...defaultValues,
       songName: defaultValues.songName,
+      songId: defaultValues.songId,
     });
   }
 

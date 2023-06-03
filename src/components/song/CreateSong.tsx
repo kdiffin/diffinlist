@@ -27,7 +27,7 @@ function CreateSong() {
   const { mutate, isLoading } = api.song.createSong.useMutation({
     onSuccess: () => {
       removeChanges();
-      ctx.song.getSongs.invalidate().then(() => closeCreateSong());
+      ctx.song.invalidate().then(() => closeCreateSong());
     },
 
     onError: (e) => {

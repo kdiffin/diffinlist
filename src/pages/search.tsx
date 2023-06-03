@@ -17,6 +17,7 @@ import Avatar from "~/components/ui/Avatar";
 import Button from "~/components/ui/Button";
 import Input from "~/components/ui/Input";
 import Loading from "~/components/ui/Loading";
+import { validQuery } from "~/server/helpers/validateQuery";
 import { api } from "~/utils/api";
 import defaultuser from "../public/defaultuser.png";
 
@@ -31,19 +32,12 @@ function search() {
   const [inputType, setInputType] = useState<InputTypeEnum>("name");
 
   const orderBy = router.query.sortBy === "oldest" ? "asc" : "desc";
-  function validQuery(query: string | string[] | undefined) {
-    if (query && typeof query === "string") {
-      return query;
-    }
-
-    return undefined;
-  }
 
   const { data, isLoading, isError } = api.search.getFilteredItems.useQuery({
     name: validQuery(router.query.name),
     authorName: validQuery(router.query.authorName),
 
-    //i need to pass in the whole query for the song  to open  correctly
+    //i need to pass in the whole query for the songs href to work correctly
     query: router.query,
     inputType,
     cardType: validQuery(router.query.results),
@@ -90,12 +84,12 @@ function search() {
           {data.map((item) => {
             return (
               <SectionCard
-                addFunction={() => null}
                 data={{
                   authorName: item.data.authorName,
                   genre: item.data.genre,
                   playlistName: item.data.playlistName,
                   songName: item.data.songName ? item.data.songName : "",
+                  songId: item.data.songId ? item.data.songId : "",
                   pictureUrl: item.data.pictureUrl,
                 }}
                 href={item.href}
