@@ -128,15 +128,9 @@ const Home: NextPage = () => {
                 <SectionCard
                   addFunction={(playlistName) => {
                     addSong({
-                      genre: song.genre,
-                      name: song.name,
-                      playlistName: playlistName,
-                      pictureUrl: song.pictureUrl,
-                      songUrl: song.songUrl,
-                      albumName: song.album,
-                      artistName: song.artist,
-                      description: song.description,
-                      rating: song.rating,
+                      currentPlaylistName: song.playlistName,
+                      currentSongName: song.name,
+                      newPlaylistName: playlistName,
                     });
                   }}
                   data={{

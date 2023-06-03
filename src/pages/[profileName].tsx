@@ -25,10 +25,11 @@ function Profile({ profileName }: { profileName: string }) {
       takeLimit: 8,
     });
 
-  const { data: songs, isLoading: songsLoading } = api.song.getSongs.useQuery({
-    profileName: profileName,
-    takeLimit: 8,
-  });
+  const { data: songs, isLoading: songsLoading } =
+    api.song.getSongsByProfileName.useQuery({
+      profileName: profileName,
+      takeLimit: 8,
+    });
 
   const { addPlaylist, addSong } = useAdd();
 
@@ -122,15 +123,9 @@ function Profile({ profileName }: { profileName: string }) {
                   <SectionCard
                     addFunction={(playlistName: string) =>
                       addSong({
-                        genre: song.genre,
-                        name: song.name,
-                        pictureUrl: song.pictureUrl,
-                        songUrl: song.songUrl,
-                        albumName: song.album,
-                        artistName: song.artist,
-                        playlistName: playlistName,
-                        description: song.description,
-                        rating: song.rating,
+                        currentPlaylistName: song.playlistName,
+                        currentSongName: song.name,
+                        newPlaylistName: playlistName,
                       })
                     }
                     data={{

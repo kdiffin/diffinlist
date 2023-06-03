@@ -39,8 +39,8 @@ function Profile({
       playlistName: playlistName,
       profileName: profileName,
     });
-
   const { addSong } = useAdd();
+
   if (!playlist) throw new Error("couldnt find playlist");
 
   const songs = matchSorter(
@@ -132,15 +132,9 @@ function Profile({
                       <SectionCard
                         addFunction={(playlistName: string) =>
                           addSong({
-                            genre: song.genre,
-                            name: song.name,
-                            pictureUrl: song.pictureUrl,
-                            albumName: song.album,
-                            songUrl: song.songUrl,
-                            artistName: song.artist,
-                            playlistName: playlistName,
-                            description: song.description,
-                            rating: song.rating,
+                            currentPlaylistName: song.playlistName,
+                            currentSongName: song.name,
+                            newPlaylistName: playlistName,
                           })
                         }
                         data={{

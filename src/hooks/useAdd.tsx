@@ -1,7 +1,5 @@
 import { useUser } from "@clerk/nextjs";
-import { useAtom } from "jotai";
 import { useRouter } from "next/router";
-import React from "react";
 import { toast } from "react-hot-toast";
 import { api } from "~/utils/api";
 
@@ -35,7 +33,7 @@ function useAdd() {
     isLoading: addSongLoading,
     isSuccess: songSuccess,
     isError: songError,
-  } = api.song.createSong.useMutation({
+  } = api.song.addSongToPlaylist.useMutation({
     onSuccess: () => {
       ctx.song.invalidate().then(() => {
         toast.success("Successfully added song to playlist!");

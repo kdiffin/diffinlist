@@ -29,47 +29,22 @@ export const songRouter = createTRPCRouter({
       return song;
     }),
 
-  // //when fetching for [playlist] it gets it with playlistname and profilename
-  // //when fetching for [profileName] it gets it with profilename
-  // //the distinct is because u can add other ppls playlist to ur own, or copy a song from one playlist to another
-  // // this creates duplicate playlists just witha different playlistname/authorname which ruins the ui.
-  // getSongs: publicProcedure
-  //   .input(
-  //     z.object({
-  //       profileName: z.string(),
-  //       playlistName: z.string().optional(),
-  //       takeLimit: z.number(),
-  //     })
-  //   )
-  //   .query(async ({ ctx, input }) => {
-  //     const songs = await ctx.prisma.song.findMany({
-  //       where: {
-  //         authorName: input.profileName,
-  //         playlistName: input.playlistName,
-  //       },
-  //       orderBy: [{ createdAt: "desc" }],
-  //       take: input.takeLimit,
-  //     });
-
-  //     return songs;
-  //   }),
-
-  getSongsByPlaylist: publicProcedure
+  //the distinct is because u can add other ppls playlist to ur own, or copy a song from one playlist to another
+  // this creates duplicate playlists just witha different playlistname/authorname which ruins the ui.
+  getSongsByProfileName: publicProcedure
     .input(
       z.object({
         profileName: z.string(),
-        playlistName: z.string(),
+        takeLimit: z.number(),
       })
     )
-    .query(async ({ input, ctx }) => {
+    .query(async ({ ctx, input }) => {
       const songs = await ctx.prisma.song.findMany({
         where: {
-          playlists: {
-            every: {
-              name: input.playlistName,
-            },
-          },
+          authorName: input.profileName,
         },
+        orderBy: [{ createdAt: "desc" }],
+        take: input.takeLimit,
       });
 
       return songs;
@@ -116,6 +91,38 @@ export const songRouter = createTRPCRouter({
               name_authorName: {
                 name: input.playlistName,
                 authorName: ctx.username,
+              },
+            },
+          },
+        },
+      });
+    }),
+
+  // connects it to another playlist
+  addSongToPlaylist: withAuthProcedure
+    .input(
+      z.object({
+        currentSongName: z.string().min(1),
+        currentPlaylistName: z.string().min(1),
+        newPlaylistName: z.string().min(1),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.song.update({
+        where: {
+          name_authorName_playlistName: {
+            name: input.currentSongName,
+            authorName: ctx.username,
+            playlistName: input.currentPlaylistName,
+          },
+        },
+
+        data: {
+          playlists: {
+            connect: {
+              name_authorName: {
+                authorName: ctx.username,
+                name: input.newPlaylistName,
               },
             },
           },
