@@ -18,7 +18,7 @@ export const songRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const song = await ctx.prisma.song.findUnique({
         where: {
-          name_playlistName_authorName: {
+          name_authorName_playlistName: {
             authorName: input.profileName,
             name: input.songName,
             playlistName: input.playlistName,
@@ -105,6 +105,15 @@ export const songRouter = createTRPCRouter({
           artist: input.artistName,
           description: input.description,
           rating: input.rating,
+
+          playlists: {
+            connect: {
+              name_authorName: {
+                name: input.playlistName,
+                authorName: ctx.username,
+              },
+            },
+          },
         },
       });
     }),
@@ -119,7 +128,7 @@ export const songRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       await ctx.prisma.song.delete({
         where: {
-          name_playlistName_authorName: {
+          name_authorName_playlistName: {
             authorName: ctx.username,
             name: input.name,
             playlistName: input.playlistName,
@@ -156,9 +165,9 @@ export const songRouter = createTRPCRouter({
 
       await ctx.prisma.song.update({
         where: {
-          name_playlistName_authorName: {
-            authorName: ctx.username,
+          name_authorName_playlistName: {
             name: input.currentSongName,
+            authorName: ctx.username,
             playlistName: input.currentPlaylistName,
           },
         },

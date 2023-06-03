@@ -12,39 +12,35 @@ generator client {
 }
 
 model Playlist {
-    id        String   @id @unique @default(uuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
+    id         String   @id @unique @default(uuid())
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
     name       String
     genre      String
-    pictureUrl String @db.Text
+    pictureUrl String   @db.Text
     authorName String
-    Song       Song[]
+    songs      Song[]
 
     @@unique([name, authorName])
     @@index([authorName, name])
 }
 
 model Song {
-    id        String   @id @unique @default(uuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    pictureUrl String @db.Text
-    songUrl    String @db.Text
-    name       String
-    genre      String
-
-    rating      Int?
-    artist      String?
-    album       String?
-    description String?
-
+    id           String     @id @unique @default(uuid())
+    createdAt    DateTime   @default(now())
+    updatedAt    DateTime   @updatedAt
+    pictureUrl   String     @db.Text
+    songUrl      String     @db.Text
+    name         String
+    genre        String
+    rating       Int?
+    artist       String?
+    album        String?
+    description  String?
     authorName   String
     playlistName String
-    playlist     Playlist? @relation(fields: [playlistName, authorName], references: [name, authorName])
+    playlists    Playlist[]
 
-    @@unique([name, playlistName, authorName])
-    @@index([playlistName, authorName, name])
+    @@unique([name, authorName, playlistName])
+    @@index([authorName, name])
 }
