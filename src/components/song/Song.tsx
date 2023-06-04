@@ -18,7 +18,7 @@ function Song() {
     isError,
   } = api.song.getSong.useQuery(
     {
-      songId: validSongQuery ? validSongQuery : "",
+      songId: validSongQuery,
     },
 
     //enabled makes sure that song only fetches when the modal is actually open

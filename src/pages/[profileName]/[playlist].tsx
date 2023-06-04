@@ -11,6 +11,7 @@ import CreateSong from "~/components/song/CreateSong";
 import Input from "~/components/ui/Input";
 import { ImageSkeleton } from "~/components/ui/Skeletons";
 import { ssgHelper } from "~/server/helpers/generateSSGHelper";
+import { validQuery } from "~/server/helpers/validateQuery";
 import { api } from "~/utils/api";
 
 // ui is very similar to profileName, so I copy pasted that component.
@@ -41,14 +42,10 @@ function Profile({
 
   if (!playlist) throw new Error("couldnt find playlist");
 
-  const songs = matchSorter(
-    data ? data : [],
-
-    router.query && typeof router.query.search === "string"
-      ? router.query.search
-      : "",
-    { keys: ["name"] }
-  );
+  let validSearch = validQuery(router.query.search);
+  const songs = matchSorter(data ? data : [], validSearch ? validSearch : "", {
+    keys: ["name"],
+  });
 
   function filterSongs(value: string) {
     const url = {

@@ -3,5 +3,5 @@ export function validQuery(query: string | string[] | undefined) {
     return query;
   }
 
-  return undefined;
+  return "";
 }

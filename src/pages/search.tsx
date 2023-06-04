@@ -92,7 +92,6 @@ function search() {
                   songId: item.data.songId ? item.data.songId : "",
                   pictureUrl: item.data.pictureUrl,
                 }}
-                href={item.href}
                 key={item.id}
                 type={item.type}
               />

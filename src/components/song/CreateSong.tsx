@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { MdOutlineArrowLeft, MdOutlineArrowRight } from "react-icons/md";
+import { validQuery } from "~/server/helpers/validateQuery";
 import { api } from "~/utils/api";
 import Button from "../ui/Button";
 import { InputField, RefInputField } from "../ui/Input";
@@ -94,14 +95,14 @@ function CreateSong() {
   function addSong(e: { preventDefault: () => void }) {
     e.preventDefault();
     // add mutate fiunction
+    const validPlaylist = validQuery(router.query.playlist);
 
     mutate({
       name: name,
       pictureUrl: pictureUrl,
       songUrl: songUrl,
       genre: genre,
-      playlistName:
-        typeof router.query.playlist === "string" ? router.query.playlist : "",
+      playlistName: validPlaylist ? validPlaylist : "",
 
       albumName: albumRef.current?.value,
       artistName: artistRef.current?.value,
