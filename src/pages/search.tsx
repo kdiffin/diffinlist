@@ -37,7 +37,7 @@ function search() {
     name: validQuery(router.query.name),
     authorName: validQuery(router.query.authorName),
 
-    //i need to pass in the whole query for the songs href to work correctly
+    //i need to pass in the whole query for the songs href to work correcty
     query: router.query,
     inputType,
     cardType: validQuery(router.query.results),

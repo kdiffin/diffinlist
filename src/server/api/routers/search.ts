@@ -12,14 +12,8 @@ export const searchRouter = createTRPCRouter({
   getFilteredItems: publicProcedure
     .input(
       z.object({
-        name: z
-          .string()
-          .min(1, { message: "No items with this name found" })
-          .optional(),
-        authorName: z
-          .string()
-          .min(1, { message: "No items with this name found" })
-          .optional(),
+        name: z.string().optional(),
+        authorName: z.string().optional(),
         inputType: z.enum(["authorname", "name"]),
         cardType: z.string().optional(),
         orderBy: z.enum(["desc", "asc"]),
