@@ -3,6 +3,7 @@ import { TRPCError } from "@trpc/server";
 import { matchSorter } from "match-sorter";
 import { GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { MdAdd, MdSearch } from "react-icons/md";
@@ -42,7 +43,7 @@ function Profile({
 
   if (!playlist) throw new Error("couldnt find playlist");
 
-  let validSearch = validQuery(router.query.search);
+  const validSearch = validQuery(router.query.search);
   const songs = matchSorter(data ? data : [], validSearch ? validSearch : "", {
     keys: ["name"],
   });
@@ -53,7 +54,7 @@ function Profile({
       query: { ...router.query, search: value },
     };
 
-    router.replace(url, undefined, { shallow: true });
+    void router.replace(url, undefined, { shallow: true });
   }
 
   return (
@@ -64,11 +65,11 @@ function Profile({
           <div className="flex items-center  gap-6">
             {playlist.pictureUrl ? (
               <div className="h-[130px] w-[130px]">
-                <img
+                <Image
+                  alt={playlist.name}
                   width={130}
                   height={130}
                   className=" h-full  w-full rounded-sm object-cover"
-                  loading="eager"
                   src={playlist.pictureUrl}
                 />
               </div>

@@ -3,6 +3,11 @@ import { useAtom } from "jotai";
 import { deleteParamsAtom, showDeleteAtom } from "~/state/atoms";
 import Button from "./ui/Button";
 
+// COMMENT FROM 2024
+// bro this couldve been way simpler..
+// definitely going to redo this....
+
+// COMMENTS FROM 2023
 //these two were similar enough that I decided to reuse the UI and seperate the function logic
 //this is a dumb component, the actual deletion logic is in the useDelete hook.
 //it gets the deletion function via global state and the atom I defined in /state/atoms.ts

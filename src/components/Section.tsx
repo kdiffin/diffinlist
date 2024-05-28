@@ -3,13 +3,20 @@ import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { Url } from "next/dist/shared/lib/router/router";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { ReactNode, memo } from "react";
+import {
+  EventHandler,
+  MouseEvent,
+  ReactNode,
+  SyntheticEvent,
+  memo,
+} from "react";
 import { MdAdd, MdDelete, MdEdit, MdLink, MdMoreHoriz } from "react-icons/md";
 import useAdd from "~/hooks/useAdd";
 import useCardDropdown from "~/hooks/useCardDropdown";
 import useDelete from "~/hooks/useDelete";
 import Avatar from "./ui/Avatar";
 import { ImageSkeleton, SkeletonCard } from "./ui/Skeletons";
+import Image from "next/image";
 
 // im making the code more wet but wayyyy more readable and understandable with this commit
 // having way too many conditionals and ternaries just suck and making the code SLIGHTLY non DRY,
@@ -109,7 +116,9 @@ function SectionCardNoMemo({
     });
   }
 
-  function openDropdown(e: any) {
+  function openDropdown(
+    e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
+  ) {
     // stops the parent card from redirecting
     e.stopPropagation();
     e.preventDefault();
@@ -135,8 +144,10 @@ function SectionCardNoMemo({
   //check my previous commits i tried doing it with linkref.href but it didnt work bc of hydration errors
   const unEncodedHref =
     typeof href === "object" && typeof href.query === "object"
-      ? `https://diffinlist.vercel.app/?song=${href?.query!.song!} `
-      : `https://diffinlist.vercel.app${href}`;
+      ? `https://diffinlist.vercel.app/?song=${
+          href?.query.song ? href?.query.song : ""
+        } `
+      : `https://diffinlist.vercel.app${typeof href === "string" ? href : ""}`;
 
   const linkHref = encodeURI(unEncodedHref);
 
@@ -145,7 +156,7 @@ function SectionCardNoMemo({
       return (
         <>
           <ImageSkeleton className="h-[148px] w-[148px]" />
-          <p className=" max-h-[23px] max-w-[150px] overflow-clip text-ellipsis">
+          <p className=" max-h-[23px] max-w-[148px] overflow-clip text-ellipsis">
             {title}
           </p>
         </>
@@ -163,13 +174,13 @@ function SectionCardNoMemo({
               className=" object-cover"
             />
           ) : (
-            <img
+            <Image
               width={140}
               height={140}
               alt={title + "'s image"}
               loading="lazy"
               className=" h-full  w-full object-cover"
-              src={data.pictureUrl!}
+              src={data.pictureUrl}
             />
           )}
         </div>

@@ -95,7 +95,7 @@ function Playlists({
       >
         {playlists?.map((playlist) => {
           return (
-            <div className="flex items-center">
+            <div key={playlist.id} className="flex items-center">
               <RadioGroup.Item
                 className="h-6 w-6 cursor-pointer rounded-sm bg-zinc-700
            shadow-[0_2px_10px] shadow-neutral-800 outline-none hover:bg-zinc-600 focus:shadow-[0_0_0_2px] focus:shadow-neutral-600"

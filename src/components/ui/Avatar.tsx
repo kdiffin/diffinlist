@@ -22,7 +22,7 @@ function Avatar({
           priority
           width={width_height}
           src={src}
-          className={`${className && className} rounded-full`}
+          className={`${className ? className : ""} rounded-full`}
         />
       ) : (
         <AvatarSkeleton width_height={width_height.toString()} />

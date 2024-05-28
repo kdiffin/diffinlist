@@ -24,7 +24,7 @@ import defaultuser from "../public/defaultuser.png";
 // I couldve probably done it so that it fetches all the playlists for example when u click on playlists and then it does the filtering client side
 // reduce percieved lag  and make less requests, but I did it with the server method to learn how to filter in the server.
 // this decision was purely for my educational purposes.
-function search() {
+function Search() {
   const router = useRouter();
   const { user, isLoaded } = useUser();
   const [open, setOpen] = useState(false);
@@ -139,7 +139,7 @@ function search() {
       };
     }
 
-    router.replace(url(), undefined, { shallow: true });
+    void void router.replace(url(), undefined, { shallow: true });
   }
 
   const inputValue =
@@ -228,7 +228,7 @@ const Dropdown = ({
       query: { ...router.query, sortBy: value },
     };
 
-    router.replace(url, undefined, { shallow: true });
+    void void router.replace(url, undefined, { shallow: true });
   }
 
   return (
@@ -303,7 +303,7 @@ const DropdownCards = ({}: {}) => {
       query: { ...router.query, results: value },
     };
 
-    router.replace(url, undefined, { shallow: true });
+    void router.replace(url, undefined, { shallow: true });
   }
 
   return (
@@ -341,6 +341,5 @@ const DropdownCards = ({}: {}) => {
 
 type CardDropdownEnum = "all" | "songs" | "playlists" | "users";
 type InputTypeEnum = "name" | "authorname";
-type OrderByEnum = "desc" | "asc";
 
-export default search;
+export default Search;

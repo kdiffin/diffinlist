@@ -6,13 +6,11 @@ import Avatar from "~/components/ui/Avatar";
 import Divider from "~/components/ui/Divider";
 
 import { useRouter } from "next/router";
-import useAdd from "~/hooks/useAdd";
 import { api } from "~/utils/api";
 import defaultProfilePic from "../public/defaultuser.png";
 
 const Home: NextPage = () => {
   const { user, isLoaded } = useUser();
-  const router = useRouter();
   const { data: users, isLoading: usersLoading } =
     api.profile.getAllUsers.useQuery();
 
@@ -21,8 +19,6 @@ const Home: NextPage = () => {
 
   const { data: songs, isLoading: songsLoading } =
     api.song.getAllSongs.useQuery();
-
-  const { addPlaylist, addSong } = useAdd();
 
   return (
     <div className=" flex-col">
@@ -47,7 +43,7 @@ const Home: NextPage = () => {
 
           <div className="mt-10 flex  flex-col gap-5">
             <p className="text-5xl  ">{`Welcome ${
-              user ? user.username + "!!" : "user!!"
+              user ? user.username! + "!!" : "user!!"
             } `}</p>
 
             <div className=" text-neutral-400">

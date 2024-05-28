@@ -19,11 +19,11 @@ function Settings() {
   function closeSettings() {
     delete router.query.showSettings;
 
-    router.replace(router, undefined, { shallow: true });
+    void router.replace(router, undefined, { shallow: true });
   }
 
   function logout() {
-    signOut().then(() => closeSettings());
+    void signOut().then(() => closeSettings());
   }
 
   return (

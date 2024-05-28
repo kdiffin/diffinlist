@@ -31,12 +31,26 @@ function useCardDropdown({
   const { isSignedIn, user } = useUser();
   const isAuthor = user?.username === authorName;
 
+  //for the delete playlist/song button
+  const [deleteParams, setDeleteParams] = useAtom(deleteParamsAtom);
+  const [showDelete, setShowDelete] = useAtom(showDeleteAtom);
+
+  //for the add playlist/song to profile/plalyist button
+  const [showPlaylistsToAdd, setShowPlaylistsToAdd] = useAtom(showPlaylists);
+  const [addSongToPlaylistParams, setAddSongToPlaylistParams] =
+    useAtom(addSongToPlaylist);
+
+  //for the edit song/playlist button
+  const [toggleEditSong, setToggleEditSong] = useAtom(showEditSong);
+  const [toggleEditPlaylist, setToggleEditPlaylist] = useAtom(showEditPlaylist);
+  const [itemDefaultValues, setDefaultValues] = useAtom(defaultValuesAtom);
+
   function handleCopy() {
     if (textRef.current) {
       textRef.current.select();
       textRef.current.setSelectionRange(0, 99999); // For mobile devices
 
-      navigator.clipboard.writeText(textRef.current.value).then(() => {
+      void navigator.clipboard.writeText(textRef.current.value).then(() => {
         toast.success("Link successfully copied to clipboard!");
       });
     }
@@ -47,10 +61,6 @@ function useCardDropdown({
     return { textRef, handleCopy };
   }
 
-  //for the delete playlist/song button
-  const [deleteParams, setDeleteParams] = useAtom(deleteParamsAtom);
-  const [showDelete, setShowDelete] = useAtom(showDeleteAtom);
-
   function deleteItem() {
     setShowDelete(true);
 
@@ -59,11 +69,6 @@ function useCardDropdown({
       type: type,
     });
   }
-
-  //for the add playlist/song to profile/plalyist button
-  const [showPlaylistsToAdd, setShowPlaylistsToAdd] = useAtom(showPlaylists);
-  const [addSongToPlaylistParams, setAddSongToPlaylistParams] =
-    useAtom(addSongToPlaylist);
 
   function addItem() {
     //when adding a playlist, just adds it to ur profile
@@ -78,11 +83,6 @@ function useCardDropdown({
       addFunction: addFunction,
     });
   }
-
-  //for the edit song/playlist button
-  const [toggleEditSong, setToggleEditSong] = useAtom(showEditSong);
-  const [toggleEditPlaylist, setToggleEditPlaylist] = useAtom(showEditPlaylist);
-  const [itemDefaultValues, setDefaultValues] = useAtom(defaultValuesAtom);
 
   function editItem() {
     type === "playlist" ? setToggleEditPlaylist(true) : setToggleEditSong(true);

@@ -12,8 +12,6 @@ import { api } from "~/utils/api";
 
 function Profile({ profileName }: { profileName: string }) {
   //the usequery will never hit loading because of ssg
-  const router = useRouter();
-  const { user, isSignedIn } = useUser();
   const { data: userData } = api.profile.getProfileByProfileName.useQuery({
     profileName: profileName,
   });
@@ -30,8 +28,6 @@ function Profile({ profileName }: { profileName: string }) {
       profileName: profileName,
       takeLimit: 8,
     });
-
-  const { addPlaylist, addSong } = useAdd();
 
   if (!userData) throw new Error("Data not found");
 
@@ -76,8 +72,6 @@ function Profile({ profileName }: { profileName: string }) {
           >
             {playlists && playlists.length > 0 ? (
               playlists.map((playlist) => {
-                const playlistName = encodeURIComponent(playlist.name);
-
                 return (
                   <SectionCard
                     type="playlist"

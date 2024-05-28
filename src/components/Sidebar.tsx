@@ -19,6 +19,7 @@ import { api } from "~/utils/api";
 import defaultProfilePic from "../public/defaultuser.png";
 import Avatar from "./ui/Avatar";
 import { LoadingSpinner } from "./ui/Loading";
+import Image from "next/image";
 
 function Sidebar() {
   const router = useRouter();
@@ -36,7 +37,7 @@ function Sidebar() {
       query: { ...router.query, showCreatePlaylist: "true" },
     };
 
-    router.replace(url, undefined, {
+    void router.replace(url, undefined, {
       shallow: true,
     });
   }
@@ -45,7 +46,7 @@ function Sidebar() {
   const isOpen = router.query.showSidebar === "true";
   function closeSidebar() {
     delete router.query.showSidebar;
-    router.replace(router, undefined, { shallow: true });
+    void router.replace(router, undefined, { shallow: true });
   }
 
   function openSidebar() {
@@ -57,7 +58,7 @@ function Sidebar() {
       },
     };
 
-    router.replace(url, undefined, {
+    void router.replace(url, undefined, {
       shallow: true,
     });
   }
@@ -88,7 +89,7 @@ function Sidebar() {
           </SidebarItem>
 
           {user ? (
-            <SidebarItem href={`/${user!.username}`}>
+            <SidebarItem href={`/${user.username ? user.username : ""}`}>
               <Avatar
                 loading={!isLoaded}
                 width_height={22}
@@ -160,7 +161,9 @@ function Sidebar() {
             {Logo} <p className="mb-[3px] ">diffinlist</p>
           </Link>
 
-          <Link href={`/${user ? user.username : router.asPath}`}>
+          <Link
+            href={`/${user && user.username ? user.username : router.asPath}`}
+          >
             <Avatar
               src={user ? user.profileImageUrl : defaultProfilePic}
               loading={!isLoaded}
@@ -196,7 +199,7 @@ function Sidebar() {
                 </SidebarItem>
 
                 {user ? (
-                  <SidebarItem href={`/${user!.username}`}>
+                  <SidebarItem href={`/${user.username ? user.username : ""}`}>
                     <Avatar
                       loading={!isLoaded}
                       width_height={22}
@@ -371,10 +374,11 @@ function PlaylistItem({
     >
       {pictureSrc ? (
         //convert this to Image
-        <img
+        <Image
           src={pictureSrc}
-          loading="lazy"
-          className="h-6 w-6 rounded-full"
+          width={24}
+          height={24}
+          className=" rounded-full"
           alt={`${name}'s pic`}
         />
       ) : (

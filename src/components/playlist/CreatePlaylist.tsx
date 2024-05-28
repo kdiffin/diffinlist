@@ -66,7 +66,7 @@ function CreatePlaylist() {
   function closeCreatePlaylist() {
     delete router.query?.showCreatePlaylist;
 
-    router.replace(router, undefined, { shallow: true });
+    void router.replace(router, undefined, { shallow: true });
   }
 
   function removeChanges() {

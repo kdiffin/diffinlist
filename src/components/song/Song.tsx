@@ -30,7 +30,7 @@ function Song() {
     // removes all queries because song modal in index for example triggers 3 queries
     delete router.query.song;
 
-    router.replace(router, undefined, {
+    void router.replace(router, undefined, {
       shallow: true,
     });
   }

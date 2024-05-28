@@ -9,6 +9,7 @@ import Button from "../ui/Button";
 import { InputField, RefInputField } from "../ui/Input";
 import { LoadingSpinner } from "../ui/Loading";
 import { ImageSkeleton } from "../ui/Skeletons";
+import Image from "next/image";
 
 function CreateSong() {
   const router = useRouter();
@@ -28,7 +29,7 @@ function CreateSong() {
   const { mutate, isLoading } = api.song.createSong.useMutation({
     onSuccess: () => {
       removeChanges();
-      ctx.song.invalidate().then(() => closeCreateSong());
+      void ctx.song.invalidate().then(() => closeCreateSong());
     },
 
     onError: (e) => {
@@ -77,7 +78,7 @@ function CreateSong() {
 
   function closeCreateSong() {
     delete router.query?.showCreateSong;
-    router.replace(router, undefined, { shallow: true });
+    void router.replace(router, undefined, { shallow: true });
   }
 
   function removeChanges() {
@@ -87,9 +88,9 @@ function CreateSong() {
     setSongUrl("");
 
     albumRef.current ? (albumRef.current.value = "") : null;
-    artistRef.current ? (artistRef.current!.value = "") : null;
-    ratingRef.current ? (ratingRef.current!.value = "") : null;
-    descriptionRef.current ? (descriptionRef.current!.value = "") : null;
+    artistRef.current ? (artistRef.current.value = "") : null;
+    ratingRef.current ? (ratingRef.current.value = "") : null;
+    descriptionRef.current ? (descriptionRef.current.value = "") : null;
   }
 
   function addSong(e: { preventDefault: () => void }) {
@@ -145,7 +146,7 @@ function CreateSong() {
             <div className="flex  items-center gap-5 ">
               <>
                 {pictureUrl ? (
-                  <img
+                  <Image
                     alt="Playlist Image"
                     src={pictureUrl}
                     width={130}

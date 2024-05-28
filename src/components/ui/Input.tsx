@@ -1,17 +1,16 @@
 import React, {
-  Dispatch,
-  InputHTMLAttributes,
-  ReactNode,
+  type Dispatch,
+  type InputHTMLAttributes,
+  type ReactNode,
   forwardRef,
 } from "react";
 
 function Input(props: InputProps) {
   return (
     <div
-      className={
-        props.className +
-        " flex w-full items-center  gap-2 rounded-sm bg-zinc-700 p-2 focus-within:bg-zinc-600 focus-within:shadow-[0_0_0_2px] focus-within:shadow-neutral-500  hover:bg-zinc-600  "
-      }
+      className={`${
+        props.className ? props.className : " "
+      } flex w-full items-center  gap-2 rounded-sm bg-zinc-700 p-2 focus-within:bg-zinc-600 focus-within:shadow-[0_0_0_2px] focus-within:shadow-neutral-500  hover:bg-zinc-600  `}
     >
       {props.icon ? props.icon : null}
       <input
@@ -43,7 +42,9 @@ export function InputField({
   placeholder,
 }: InputFieldProps) {
   return (
-    <fieldset className={` ${className} mb-6 flex items-center gap-5`}>
+    <fieldset
+      className={` ${className ? className : " "} mb-6 flex items-center gap-5`}
+    >
       <label className=" w-[90px]  text-right text-[15px]" htmlFor={name}>
         {name}
       </label>
@@ -147,12 +148,12 @@ export const RefInputField = forwardRef(
 type InputFieldProps = Omit<InputProps, "icon">;
 
 interface RefInputProps extends Omit<InputProps, "setValue"> {
-  setValue?: Function | Dispatch<React.SetStateAction<string>>;
+  setValue?: (value: string) => void | Dispatch<React.SetStateAction<string>>;
 }
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   //naming this onchange results in an error
-  setValue: Function | Dispatch<React.SetStateAction<string>>;
+  setValue: (value: string) => void | Dispatch<React.SetStateAction<string>>;
   customFunction?: boolean;
   icon?: ReactNode;
 }

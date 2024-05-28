@@ -11,7 +11,7 @@ function useDelete() {
     isError: playlistError,
   } = api.song.deleteSong.useMutation({
     onSuccess: () => {
-      ctx.song.invalidate().then(() => {
+      void ctx.song.invalidate().then(() => {
         toast.success("Successfully deleted song");
       });
     },
@@ -28,7 +28,7 @@ function useDelete() {
     isError: songError,
   } = api.playlist.deletePlaylist.useMutation({
     onSuccess: () => {
-      ctx.playlist.invalidate().then(() => {
+      void ctx.playlist.invalidate().then(() => {
         toast.success("Successfully deleted playlist");
       });
     },

@@ -15,6 +15,7 @@ import Button from "../ui/Button";
 import { InputField, RefInputField } from "../ui/Input";
 import { LoadingSpinner } from "../ui/Loading";
 import { ImageSkeleton } from "../ui/Skeletons";
+import Image from "next/image";
 
 //UI is basically a copy paste of the settings one
 function EditSong() {
@@ -38,7 +39,7 @@ function EditSong() {
       closeCreateSong();
       toast.success("Successfully updated song");
 
-      ctx.song.invalidate();
+      void ctx.song.invalidate();
     },
 
     onError: (e) => {
@@ -106,9 +107,9 @@ function EditSong() {
     setSongUrl("");
 
     albumRef.current ? (albumRef.current.value = "") : null;
-    artistRef.current ? (artistRef.current!.value = "") : null;
-    ratingRef.current ? (ratingRef.current!.value = "") : null;
-    descriptionRef.current ? (descriptionRef.current!.value = "") : null;
+    artistRef.current ? (artistRef.current.value = "") : null;
+    ratingRef.current ? (ratingRef.current.value = "") : null;
+    descriptionRef.current ? (descriptionRef.current.value = "") : null;
   }
 
   function editSong(e: { preventDefault: () => void }) {
@@ -171,7 +172,7 @@ function EditSong() {
             <div className="flex  items-center gap-5 ">
               <>
                 {pictureUrl ? (
-                  <img
+                  <Image
                     alt="Playlist Image"
                     src={pictureUrl}
                     width={130}

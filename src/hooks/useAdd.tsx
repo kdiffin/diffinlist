@@ -14,13 +14,13 @@ function useAdd() {
     isSuccess: playlistSuccess,
     isError: playlistError,
   } = api.playlist.createPlaylist.useMutation({
-    onSuccess: () => {
-      ctx.playlist.getPlaylists.invalidate().then(() => {
-        router.push(`/${user ? user.username : ""}`);
+    onSuccess: async () => {
+      await ctx.playlist.getPlaylists.invalidate().then(async () => {
+        await router.push(`/${user && user.username ? user.username : ""}`);
         toast.success("Added playlist to your profile!");
       });
 
-      ctx.playlist.invalidate();
+      void ctx.playlist.invalidate();
     },
 
     onError: (e) => {
@@ -40,7 +40,7 @@ function useAdd() {
     isError: songError,
   } = api.song.addSongToPlaylist.useMutation({
     onSuccess: () => {
-      ctx.song.invalidate().then(() => {
+      void ctx.song.invalidate().then(() => {
         toast.success("Successfully added song to playlist!");
       });
     },
