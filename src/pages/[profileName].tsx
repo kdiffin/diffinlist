@@ -147,7 +147,7 @@ function Profile({ profileName }: { profileName: string }) {
           content={`${userData.username} | ${profileName}`}
         />
 
-        <meta property="og:image" content={userData.profileImageUrl} />
+        <meta property="og:img" content={userData.profileImageUrl} />
 
         {/* <!-- Twitter -- /> */}
         <meta property="twitter:card" content={userData.profileImageUrl} />
@@ -160,10 +160,7 @@ function Profile({ profileName }: { profileName: string }) {
           content={`${userData.username} | ${profileName}`}
         />
 
-        <meta
-          property="twitter:image"
-          content={userData.profileImageUrl}
-        ></meta>
+        <meta property="twitter:img" content={userData.profileImageUrl}></meta>
       </Head>
     </>
   );

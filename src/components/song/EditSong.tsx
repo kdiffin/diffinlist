@@ -15,7 +15,6 @@ import Button from "../ui/Button";
 import { InputField, RefInputField } from "../ui/Input";
 import { LoadingSpinner } from "../ui/Loading";
 import { ImageSkeleton } from "../ui/Skeletons";
-import Image from "next/image";
 
 //UI is basically a copy paste of the settings one
 function EditSong() {
@@ -172,8 +171,8 @@ function EditSong() {
             <div className="flex  items-center gap-5 ">
               <>
                 {pictureUrl ? (
-                  <Image
-                    alt="Playlist Image"
+                  <img
+                    alt="Playlist img"
                     src={pictureUrl}
                     width={130}
                     className="rounded-sm bg-cover "

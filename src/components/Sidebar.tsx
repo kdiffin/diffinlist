@@ -19,7 +19,6 @@ import { api } from "~/utils/api";
 import defaultProfilePic from "../public/defaultuser.png";
 import Avatar from "./ui/Avatar";
 import { LoadingSpinner } from "./ui/Loading";
-import Image from "next/image";
 
 function Sidebar() {
   const router = useRouter();
@@ -373,8 +372,8 @@ function PlaylistItem({
       } text-md mt-3 flex items-center gap-2 break-all  text-neutral-400`}
     >
       {pictureSrc ? (
-        //convert this to Image
-        <Image
+        //convert this to img
+        <img
           src={pictureSrc}
           width={24}
           height={24}

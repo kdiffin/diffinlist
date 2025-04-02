@@ -104,7 +104,7 @@ function CreatePlaylist() {
                 <>
                   {playlistPicUrl ? (
                     <img
-                      alt="Playlist Image"
+                      alt="Playlist img"
                       src={playlistPicUrl}
                       width={130}
                       className="rounded-sm bg-cover "

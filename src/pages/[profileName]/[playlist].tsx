@@ -3,7 +3,6 @@ import { TRPCError } from "@trpc/server";
 import { matchSorter } from "match-sorter";
 import { GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { MdAdd, MdSearch } from "react-icons/md";
@@ -65,7 +64,7 @@ function Profile({
           <div className="flex items-center  gap-6">
             {playlist.pictureUrl ? (
               <div className="h-[130px] w-[130px]">
-                <Image
+                <img
                   alt={playlist.name}
                   width={130}
                   height={130}
@@ -195,7 +194,7 @@ function Profile({
           content={`${playlist.name} | ${playlist.authorName}`}
         />
 
-        <meta property="og:image" content={playlist.pictureUrl} />
+        <meta property="og:img" content={playlist.pictureUrl} />
 
         {/* <!-- Twitter -- /> */}
         <meta property="twitter:card" content={playlist.pictureUrl} />
@@ -208,7 +207,7 @@ function Profile({
           content={`${playlist.name} | ${playlist.authorName}`}
         />
 
-        <meta property="twitter:image" content={playlist.pictureUrl}></meta>
+        <meta property="twitter:img" content={playlist.pictureUrl}></meta>
       </Head>
     </>
   );

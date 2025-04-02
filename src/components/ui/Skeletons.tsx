@@ -10,7 +10,7 @@ export function ImageSkeleton({
       htmlFor="Picture"
       className={`${className} flex  items-center justify-center rounded-sm border-2 border-dotted border-neutral-700 text-center italic text-neutral-500`}
     >
-      No Image {forWhat ? forWhat : ""}
+      No img {forWhat ? forWhat : ""}
     </label>
   );
 }

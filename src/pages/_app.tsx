@@ -62,7 +62,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         <link
           rel="icon"
           href={
-            "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpre00.deviantart.net%2F70ec%2Fth%2Fpre%2Fi%2F2016%2F164%2Fe%2F4%2Femoticon_cute_cat___facebook_by_thebether-da62hu8.png&f=1&nofb=1&ipt=aa1635971965336a0a75ac721bdadf2b12d7c1472679a7f8be7a76c0b75ff425&ipo=images"
+            "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpre00.deviantart.net%2F70ec%2Fth%2Fpre%2Fi%2F2016%2F164%2Fe%2F4%2Femoticon_cute_cat___facebook_by_thebether-da62hu8.png&f=1&nofb=1&ipt=aa1635971965336a0a75ac721bdadf2b12d7c1472679a7f8be7a76c0b75ff425&ipo=imgs"
           }
         />
 
@@ -84,9 +84,9 @@ const MyApp: AppType = ({ Component, pageProps }) => {
           }
         />
         <meta
-          property="og:image"
+          property="og:img"
           content={
-            "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpre00.deviantart.net%2F70ec%2Fth%2Fpre%2Fi%2F2016%2F164%2Fe%2F4%2Femoticon_cute_cat___facebook_by_thebether-da62hu8.png&f=1&nofb=1&ipt=aa1635971965336a0a75ac721bdadf2b12d7c1472679a7f8be7a76c0b75ff425&ipo=images"
+            "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpre00.deviantart.net%2F70ec%2Fth%2Fpre%2Fi%2F2016%2F164%2Fe%2F4%2Femoticon_cute_cat___facebook_by_thebether-da62hu8.png&f=1&nofb=1&ipt=aa1635971965336a0a75ac721bdadf2b12d7c1472679a7f8be7a76c0b75ff425&ipo=imgs"
           }
         />
 
@@ -94,7 +94,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         <meta
           property="twitter:card"
           content={
-            "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpre00.deviantart.net%2F70ec%2Fth%2Fpre%2Fi%2F2016%2F164%2Fe%2F4%2Femoticon_cute_cat___facebook_by_thebether-da62hu8.png&f=1&nofb=1&ipt=aa1635971965336a0a75ac721bdadf2b12d7c1472679a7f8be7a76c0b75ff425&ipo=images"
+            "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpre00.deviantart.net%2F70ec%2Fth%2Fpre%2Fi%2F2016%2F164%2Fe%2F4%2Femoticon_cute_cat___facebook_by_thebether-da62hu8.png&f=1&nofb=1&ipt=aa1635971965336a0a75ac721bdadf2b12d7c1472679a7f8be7a76c0b75ff425&ipo=imgs"
           }
         />
         <meta
@@ -109,9 +109,9 @@ const MyApp: AppType = ({ Component, pageProps }) => {
           }
         />
         <meta
-          property="twitter:image"
+          property="twitter:img"
           content={
-            "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpre00.deviantart.net%2F70ec%2Fth%2Fpre%2Fi%2F2016%2F164%2Fe%2F4%2Femoticon_cute_cat___facebook_by_thebether-da62hu8.png&f=1&nofb=1&ipt=aa1635971965336a0a75ac721bdadf2b12d7c1472679a7f8be7a76c0b75ff425&ipo=images"
+            "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpre00.deviantart.net%2F70ec%2Fth%2Fpre%2Fi%2F2016%2F164%2Fe%2F4%2Femoticon_cute_cat___facebook_by_thebether-da62hu8.png&f=1&nofb=1&ipt=aa1635971965336a0a75ac721bdadf2b12d7c1472679a7f8be7a76c0b75ff425&ipo=imgs"
           }
         ></meta>
       </Head>

@@ -16,7 +16,6 @@ import useCardDropdown from "~/hooks/useCardDropdown";
 import useDelete from "~/hooks/useDelete";
 import Avatar from "./ui/Avatar";
 import { ImageSkeleton, SkeletonCard } from "./ui/Skeletons";
-import Image from "next/image";
 
 // im making the code more wet but wayyyy more readable and understandable with this commit
 // having way too many conditionals and ternaries just suck and making the code SLIGHTLY non DRY,
@@ -174,7 +173,7 @@ function SectionCardNoMemo({
               className=" object-cover"
             />
           ) : (
-            <Image
+            <img
               width={140}
               height={140}
               alt={title + "'s image"}

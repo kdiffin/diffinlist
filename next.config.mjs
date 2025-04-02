@@ -12,8 +12,8 @@ const config = {
     ignoreDuringBuilds: true,
   },
 
-  images: {
-    domains: ["images.clerk.dev", "external-content.duckduckgo.com"],
+  imgs: {
+    domains: ["imgs.clerk.dev", "external-content.duckduckgo.com"],
   },
 
   /**

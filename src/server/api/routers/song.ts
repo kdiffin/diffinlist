@@ -1,6 +1,5 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { isImage } from "~/server/helpers/ImageChecker";
 import { songValidate } from "~/server/helpers/zodTypes";
 import { createTRPCRouter, publicProcedure, withAuthProcedure } from "../trpc";
 
@@ -57,15 +56,6 @@ export const songRouter = createTRPCRouter({
   createSong: withAuthProcedure
     .input(songValidate)
     .mutation(async ({ ctx, input }) => {
-      const isImageValid = isImage(input.pictureUrl);
-
-      if (isImageValid === false) {
-        throw new TRPCError({
-          code: "PARSE_ERROR",
-          message: "Please make sure your URL is a picture URL.",
-        });
-      }
-
       await ctx.prisma.song.create({
         data: {
           name: input.name,
@@ -147,17 +137,6 @@ export const songRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const isImageValid = isImage(
-        input.newValues.pictureUrl ? input.newValues.pictureUrl : ""
-      );
-
-      if (isImageValid === false) {
-        throw new TRPCError({
-          code: "PARSE_ERROR",
-          message: "Please make sure your URL is a picture URL.",
-        });
-      }
-
       await ctx.prisma.song.update({
         where: {
           id: input.currentSongId,

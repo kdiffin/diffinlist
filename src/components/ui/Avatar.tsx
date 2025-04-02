@@ -1,4 +1,4 @@
-import Image, { StaticImageData } from "next/image";
+import { StaticImageData } from "next/image";
 import { LoadingSpinner } from "./Loading";
 //it wouldnt let me import from public
 
@@ -16,7 +16,7 @@ function Avatar({
   return (
     <>
       {!loading ? (
-        <Image
+        <img
           alt="Avatar"
           height={width_height}
           priority

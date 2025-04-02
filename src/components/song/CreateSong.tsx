@@ -9,7 +9,7 @@ import Button from "../ui/Button";
 import { InputField, RefInputField } from "../ui/Input";
 import { LoadingSpinner } from "../ui/Loading";
 import { ImageSkeleton } from "../ui/Skeletons";
-import Image from "next/image";
+import Image from "";
 
 function CreateSong() {
   const router = useRouter();
@@ -146,8 +146,8 @@ function CreateSong() {
             <div className="flex  items-center gap-5 ">
               <>
                 {pictureUrl ? (
-                  <Image
-                    alt="Playlist Image"
+                  <img
+                    alt="Playlist img"
                     src={pictureUrl}
                     width={130}
                     className="rounded-sm bg-cover "

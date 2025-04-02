@@ -6,7 +6,6 @@ import {
   publicProcedure,
   withAuthProcedure,
 } from "~/server/api/trpc";
-import { isImage } from "~/server/helpers/ImageChecker";
 import { playlistValidate } from "~/server/helpers/zodTypes";
 
 export const playlistRouter = createTRPCRouter({
@@ -92,14 +91,6 @@ export const playlistRouter = createTRPCRouter({
     .input(playlistValidate)
     .mutation(async ({ ctx, input }) => {
       const authorName = ctx.username;
-      const isImageValid = isImage(input.picture);
-
-      if (isImageValid === false) {
-        throw new TRPCError({
-          code: "PARSE_ERROR",
-          message: "Please make sure your URL is a picture URL.",
-        });
-      }
 
       const playlist = await ctx.prisma.playlist.create({
         data: {
@@ -140,17 +131,6 @@ export const playlistRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const isImageValid = isImage(
-        input.newValues.picture ? input.newValues.picture : ""
-      );
-
-      if (isImageValid === false) {
-        throw new TRPCError({
-          code: "PARSE_ERROR",
-          message: "Please make sure your URL is a picture URL.",
-        });
-      }
-
       await ctx.prisma.playlist.update({
         where: {
           name_authorName: {
