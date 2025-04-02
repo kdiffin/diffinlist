@@ -7,7 +7,6 @@ import Divider from "~/components/ui/Divider";
 
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
-import defaultProfilePic from "../public/defaultuser.png";
 
 const Home: NextPage = () => {
   const { user, isLoaded } = useUser();
@@ -30,7 +29,7 @@ const Home: NextPage = () => {
               className="p-1"
               loading={!isLoaded}
               width_height={160}
-              src={user ? user.profileImageUrl : defaultProfilePic}
+              src={user ? user.profileImageUrl : "../public/defaultuser.png"}
             />
           ) : (
             <Avatar

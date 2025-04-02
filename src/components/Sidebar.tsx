@@ -16,7 +16,6 @@ import {
   MdSettings,
 } from "react-icons/md";
 import { api } from "~/utils/api";
-import defaultProfilePic from "../public/defaultuser.png";
 import Avatar from "./ui/Avatar";
 import { LoadingSpinner } from "./ui/Loading";
 
@@ -164,7 +163,7 @@ function Sidebar() {
             href={`/${user && user.username ? user.username : router.asPath}`}
           >
             <Avatar
-              src={user ? user.profileImageUrl : defaultProfilePic}
+              src={user ? user.profileImageUrl : "../public/defaultuser.png"}
               loading={!isLoaded}
               width_height={26}
             />

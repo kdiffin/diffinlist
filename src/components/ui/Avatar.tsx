@@ -10,7 +10,7 @@ function Avatar({
 }: {
   className?: string;
   width_height: number;
-  src: string | StaticImageData;
+  src: string;
   loading: boolean;
 }) {
   return (
@@ -19,7 +19,6 @@ function Avatar({
         <img
           alt="Avatar"
           height={width_height}
-          priority
           width={width_height}
           src={src}
           className={`${className ? className : ""} rounded-full`}

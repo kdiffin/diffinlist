@@ -157,7 +157,7 @@ function Search() {
           <div className="flex items-center gap-3">
             <Avatar
               loading={!isLoaded}
-              src={user ? user.profileImageUrl : defaultuser}
+              src={user ? user.profileImageUrl : "../public/defaultuser.png"}
               width_height={30}
             />
             <h1 className="mb-1 text-left text-3xl">Search</h1>

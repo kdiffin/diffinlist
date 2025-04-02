@@ -9,7 +9,6 @@ import Button from "../ui/Button";
 import { InputField, RefInputField } from "../ui/Input";
 import { LoadingSpinner } from "../ui/Loading";
 import { ImageSkeleton } from "../ui/Skeletons";
-import Image from "";
 
 function CreateSong() {
   const router = useRouter();
